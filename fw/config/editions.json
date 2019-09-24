@@ -1,0 +1,35 @@
+{
+	"free"			:	{
+		"apps"		:	{
+			"main"	:	true,
+			"admin"	:	true
+		},
+		"modules"	:	{
+			"pages"			:	true,
+			"infoblock"		:	true,
+			"forums"		:	true,
+
+			"popup"			:	true,
+			"form"			:	true,
+			"mail"			:	true,
+
+			"catalog"		:	true,
+			"orders"		:	true,
+			"payment"		:	true,
+
+			"metric"		:	true,
+
+			"users"			:	true,
+
+			"language"		:	true,
+			"gallery"		:	true,
+			"search"		:	true,
+			"support"		:	true,
+		}
+	},
+	"landing"		:	{},
+	"blog"			:	{},
+	"market"		:	{},
+	"social"		:	{},
+	"enterprice"	:	{},
+}

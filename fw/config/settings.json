@@ -1,0 +1,14 @@
+{
+	"System"	:	{
+		"Name"		:	"",
+		"Author"	:	"Konard",
+		"Version"	:	"0.1",
+		"php"		:	""
+	},
+	"License"	:	{
+		"Edition"	:	"free",
+		"Key"		:	null
+	},
+	"Routes"	:	{
+	}
+}
