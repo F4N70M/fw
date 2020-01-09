@@ -1,35 +1,143 @@
 {
-	"free"			:	{
-		"apps"		:	{
-			"main"	:	true,
-			"admin"	:	true
+	"apps"		:	{
+		"main"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
 		},
-		"modules"	:	{
-			"pages"			:	true,
-			"infoblock"		:	true,
-			"forums"		:	true,
-
-			"popup"			:	true,
-			"form"			:	true,
-			"mail"			:	true,
-
-			"catalog"		:	true,
-			"orders"		:	true,
-			"payment"		:	true,
-
-			"metric"		:	true,
-
-			"users"			:	true,
-
-			"language"		:	true,
-			"gallery"		:	true,
-			"search"		:	true,
-			"support"		:	true,
+		"admin"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
 		}
 	},
-	"landing"		:	{},
-	"blog"			:	{},
-	"market"		:	{},
-	"social"		:	{},
-	"enterprice"	:	{},
+	"modules"	:	{
+		"pages"		: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"infoblock"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"forums"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"popup"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"form"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"mail"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"catalog"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"orders"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"payment"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+
+		"metric"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"users"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"language"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"gallery"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"search"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		},
+		"support"	: {
+			"free"		: true,
+			"landing"	: true,
+			"blog"		: true,
+			"market"	: true,
+			"social"	: true,
+			"enterprice": true
+		}
+	}
 }

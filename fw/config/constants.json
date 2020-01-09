@@ -1,7 +1,0 @@
-{
-	"root"		:	"",
-	"fw"		:	"/fw",
-	"apps"		:	"/apps",
-	"uploads"	:	"/uploads",
-	"config"	:	"/fw/config"
-}

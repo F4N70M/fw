@@ -1,0 +1,22 @@
+{
+	"(signup|login|logout|recovery)"    :	{
+		"controller"    :	"Auth_Controller",
+		"method"        :	"$1",
+		"arguments"     :	[]
+	},
+	"mail/({A-z}+)"    :	{
+		"controller"    :	"Mail_Controller",
+		"method"        :	"$1",
+		"arguments"     :	[]
+	},
+	"news/({A-z}+)"    :	{
+		"controller"    :	"News_Controller",
+		"method"        :	"$1",
+		"arguments"     :	[]
+	},
+	""    :	{
+		"controller"    :	"Index_Controller",
+		"method"        :	null,
+		"arguments"     :	[]
+	}
+}

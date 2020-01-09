@@ -1,0 +1,131 @@
+{
+	"debug"     :   false,
+	"system"    :	{
+		"Name"		:	"",
+		"Author"	:	"KONARD",
+		"Version"	:	"0.1",
+		"php"		:	""
+	},
+	"license"	:	{
+		"Edition"	:	"free",
+		"Key"		:	null
+	},
+	"db"    : {
+		"127.0.0.1" :   {
+			"HOST"  :   "localhost",
+			"USER"  :   "root",
+			"PASS"  :   "",
+			"BASE"  :   "fw"
+		},
+		"default"   :   {
+			"HOST"  :   "localhost",
+			"USER"  :   "u0415910_default",
+			"PASS"  :   "wBb2U!M5",
+			"BASE"  :   "u0415910_fw"
+		}
+	},
+	"mail"  :   {
+		"LOGIN"     :   "order@imenarium.ru",
+		"PASSWORD"  :   "I25730556m",
+		"HOST"      :   "ssl://smtp.timeweb.ru",
+		"PORT"      :   465
+	},
+	"services"  :   {
+		"Connection"            :   {
+			"include"   :   true,
+			"singleton" :   true
+		},
+		"Db"            :   {
+			"include"   :   true,
+			"singleton" :   false
+		},
+		"Router"        :   {
+			"include"   :   true,
+			"singleton" :   true
+		},
+		"Mailer"        :   {
+			"include"   :   true,
+			"singleton" :   true
+		},
+		"License"       :   {
+			"include"   :   false,
+			"singleton" :   true
+		}
+	},
+	"apps"  :   {
+		"admin" :   {
+			"include"   :   true,
+			"prefix"    :   "admin",
+			"routes"    :   {
+				"(signup|login|logout|recovery)"    :	{
+					"controller"    :	"Auth_Controller",
+					"method"        :	"$1",
+					"arguments"     :	[]
+				},
+				"mail/({A-z}+)"     :	{
+					"controller"    :	"Mail_Controller",
+					"method"        :	"$1",
+					"arguments"     :	[]
+				},
+				"(.*)"    :	{
+					"controller"    :	"Main_Controller",
+					"method"        :	"direct",
+					"arguments"     :   {
+						"path"      :   "$1"
+					}
+				},
+				""    :	{
+					"controller"    :	"Index_Controller",
+					"method"        :	null,
+					"arguments"     :	[]
+				}
+			}
+		},
+		"main"  :   {
+			"include"   :   true,
+			"prefix"    :   "",
+			"routes"    :   {
+				"(signup|login|logout|recovery)"    :	{
+					"controller"    :	"Auth_Controller",
+					"method"        :	"$1",
+					"arguments"     :	[]
+				},
+				"mail/({A-z}+)"    :	{
+					"controller"    :	"Mail_Controller",
+					"method"        :	"$1",
+					"arguments"     :	[]
+				},
+				"news/({A-z}+)"    :	{
+					"controller"    :	"News_Controller",
+					"method"        :	"$1",
+					"arguments"     :	[]
+				},
+				""    :	{
+					"controller"    :	"Index_Controller",
+					"method"        :	null,
+					"arguments"     :	[]
+				},
+				"(.*)"    :	{
+					"controller"    :	"Main_Controller",
+					"method"        :	"direct",
+					"arguments"     :   {
+						"path"      :   "$1"
+					}
+				},
+				".*"    :	{
+					"controller"    :	"NotFound_Controller",
+					"method"        :	null,
+					"arguments"     :	[]
+				}
+			}
+		}
+	},
+	"paths" :   {
+		"root"      :	"",
+		"log"       :   "/fw/logs",
+		"fw"		:	"/fw",
+		"apps"		:	"/apps",
+		"uploads"   :	"/uploads",
+		"config"	:	"/fw/config"
+	}
+}

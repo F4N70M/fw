@@ -4,9 +4,9 @@
  * @version: 1.0
  */
 
-namespace Fw\Core\Services;
+namespace Fw\Services\Db;
 
-use \Fw\Core\Services\QueryBuilder;
+use \Fw\Services\Db\QueryBuilder;
 
 use \PDO;
 
@@ -21,21 +21,13 @@ class Db
 	 */
 	public function __construct(array $config, QueryBuilder $queryBuilder)
 	{
-		// debug($config);
-		try
-		{
-			$dsn = "mysql:host=".$config['HOST'].";dbname=".$config['BASE'].";charset=utf8";
-			$user = $config['USER'];
-			$pass = $config['PASS'];
+		$dsn = "mysql:host=".$config['HOST'].";dbname=".$config['BASE'].";charset=utf8";
+		$user = $config['USER'];
+		$pass = $config['PASS'];
 
-			$this->_link = new PDO($dsn, $user, $pass);
+		$this->_link = new PDO($dsn, $user, $pass);
 
-			$this->_qb = $queryBuilder;
-		}
-		catch (PDOException $e)
-		{
-			//TODO: Написать исключение
-		}
+		$this->_qb = $queryBuilder;
 	}
 
 
