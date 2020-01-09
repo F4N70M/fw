@@ -13,6 +13,6 @@ class NotFound_Controller
 {
 	public function __construct()
 	{
-		debug('404 Not found:: Controller __construct');
+		debug('404 Not found: Controller __construct');
 	}
 }
