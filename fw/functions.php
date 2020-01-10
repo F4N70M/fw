@@ -129,30 +129,38 @@ function pre($data,$var_dump = false)
 }
 
 
-
-
 /**
  *
  */
 function debug()
 {
-	// массив переданных аргументов
-	$args = func_get_args();
+// массив переданных аргументов
+$args = func_get_args();
 
-	echo /** @lang text */
-	'<pre style="
-		font-size: 1rem;
-		line-height: 1.15;
+echo /** @lang text */
+'<div style="
+	box-sizing: border-box;
+	font-size: 1rem;
+	line-height: 1.15;
+	width: 100%;
+	background-color: rgb(241,241,241);
+	color: rgb(0,0,0);
+	border: dashed 1px rgb(191,191,191);
+	border-radius: .5rem;
+	display: grid;
+	grid-gap: .5rem;
+	margin: 1rem 0;
+	padding-top: .5rem;
+">
+	<div style="
 		box-sizing: border-box;
-		width: 100%;
+		padding: 0 1rem;
+		min-width: 0;
+		max-width: 100%;
 		max-height: 66vh;
-		padding: 2rem;
 		overflow:auto;
-		background-color: rgb(241,241,241);
-		color: rgb(0,0,0);
-		border: dashed 1px rgb(191,191,191);
-		border-radius: .5rem;
-	">';
+	">
+		<pre style="margin: 0; padding: .5rem 0;">';
 
 	foreach ($args as $key => $arg)
 	{
@@ -193,7 +201,19 @@ function debug()
 	$traces = [];
 	$maxStrlenTrace = 0;
 	$maxStrlenLine = 0;
-	echo '<span style="color: rgb(136, 136, 136); font-size: .8rem;">';
+echo /** @lang text */
+'</pre>
+	</div>
+	<div style="
+		box-sizing: border-box;
+		padding: 0 1rem;
+		min-width: 0;
+		max-width: 100%;
+		overflow:auto;
+		color: rgb(136, 136, 136);
+		font-size: .8rem;
+	">
+		<pre style="margin: 0; padding: .5rem 0">';
 	$i = 0;
 	foreach ($debug as $key => $backtrace)
 	{
@@ -206,7 +226,8 @@ function debug()
 		$strlenLine = mb_strlen($line);
 		if ($strlenTrace > $maxStrlenTrace) $maxStrlenTrace = $strlenTrace;
 		if ($strlenLine > $maxStrlenLine) $maxStrlenLine = $strlenLine;
-		$func = '<span style="color: rgb(180, 180, 180); font-size: .8rem;">' . $debug[$key]['function'] . "(";
+		$func = /** @lang text */
+'<span style="color: rgb(180, 180, 180); font-size: .8rem;">' . $debug[$key]['function'] . "(";
 		$funcArgs = [];
 		foreach ($debug[$key]['args'] as $value)
 		{
@@ -227,13 +248,17 @@ function debug()
 	foreach ($traces as $key => $trace)
 	{
 		echo
-			"\r\n" . str_pad(($key . ":"), 4, ' ', STR_PAD_RIGHT) .
-			str_pad(($trace[0]), ($maxStrlenTrace + 2), ' ', STR_PAD_RIGHT) .
-			' ' .
-			str_pad(($trace[1]), ($maxStrlenLine + 2), ' ', STR_PAD_RIGHT) .
-			$trace[2];
+			"\r\n" . str_pad(($key . ":"), 4, ' ', STR_PAD_RIGHT)
+			. str_pad(($trace[0]), ($maxStrlenTrace + 2), ' ', STR_PAD_RIGHT)
+			. '	'
+			. str_pad(($trace[1]), ($maxStrlenLine + 2), ' ', STR_PAD_RIGHT)
+			. '	'
+			. $trace[2];
 	}
-	echo "</span></pre>";
+echo /** @lang text */
+"</pre>
+	</div>
+</div>";
 }
 
 

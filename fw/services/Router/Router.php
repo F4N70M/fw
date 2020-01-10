@@ -14,13 +14,23 @@ class Router
 	private $routes		= [];
 
 
-
-
 	/**
-	 * Router constructor.
+	 * @param $fw
+	 * @param null $uri
+	 * @return mixed
 	 */
-	function __construct()
+	function init(\Fw\Core $fw, $uri=null)
 	{
+		$config = $this->get($uri);
+
+		//TODO: Сделать проверку существования метода
+
+		$app = new $config['controller']($fw);
+
+		//TODO: Сделать проверку аргументов рефлексии метода и упорядочивание по ключам
+		call_user_func_array(array($app, $config['method']), $config['arguments']);
+
+		return $app;
 	}
 
 
@@ -86,12 +96,10 @@ class Router
 	 * @param string|null $uri
 	 * @return bool
 	 */
-	public function getAppConfig(string $uri = null)
+	public function get(string $uri = null)
 	{
 		if ($uri === null)
-		{
 			$uri = $this->getCurrentUri();
-		}
 
 		foreach ($this->routes as $pattern => $route)
 		{

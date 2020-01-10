@@ -1,4 +1,9 @@
 <?php
+/**
+ * User: F4N70M
+ * Version: 0.1
+ * Date: 10.01.2020
+ */
 
 namespace Fw\Di;
 
@@ -8,7 +13,8 @@ use \ReflectionMethod;
 use \Exception;
 
 /**
- * 
+ * Class Container
+ * @package Fw\Di
  */
 class Container implements \ArrayAccess
 {
@@ -19,9 +25,9 @@ class Container implements \ArrayAccess
 	/*
 	 *
 	 */
-	private $definitions = [];
 	private $singletons = [];
 	private $objects = [];
+	private $definitions = [];
 	private $parameters	= [];
 
 
@@ -69,12 +75,13 @@ class Container implements \ArrayAccess
 		if ($definition instanceof \Closure)
 		{
 			$this->objects[$id] = $definition($this);
+			$result = $this->objects[$id];
 		}
 		else
 		{
-			$this->objects[$id] = $definition;
+			$result = $definition;
 		}
-		return $this->objects[$id];
+		return $result;
 	}
 
 	/**

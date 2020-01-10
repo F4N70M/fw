@@ -31,13 +31,21 @@
 		"PORT"      :   465
 	},
 	"services"  :   {
-		"Connection"            :   {
+		"Cookie"            :   {
+			"include"   :   true,
+			"singleton" :   true
+		},
+		"Connection"    :   {
 			"include"   :   true,
 			"singleton" :   true
 		},
 		"Db"            :   {
 			"include"   :   true,
 			"singleton" :   false
+		},
+		"Autorization"  :   {
+			"include"   :   true,
+			"singleton" :   true
 		},
 		"Router"        :   {
 			"include"   :   true,

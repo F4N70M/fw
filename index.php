@@ -19,31 +19,40 @@ try
 {
 	require 'fw/bootstrap.php';
 
-	//  Старт
+	//	Старт
 	$Fw = new Fw\Core();
 
-	debug(
-		'Router full :',
-		$Fw->container->get('Router')->getAppConfig(),
+	//	Приложение
+	$App = $Fw->Router->init($Fw);
 
-		'Router as array :',
-		$Fw->container['Router']->getAppConfig(),
+	//	Обработка запросов
+	//	$App->request();
 
-		'Router short :',
-		$Fw->Router->getAppConfig()
-	);
+	//	Рендер страницы
+	$App->render();
 
-	debug(
-		'Db',
-		$Fw->Db
-			->select()
-			->from('options')
-			->all(),
-		$Fw->Db
-			->select()
-			->from('options')
-			->all()
-	);
+
+
+	//	Router full :
+	//	$Fw->container->get('Router')->get()
+
+	//	Router as array :
+	//	$Fw->container['Router']->get()
+
+	//	Router short :
+	//	$Fw->Router->get()
+
+	//	debug(
+	//		'Db',
+	//		$Fw->Db
+	//			->select()
+	//			->from('options')
+	//			->all(),
+	//		$Fw->Db
+	//			->select()
+	//			->from('options')
+	//			->all()
+	//	);
 
 	throw new Exception('test error');
 
@@ -58,6 +67,8 @@ catch (Exception $e)
 }
 
 
+
+debug($Fw);
 
 debug('LOCK IMAGES USE CANVAS');
 
