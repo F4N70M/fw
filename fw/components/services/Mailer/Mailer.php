@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Fw\services\Mailer;
+namespace Fw\Components\Services\Mailer;
 
 use \Exception;
 
@@ -201,17 +201,17 @@ class Mailer
 			fputs($socket, "AUTH LOGIN\r\n");
 			if (!$this->_parseServer($socket, "334")) {
 				fclose($socket);
-				throw new Exception('Autorization error');
+				throw new Exception('Auth error');
 			}
 			fputs($socket, base64_encode($this->LOGIN) . "\r\n");
 			if (!$this->_parseServer($socket, "334")) {
 				fclose($socket);
-				throw new Exception('Autorization error');
+				throw new Exception('Auth error');
 			}
 			fputs($socket, base64_encode($this->PASSWORD) . "\r\n");
 			if (!$this->_parseServer($socket, "235")) {
 				fclose($socket);
-				throw new Exception('Autorization error');
+				throw new Exception('Auth error');
 			}
 			fputs($socket, "MAIL FROM: <".$this->LOGIN.">\r\n");
 			if (!$this->_parseServer($socket, "250")) {

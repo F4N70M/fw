@@ -45,13 +45,57 @@ function init_log_settings($displayErrors = 0)
 function catchFatalErrors()
 {
 	$error = error_get_last();
-	if($error)
-		debug(
-			"Fatal error\r\n",
-			$error['message'],
-			'in ' . $error['file'],
-			'on line ' . $error['line']
-		);
+	if($error) :
+        ob_start();
+        ?>
+        <!doctype html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport"
+                  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <title>500: Fatal error</title>
+            <style type="text/css">
+                body {margin: 0;overflow: hidden;}
+                .error500__wrap {
+                    width: 100vw;
+                    height: 100vh;
+                    display: grid;
+                    align-content: center;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    background-color: #30373E;
+                    color: #ffffff;
+                }
+                .error500__content {text-align: center;}
+                .error500__info {display: inline-block;text-align: left; padding: 16px;}
+                h1,h2 {font-family: Arial;line-height: 1;margin: 16px 0;}
+                h1 {font-size: 96px;}
+                h2 {font-size: 36px;}
+            </style>
+        </head>
+        <body>
+            <div class="error500__wrap">
+                <div class="error500__content">
+                    <h1>500</h1>
+                    <h2>Fatal Error</h2>
+                    <pre class="error500__info"><?php
+                        print_r($error['message']);
+                        print_r('in ' . $error['file']);
+                        print_r('on line ' . $error['line']);
+                    ?></pre>
+                </div>
+            </div>
+        </body>
+        </html>
+
+        <?php
+        $bufer = ob_get_clean();
+        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+        echo $bufer;
+    endif;
 }
 
 
@@ -157,10 +201,10 @@ echo /** @lang text */
 		padding: 0 1rem;
 		min-width: 0;
 		max-width: 100%;
-		max-height: 66vh;
+		max-height: 50vh;
 		overflow:auto;
 	">
-		<pre style="margin: 0; padding: .5rem 0;">';
+		<pre style="margin: 0; padding: .5rem 0; font-size: 1rem; text-align: left;">';
 
 	foreach ($args as $key => $arg)
 	{
@@ -213,7 +257,7 @@ echo /** @lang text */
 		color: rgb(136, 136, 136);
 		font-size: .8rem;
 	">
-		<pre style="margin: 0; padding: .5rem 0">';
+		<pre style="margin: 0; padding: .5rem 0; font-size: 1rem; text-align: left;">';
 	$i = 0;
 	foreach ($debug as $key => $backtrace)
 	{

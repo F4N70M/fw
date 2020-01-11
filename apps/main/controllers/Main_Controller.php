@@ -34,15 +34,39 @@ class Main_Controller
 	}
 
 
-	public function render()
-	{
-		$cookie1 = $this->Fw->Cookie->get();
-		$this->Fw->Cookie->set('lol','kek');
-		$cookie2 = $this->Fw->Cookie->get();
-		$this->Fw->Cookie->unset('lol');
-		$cookie3 = $this->Fw->Cookie->get();
+	/**
+	 *
+	 */
+	public function request()
+    {
+	}
 
-		debug($cookie1,$cookie2,$cookie3);
+
+    /**
+     *
+     */
+    public function render()
+	{
+
+		if (isset($_POST['login']) && !empty($_POST['login']) && isset($_POST['password']) && !empty($_POST['password']))
+		{
+			$this->Fw->Account->login($_POST['login'],$_POST['password']);
+		}
+
+		debug($this->Fw->Account->getList());
+
+		?>
+		<form method="post">
+			<input type="hidden" name="request" value="login">
+			<input type="text" name="login">
+			<input type="password" name="password">
+			<button type="submit">submit</button>
+			<button type="reset">reset</button>
+		</form>
+		<?php
+
+
+
 
 		debug('УРА! ЭТО СТРАНИЦА!');
 	}

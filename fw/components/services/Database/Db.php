@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Fw\Services\Database;
+namespace Fw\Components\Services\Database;
 
 
 use Exception;
-use \Fw\Services\Database\Connection;
-use Fw\Services\Db\QueryBuilder;
+use \Fw\Components\Services\Database\Connection;
+use Fw\Components\Services\Db\QueryBuilder;
 use \PDO;
 use PDOException;
 use PDOStatement;
@@ -33,10 +33,11 @@ class Db
 	 */
 	public function query(string $sql, array $params = [])
 	{
-		$this->sql = $sql;
-		$this->bind = $params;
+		$db = clone $this;
+		$db->sql = $sql;
+		$db->bind = $params;
 
-		return $this;
+		return $db;
 	}
 
 
@@ -47,10 +48,12 @@ class Db
 	 */
 	public function select($columns=null)
 	{
-		$this->sql = /** @lang text */
+		$db = clone $this;
+		$db->bind = [];
+		$db->sql = /** @lang text */
 			"SELECT {$this->columns($columns)}";
 
-		return $this;
+		return $db;
 	}
 
 
@@ -59,10 +62,12 @@ class Db
 	 */
 	public function insert()
 	{
-		$this->sql = /** @lang text */
+		$db = clone $this;
+		$db->bind = [];
+		$db->sql = /** @lang text */
 			"INSERT";
 
-		return $this;
+		return $db;
 	}
 
 
@@ -72,9 +77,11 @@ class Db
 	 */
 	public function update(string $table)
 	{
-		$this->sql = "UPDATE $table";
+		$db = clone $this;
+		$db->bind = [];
+		$db->sql = "UPDATE $table";
 
-		return $this;
+		return $db;
 	}
 
 
@@ -83,9 +90,11 @@ class Db
 	 */
 	public function delete()
 	{
-		$this->sql = "DELETE";
+		$db = clone $this;
+		$db->bind = [];
+		$db->sql = "DELETE";
 
-		return $this;
+		return $db;
 	}
 
 
@@ -135,6 +144,33 @@ class Db
 		{
 			throw new Exception('Request Error: Invalid query result column format');
 		}
+	}
+
+
+	/**
+	 * @param array $values
+	 * @return $this
+	 * @throws Exception
+	 */
+	public function set(array $values=[])
+	{
+		if (!empty($values)) {
+			$this->sql .= " SET";
+
+			$bindValues = [];
+			foreach ($values as $key => $value)
+			{
+				$bindValues[$key] = " {$key} = :{$key}";
+				$this->bind[":{$key}"] = $value;
+			}
+			$this->sql .= implode(",", $bindValues);
+		}
+		else
+		{
+			throw new Exception('Request failed: no values to update');
+		}
+
+		return $this;
 	}
 
 	/**
@@ -204,19 +240,16 @@ class Db
 	}
 
 	/**
-	 * @return array
+	 * @return array|false
 	 * @throws Exception
 	 */
 	public function one()
 	{
 		$result = $this->do();
+		if ($result)
+			return $this->statement->fetch(PDO::FETCH_ASSOC);
 
-		if ( $result )
-		{
-			$result = $this->statement->fetch(PDO::FETCH_ASSOC);
-		}
-
-		return $result;
+		return false;
 	}
 
 	/**

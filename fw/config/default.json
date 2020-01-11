@@ -30,35 +30,17 @@
 		"HOST"      :   "ssl://smtp.timeweb.ru",
 		"PORT"      :   465
 	},
+	"modules"  :   {
+		"Users"     :    true,
+		"Account"   :    true
+	},
 	"services"  :   {
-		"Cookie"            :   {
-			"include"   :   true,
-			"singleton" :   true
-		},
-		"Connection"    :   {
-			"include"   :   true,
-			"singleton" :   true
-		},
-		"Db"            :   {
-			"include"   :   true,
-			"singleton" :   false
-		},
-		"Autorization"  :   {
-			"include"   :   true,
-			"singleton" :   true
-		},
-		"Router"        :   {
-			"include"   :   true,
-			"singleton" :   true
-		},
-		"Mailer"        :   {
-			"include"   :   true,
-			"singleton" :   true
-		},
-		"License"       :   {
-			"include"   :   false,
-			"singleton" :   true
-		}
+		"Cookie"    :   true,
+		"Db"        :   true,
+		"Auth"      :   true,
+		"Router"    :   true,
+		"Mailer"    :   true,
+		"License"   :   false
 	},
 	"apps"  :   {
 		"admin" :   {

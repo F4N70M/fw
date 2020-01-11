@@ -16,7 +16,7 @@ use \Exception;
  * Class Container
  * @package Fw\Di
  */
-class Container implements \ArrayAccess
+class Container /*implements \ArrayAccess*/
 {
 
 
@@ -26,24 +26,26 @@ class Container implements \ArrayAccess
 	 *
 	 */
 	private $singletons = [];
-	private $objects = [];
+	private $aliases = [];
 	private $definitions = [];
-	private $parameters	= [];
+	private $objects = [];
+	private $parameters = [];
 
 
 	/**
 	 * @param string $id
 	 * @return bool
 	 */
-	private function has(string $id)
+	public function has(string $id)
 	{
-		return isset($this->definitions[$id]);
+		return isset($this->definitions[$id]) || isset($this->aliases[$id]);
 	}
 
 
 	/**
 	 * @param string $id
 	 * @param string $value
+	 * @param bool $singleton
 	 */
 	public function set(string $id, $value, $singleton=true)
 	{
@@ -57,32 +59,41 @@ class Container implements \ArrayAccess
 
 	/**
 	 * @param string $id
+	 * @param array $parameters
 	 * @return mixed
 	 */
-	public function get(string $id)
+	public function get(string $id, $parameters=[])
 	{
+		if (!class_exists($id) && isset($this->aliases[$id]))
+			$id = $this->aliases[$id];
+
 		if(array_key_exists($id, $this->objects))
-		{
 			return $this->objects[$id];
-		}
 
 		if(!array_key_exists($id, $this->definitions))
-		{
 			throw new InvalidArgumentException('Undefined key "' . $id . '" in container');
-		}
 
 		$definition = $this->definitions[$id];
+
 		if ($definition instanceof \Closure)
 		{
-			$this->objects[$id] = $definition($this);
+			$this->objects[$id] = $definition($this, $parameters);
 			$result = $this->objects[$id];
 		}
 		else
 		{
 			$result = $definition;
 		}
+
 		return $result;
 	}
+
+
+	public function setAlias($id, $alias)
+	{
+		$this->aliases[$id] = $alias;
+	}
+
 
 	/**
 	 * Whether a offset exists
@@ -91,10 +102,10 @@ class Container implements \ArrayAccess
 	 * @return boolean
 	 * The return value will be casted to boolean if non-boolean was returned.
 	 */
-	public function offsetExists($offset)
-	{
-		return $this->has($offset);
-	}
+//	public function offsetExists($offset)
+//	{
+//		return $this->has($offset);
+//	}
 
 	/**
 	 * Offset to retrieve
@@ -102,10 +113,10 @@ class Container implements \ArrayAccess
 	 * @param mixed $offset
 	 * @return mixed
 	 */
-	public function offsetGet($offset)
-	{
-		return $this->get($offset);
-	}
+//	public function offsetGet($offset)
+//	{
+//		return $this->get($offset);
+//	}
 
 	/**
 	 * Offset to set
@@ -114,10 +125,10 @@ class Container implements \ArrayAccess
 	 * @param mixed $value
 	 * @return void
 	 */
-	public function offsetSet($offset, $value)
-	{
-		return $this->set($offset,$value);
-	}
+//	public function offsetSet($offset, $value)
+//	{
+//		return $this->set($offset,$value);
+//	}
 
 	/**
 	 * Offset to unset
@@ -125,7 +136,7 @@ class Container implements \ArrayAccess
 	 * @param mixed $offset
 	 * @return void
 	 */
-	public function offsetUnset($offset)
-	{
-	}
+//	public function offsetUnset($offset)
+//	{
+//	}
 }

@@ -4,7 +4,7 @@
  * @version: 1.0
  */
 
-namespace Fw\Services\Cookie;
+namespace Fw\Components\Services\Cookie;
 
 
 class Cookie implements \ArrayAccess
@@ -20,21 +20,52 @@ class Cookie implements \ArrayAccess
 	{
 		if (!empty($name))
 		{
-			return ($this->has($name) ? $this->cookies[$name] : null);
+			if ($this->has($name))
+			{
+				$result = $this->cookies[$name];
+				if (is_json($result))
+				{
+					$result = json($result,false);
+				}
+				return $result;
+			}
+			else{
+				throw new \Exception("Cookie \"{$name}\" Not found");
+			}
 		}
 		else
 		{
-			return $this->cookies;
+			$result = [];
+			foreach ($this->cookies as $name => $value)
+			{
+				$result[$name] = is_json($value) ? json($value,false) : $value;
+			}
+			return $result;
 		}
 	}
 
-	private function has($name)
+	public function has($name)
 	{
 		return isset($this->cookies[$name]);
 	}
 
-	public function set($name, string $value="", int $expire=0, string $path="", string $domain="", bool $sequre=false, bool $httponly=false)
+	public function set($name, $value, int $expire=0, string $path="", string $domain="", bool $sequre=false, bool $httponly=false)
 	{
+		if (!(is_bool($value) || is_numeric($value) || is_string($value) || is_array($value)))
+		{
+			$type = gettype($value);
+			throw new \InvalidArgumentException("Invalid argument type \"{$type}\"");
+		}
+
+		if (is_array($value))
+		{
+			$value = json($value,true);
+		}
+		if (is_bool($value))
+		{
+			$value = $value ? 1 : 0;
+		}
+
 		$result = setcookie($name, $value, $expire, $path, $domain, $sequre, $httponly);
 
 		if ($result)

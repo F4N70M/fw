@@ -4,7 +4,7 @@
  * @version: 1.0
  */
 
-namespace Fw\Services\Router;
+namespace Fw\Components\Services\Router;
 
 use \Exception;
 

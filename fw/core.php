@@ -36,22 +36,10 @@ class Core
 		init_log_settings($this->config['debug']);
 		//  Подключаем сервисы
 		$this->initServices();
+		//  Подключаем модули
+		$this->initModules();
 		//  Инициализация роутов
 		$this->initRoutes();
-
-
-
-
-		$responseServer = null;
-//		debug('Mailer',$this->container['Mailer']->send('edkontr@yandex.ru', 'test2', 'Hello','Sender'));
-		//$a = 1 / 0;
-
-		//$this->initConstants();
-		//$this->initDefaultConfigs();
-		//$this->initSettings();
-		//$this->initServices();
-		//$this->verifyLicense();
-		//$this->initModules();
 	}
 
 
@@ -62,11 +50,7 @@ class Core
 	 */
 	public function __get($name)
 	{
-		if (isset($this->container[$name]))
-			return $this->container[$name];
-		else
-			throw new Exception("\$Fw->{$name} Not found");
-
+		return $this->container->get($name);
 	}
 
 
@@ -78,8 +62,27 @@ class Core
 	 */
 	public function __set($name,$value)
 	{
-		return $this->container[$name] = $value;
+		return $this->container->set($name, $value);
+//		return $this->container[$name] = $value;
 
+	}
+
+
+	/**
+	 * @throws Exception
+	 */
+	private function initComponents($list)
+	{
+		if (is_array($list)) {
+			foreach ($list as $name => $include)
+			{
+				if ($include)
+				{
+					$providerClass = "\\Fw\\Components\\Providers\\Provider_{$name}";
+					new $providerClass($this->container);
+				}
+			}
+		}
 	}
 
 
@@ -88,22 +91,25 @@ class Core
 	 */
 	private function initServices()
 	{
-		$services = $this->container['config']['services'];
-
-		foreach ($services as $service => $config)
+		$config = $this->container->get('config');
+		if (isset($config['services']))
 		{
-			if ($config['include'])
-			{
-				$providerFile = sprintf("%s/services/Provider_%s.php", FW_DIR, $service);
-				if(file_exists($providerFile))
-				{
-					$this->container[$service] = require $providerFile;
-				}
-				else
-				{
-					throw new Exception('Service provider "' . $service . '" not found');
-				}
-			}
+			$list = $config['services'];
+			$this->initComponents($list);
+		}
+	}
+
+
+	/**
+	 * @throws Exception
+	 */
+	private function initModules()
+	{
+		$config = $this->container->get('config');
+		if (isset($config['modules']))
+		{
+			$list = $config['modules'];
+			$this->initComponents($list);
 		}
 	}
 
@@ -114,16 +120,17 @@ class Core
 	 */
 	private function initRoutes()
 	{
-		$apps = $this->container['config']['apps'];
+		$config = $this->container->get('config');
+		$apps = $config['apps'];
 
-		foreach ($apps as $app => $config)
+		foreach ($apps as $app => $appConfig)
 		{
-			$routes = $config['routes'];
+			$routes = $appConfig['routes'];
 
 			if (is_array($routes))
 			{
-
-				$this->container['Router']->setApp($app, $config['prefix']);
+				$router = $this->container->get('Router');
+				$router->setApp($app, $appConfig['prefix']);
 
 				$classPrefix = 'Apps\\' . ucfirst($app) . '\\Controllers';
 
@@ -131,7 +138,7 @@ class Core
 				{
 					$route['controller'] = $classPrefix . '\\' . $route['controller'];
 
-					$this->container['Router']->setRoute($app, $pattern, $route);
+					$router->setRoute($app, $pattern, $route);
 				}
 			}
 			else
@@ -318,31 +325,10 @@ class Core
 	/*
 	 *
 	 */
-	public function initModules()
-	{
-		$this->di->set(
-			'Modules',				//	$name
-			'Fw\\Core\\Modules',	//	$class
-			true,					//	$singleton
-			[						//	$arguments
-				'di'		=>	$this->di,
-				'modules'	=>	$this->getConfig('modules')
-			]
-		);
-
-		$this->Modules = $this->di->get('Modules');
-	}
-
-
-
-
-	/*
-	 *
-	 */
 	public function initModule($name,$srcName)
 	{
 		$path		= FW_DIR . '/modules/'.$name;
-		$providerClass	= "\\Fw\\Modules\\".ucfirst($name)."\\Provider";
+		$providerClass	= "\\Fw\\Components\\Modules\\".ucfirst($name)."\\Components_Provider";
 		$providerPath	= $path . "/provider.php";
 		if (file_exists($providerPath))
 		{

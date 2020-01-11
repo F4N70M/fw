@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Fw\Services\Database;
+namespace Fw\Components\Services\Database;
 
 
 use \PDO;
