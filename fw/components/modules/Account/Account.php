@@ -10,6 +10,7 @@ namespace Fw\Components\Modules\Account;
 
 use Fw\Components\Modules\Users\Users;
 use Fw\Components\Services\Auth\Auth;
+use Exception;
 
 /**
  * Class Account
@@ -46,9 +47,19 @@ class Account
 
 
 	/**
+	 * @return array
+	 */
+	public function getCurrent()
+	{
+		return $this->auth->getCurrent();
+	}
+
+
+	/**
 	 * @param $login
 	 * @param $password
-	 * @throws \Exception
+	 * @return bool
+	 * @throws Exception
 	 */
 	public function login($login, $password)
 	{
@@ -57,9 +68,11 @@ class Account
 		if (password_verify($password, $user['password']))
 		{
 //			$this->users->rehashPassword($password);
-			$this->auth->in($user['id']);
-			debug($this->auth->check($user['id']));
+			$result = $this->auth->in($user['id']);
+//			debug($this->auth->check($user['id']));
 			debug('VERIFY!');
+			return $result;
 		}
+		return false;
 	}
 }

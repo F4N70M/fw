@@ -9,22 +9,23 @@ namespace Fw\Components\Providers;
 
 
 use Fw\Di\Container;
-use Fw\Components\Providers\Components_Provider;
 
-class Provider_Cookie extends Components_Provider
+class Provider_Cookie
 {
+	protected $container;
+
 	/**
-	 * Provider_Account constructor.
+	 * Provider_Cookie constructor.
 	 * @param Container $container
 	 */
 	public function __construct(Container $container)
 	{
-		parent ::__construct($container);
+	$this->container = $container;
 
 		$class = \Fw\Components\Services\Cookie\Cookie::class;
-		$container -> setAlias('Cookie', $class);
+		$container->setAlias('Cookie', $class);
 
-		$this -> container -> set(
+		$this->container->set(
 			$class,
 			function (\Fw\Di\Container $container) {
 				$obj = new \Fw\Components\Services\Cookie\Cookie();

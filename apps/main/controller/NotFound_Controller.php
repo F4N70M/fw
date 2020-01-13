@@ -6,7 +6,7 @@
  * Time: 6:21
  */
 
-namespace Apps\Main\Controllers;
+namespace Apps\Main\Controller;
 
 
 class NotFound_Controller

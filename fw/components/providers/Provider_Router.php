@@ -7,28 +7,28 @@
 
 namespace Fw\Components\Providers;
 
-
 use Fw\Di\Container;
-use Fw\Components\Providers\Components_Provider;
 
-class Provider_Router extends Components_Provider
+class Provider_Router
 {
+	protected $container;
+
 	/**
-	 * Provider_Account constructor.
+	 * Provider_Router constructor.
 	 * @param Container $container
 	 */
 	public function __construct(Container $container)
 	{
-		parent ::__construct($container);
+		$this->container = $container;
 
 		$class = \Fw\Components\Services\Router\Router::class;
-		$container -> setAlias('Router', $class);
+		$container->setAlias('Router', $class);
 
-		$this -> container -> set(
+		$this->container->set(
 			$class,
 			function(\Fw\Di\Container $container) {
-				$obj = new \Fw\Components\Services\Router\Router($container);
-				return $obj;
+				$instance = $container->getInstance(\Fw\Components\Services\Router\Router::class);
+				return $instance;
 			},
 			true
 		);

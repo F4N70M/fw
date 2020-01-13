@@ -9,7 +9,7 @@
 namespace Fw\Components\Services\Auth;
 
 use Fw\Components\Services\Cookie\Cookie;
-use Fw\Components\Services\Database\Db;
+use Fw\Components\Services\Database\QueryBuilder;
 use Exception;
 
 class Auth
@@ -26,11 +26,11 @@ class Auth
 
 	/**
 	 * Auth constructor.
-	 * @param Db $db
+	 * @param QueryBuilder $db
 	 * @param Cookie $cookie
 	 * @throws Exception
 	 */
-	public function __construct(Db $db, Cookie $cookie)
+	public function __construct(QueryBuilder $db, Cookie $cookie)
 	{
 		$this->db = $db;
 		$this->cookie = $cookie;

@@ -6,7 +6,8 @@
 
 namespace Fw\Components\Services\Router;
 
-use \Exception;
+use Exception;
+use Fw\Core;
 
 class Router
 {
@@ -19,7 +20,7 @@ class Router
 	 * @param null $uri
 	 * @return mixed
 	 */
-	function init(\Fw\Core $fw, $uri=null)
+	function init(Core $fw, $uri=null)
 	{
 		$config = $this->get($uri);
 

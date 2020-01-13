@@ -8,19 +8,19 @@
 namespace Fw\Components\Modules\Users;
 
 use Exception;
-use Fw\Components\Services\Database\Db;
+use Fw\Components\Services\Entity\Entity;
 
 class Users
 {
-	private $Db;
+	private $Entity;
 
 	/**
 	 * Users constructor.
-	 * @param Db $db
+	 * @param Entity $Entity
 	 */
-	public function __construct(Db $db)
+	public function __construct(Entity $Entity)
 	{
-		$this->Db = $db;
+		$this->Entity = $Entity;
 	}
 
 
@@ -38,11 +38,7 @@ class Users
 		else
 			throw new Exception("Invalid argument type \"{$id}\"");
 
-		return $this->Db
-			->select()
-			->from('users')
-			->where([$column => $id])
-			->one();
+		return $this->Entity->getOne('users',[$column=>$id]);
 	}
 
 	/**
@@ -52,10 +48,5 @@ class Users
 	 */
 	public function set(int $id, array $parameters = [])
 	{
-		return $this->Db
-			->update('users')
-			->s
-			->where([$column => $id])
-			->one();
 	}
 }

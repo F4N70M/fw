@@ -5,13 +5,12 @@ namespace Fw\Components\Services\Database;
 
 
 use Exception;
-use \Fw\Components\Services\Database\Connection;
-use Fw\Components\Services\Db\QueryBuilder;
-use \PDO;
+use InvalidArgumentException;
+use PDO;
 use PDOException;
 use PDOStatement;
 
-class Db
+class QueryBuilder
 {
 	private $_link;
 
@@ -93,6 +92,37 @@ class Db
 		$db = clone $this;
 		$db->bind = [];
 		$db->sql = "DELETE";
+
+		return $db;
+	}
+
+
+	/**
+	 * SHOW DATABASES; - список баз данных
+	 * SHOW TABLES [FROM db_name]; -  список таблиц в базе
+	 * SHOW COLUMNS FROM таблица [FROM db_name]; - список столбцов в таблице
+	 * SHOW CREATE TABLE table_name; - показать структуру таблицы в формате "CREATE TABLE"
+	 * SHOW INDEX FROM tbl_name; - список индексов
+	 * SHOW GRANTS FOR user [FROM db_name]; - привилегии для пользователя.
+	 * SHOW VARIABLES; - значения системных переменных
+	 * SHOW [FULL] PROCESSLIST; - статистика по mysqld процессам
+	 * SHOW STATUS; - общая статистика
+	 * SHOW TABLE STATUS [FROM db_name]; - статистика по всем таблицам в базе
+	 */
+	/**
+	 * @param $type
+	 * @return QueryBuilder
+	 */
+	public function show($type)
+	{
+		$showType = strtoupper($type);
+		if (!in_array($showType,['TABLES','COLUMNS','INDEX','VARIABLES']))
+			throw new InvalidArgumentException("Invalid argument \"$type\" must be TABLES|COLUMNS|INDEX|VARIABLES");
+
+
+		$db = clone $this;
+		$db->bind = [];
+		$db->sql = "SHOW {$showType}";
 
 		return $db;
 	}
@@ -206,9 +236,10 @@ class Db
 		return $this;
 	}
 
-	public function limit(int $l1, int $l2=null)
+	public function limit(int $l1=null, int $l2=null)
 	{
-		$this->sql .= " LIMIT $l1" . ($l2 !== null ? ", $l2" : "");
+		if ($l1 !== null)
+			$this->sql .= " LIMIT $l1" . ($l2 !== null ? ", $l2" : "");
 		return $this;
 	}
 

@@ -37,9 +37,11 @@
 	"services"  :   {
 		"Cookie"    :   true,
 		"Db"        :   true,
+		"Entity"    :   true,
 		"Auth"      :   true,
 		"Router"    :   true,
 		"Mailer"    :   true,
+		"Template"    :   true,
 		"License"   :   false
 	},
 	"apps"  :   {
@@ -91,9 +93,11 @@
 					"arguments"     :	[]
 				},
 				""    :	{
-					"controller"    :	"Index_Controller",
-					"method"        :	null,
-					"arguments"     :	[]
+					"controller"    :	"Main_Controller",
+					"method"        :	"direct",
+					"arguments"     :   {
+						"path"      :   ""
+					}
 				},
 				"(.*)"    :	{
 					"controller"    :	"Main_Controller",

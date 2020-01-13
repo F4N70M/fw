@@ -7,10 +7,11 @@
 
 namespace Fw\Di;
 
-use \InvalidArgumentException;
-use \ReflectionClass;
-use \ReflectionMethod;
-use \Exception;
+use InvalidArgumentException;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
+use Exception;
 
 /**
  * Class Container
@@ -18,8 +19,6 @@ use \Exception;
  */
 class Container /*implements \ArrayAccess*/
 {
-
-
 
 
 	/*
@@ -47,7 +46,7 @@ class Container /*implements \ArrayAccess*/
 	 * @param string $value
 	 * @param bool $singleton
 	 */
-	public function set(string $id, $value, $singleton=true)
+	public function set(string $id, $value, $singleton = true)
 	{
 		if (isset($this->objects[$id]))
 			unset($this->objects[$id]);
@@ -62,15 +61,15 @@ class Container /*implements \ArrayAccess*/
 	 * @param array $parameters
 	 * @return mixed
 	 */
-	public function get(string $id, $parameters=[])
+	public function get(string $id, $parameters = [])
 	{
 		if (!class_exists($id) && isset($this->aliases[$id]))
 			$id = $this->aliases[$id];
 
-		if(array_key_exists($id, $this->objects))
+		if (array_key_exists($id, $this->objects))
 			return $this->objects[$id];
 
-		if(!array_key_exists($id, $this->definitions))
+		if (!array_key_exists($id, $this->definitions))
 			throw new InvalidArgumentException('Undefined key "' . $id . '" in container');
 
 		$definition = $this->definitions[$id];
@@ -96,47 +95,77 @@ class Container /*implements \ArrayAccess*/
 
 
 	/**
-	 * Whether a offset exists
-	 * @link https://php.net/manual/en/arrayaccess.offsetexists.php
-	 * @param mixed $offset
-	 * @return boolean
-	 * The return value will be casted to boolean if non-boolean was returned.
+	 * @param $class
+	 * @param array $parameters
+	 * @return object
+	 * @throws ReflectionException
+	 * @throws Exception
 	 */
-//	public function offsetExists($offset)
-//	{
-//		return $this->has($offset);
-//	}
+	public function getInstance($class, $parameters = [])
+	{
+		if (!class_exists($class))
+			throw new Exception("Class \"{$class}\" not found!");
 
-	/**
-	 * Offset to retrieve
-	 * @link https://php.net/manual/en/arrayaccess.offsetget.php
-	 * @param mixed $offset
-	 * @return mixed
-	 */
-//	public function offsetGet($offset)
-//	{
-//		return $this->get($offset);
-//	}
+		$reflectClass = new ReflectionClass($class);
+		if ($reflectClass->hasMethod('__construct'))
+		{
+			$reflectMethod = $reflectClass->getMethod('__construct');
+			$reflectParameters = $this->getParameters($reflectMethod);
 
-	/**
-	 * Offset to set
-	 * @link https://php.net/manual/en/arrayaccess.offsetset.php
-	 * @param mixed $offset
-	 * @param mixed $value
-	 * @return void
-	 */
-//	public function offsetSet($offset, $value)
-//	{
-//		return $this->set($offset,$value);
-//	}
+			$resultParameters = [];
+			foreach ($reflectParameters as $name => $reflectParameter) {
+				if (isset($parameters[$name]))
+				{
+					$resultParameters[$name] = $parameters[$name];
+					unset($parameters[$name]);
+				}
+				elseif (isset($reflectParameter['class']))
+				{
+					$resultParameters[$name] = $this->get($reflectParameter['class']);
+				}
+				elseif (count($parameters) > 0)
+				{
+					$resultParameters[$name] = array_shift($parameters);
+				}
+				elseif (isset($resultParameter['default']))
+				{
+					$resultParameters[$name] = $reflectParameter['default'];
+				}
+				else
+				{
+					throw new Exception("Argument \"{$name}\" passed");
+				}
+			}
 
-	/**
-	 * Offset to unset
-	 * @link https://php.net/manual/en/arrayaccess.offsetunset.php
-	 * @param mixed $offset
-	 * @return void
-	 */
-//	public function offsetUnset($offset)
-//	{
-//	}
+			$instance = $reflectClass->newInstanceArgs($resultParameters);
+		}
+		else
+		{
+			$instance = $reflectClass->newInstance();
+		}
+
+		return $instance;
+	}
+
+	private function getParameters(ReflectionMethod $reflectMethod)
+	{
+		$reflectParameters = [];
+		foreach ($reflectMethod->getParameters() as $parameter)
+		{
+			$reflectParameter = [];
+
+			$name = $parameter->getName();
+
+			$class = $parameter->getClass();
+			if (method_exists($class,'getName')) $reflectParameter['class'] = $class->getName();
+
+			$reflectParameter['type'] = $parameter->getType();
+			$reflectParameter['type'] = method_exists($reflectParameter['type'],'getName') ? $reflectParameter['type']->getName() : (string) $reflectParameter['type'];
+
+			if ($parameter->isDefaultValueAvailable()) $reflectParameter['default'] = $parameter->getDefaultValue();
+
+			$reflectParameters[$name] = $reflectParameter;
+		}
+		return $reflectParameters;
+	}
 }

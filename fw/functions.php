@@ -94,7 +94,8 @@ function catchFatalErrors()
         <?php
         $bufer = ob_get_clean();
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-        echo $bufer;
+//      echo $bufer;
+        debug($error);
     endif;
 }
 

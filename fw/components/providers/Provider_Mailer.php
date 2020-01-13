@@ -7,30 +7,34 @@
 
 namespace Fw\Components\Providers;
 
-
 use Fw\Di\Container;
-use Fw\Components\Providers\Components_Provider;
 
-class Provider_Mailer extends Components_Provider
+class Provider_Mailer
 {
+	protected $container;
+
 	/**
-	 * Provider_Account constructor.
+	 * Provider_Mailer constructor.
 	 * @param Container $container
 	 */
 	public function __construct(Container $container)
 	{
-		parent ::__construct($container);
+		$this->container = $container;
 
 		$class = \Fw\Components\Services\Mailer\Mailer::class;
-		$container -> setAlias('Mailer', $class);
+		$container->setAlias('Mailer', $class);
 
-		$this -> container -> set(
+		$this->container->set(
 			$class,
 			function(\Fw\Di\Container $container)
 			{
 				$config = $container['config']['mail'];
-				$obj = new \Fw\Components\Services\Mailer\Mailer($config);
-				return $obj;
+
+				$parameters = [
+					'config' => $config
+				];
+				$instance = $container->getInstance(\Fw\Components\Services\Mailer\Mailer::class,$parameters);
+				return $instance;
 			},
 			true
 		);

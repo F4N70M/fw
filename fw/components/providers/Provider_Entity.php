@@ -10,27 +10,25 @@ namespace Fw\Components\Providers;
 
 use Fw\Di\Container;
 
-class Provider_Auth
+class Provider_Entity
 {
 	protected $container;
 
-
 	/**
-	 * Provider_Auth constructor.
+	 * Provider_Entity constructor.
 	 * @param Container $container
 	 */
 	public function __construct(Container $container)
 	{
 		$this->container = $container;
 
-		$class = \Fw\Components\Services\Auth\Auth::class;
-		$container->setAlias('Auth', $class);
+		$class = \Fw\Components\Services\Entity\Entity::class;
+		$container->setAlias('Entity', $class);
 
 		$this->container->set(
 			$class,
-			function(\Fw\Di\Container $container)
-			{
-				$instance = $container->getInstance(\Fw\Components\Services\Auth\Auth::class);
+			function(\Fw\Di\Container $container) {
+				$instance = $container->getInstance(\Fw\Components\Services\Entity\Entity::class);
 				return $instance;
 			},
 			true

@@ -17,8 +17,6 @@ try
 	//	Приложение
 	$App = $Fw->Router->init($Fw);
 
-	//	Обработка запросов
-	$App->request();
 	//	Рендер страницы
 	$App->render();
 }

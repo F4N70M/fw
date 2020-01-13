@@ -132,7 +132,7 @@ class Core
 				$router = $this->container->get('Router');
 				$router->setApp($app, $appConfig['prefix']);
 
-				$classPrefix = 'Apps\\' . ucfirst($app) . '\\Controllers';
+				$classPrefix = 'Apps\\' . ucfirst($app) . '\\Controller';
 
 				foreach ($routes as $pattern => $route)
 				{

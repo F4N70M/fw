@@ -2,7 +2,7 @@
 /**
  * User: F4N70M
  * Version: 0.1
- * Date: 10.01.2020
+ * Date: 13.01.2020
  */
 
 namespace Fw\Components\Providers;
@@ -10,8 +10,9 @@ namespace Fw\Components\Providers;
 
 use Fw\Di\Container;
 
-class Provider_Auth
+class Provider_Template
 {
+
 	protected $container;
 
 
@@ -23,14 +24,14 @@ class Provider_Auth
 	{
 		$this->container = $container;
 
-		$class = \Fw\Components\Services\Auth\Auth::class;
-		$container->setAlias('Auth', $class);
+		$class = \Fw\Components\Modules\Template\TemplateBuilder::class;
+		$container->setAlias('TemplateBuilder', $class);
 
 		$this->container->set(
 			$class,
 			function(\Fw\Di\Container $container)
 			{
-				$instance = $container->getInstance(\Fw\Components\Services\Auth\Auth::class);
+				$instance = $container->getInstance(\Fw\Components\Modules\Template\TemplateBuilder::class);
 				return $instance;
 			},
 			true
