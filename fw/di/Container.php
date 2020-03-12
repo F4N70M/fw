@@ -1,6 +1,6 @@
 <?php
 /**
- * User: F4N70M
+ * Project: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */
@@ -136,7 +136,6 @@ class Container /*implements \ArrayAccess*/
 					throw new Exception("Argument \"{$name}\" passed");
 				}
 			}
-
 			$instance = $reflectClass->newInstanceArgs($resultParameters);
 		}
 		else

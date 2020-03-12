@@ -15,6 +15,7 @@ class QueryBuilder
 	private $_link;
 
 	private $sql;
+	private $query = [];
 	private $bind = [];
 	private $statement;
 
@@ -49,8 +50,17 @@ class QueryBuilder
 	{
 		$db = clone $this;
 		$db->bind = [];
-		$db->sql = /** @lang text */
-			"SELECT {$this->columns($columns)}";
+		$db->sql = '';
+		$db->query = [
+			'action'    => 'SELECT',
+			'columns'   => $this->columns($columns),
+			'from'      => null,
+			'where'     => null,
+			'orderBy'   => null,
+			'limit'     => null
+		];
+//		$db->sql = /** @lang text */
+//			"SELECT {$this->columns($columns)}";
 
 		return $db;
 	}
@@ -63,8 +73,14 @@ class QueryBuilder
 	{
 		$db = clone $this;
 		$db->bind = [];
-		$db->sql = /** @lang text */
-			"INSERT";
+		$db->sql = '';
+		$db->query = [
+			'action'    => 'INSERT',
+			'into'      => null,
+			'values'    => null
+		];
+//		$db->sql = /** @lang text */
+//			"INSERT";
 
 		return $db;
 	}
@@ -78,7 +94,14 @@ class QueryBuilder
 	{
 		$db = clone $this;
 		$db->bind = [];
-		$db->sql = "UPDATE $table";
+		$db->sql = '';
+		$db->query = [
+			'action'    => 'UPDATE',
+			'table'     => $table,
+			'set'       => null,
+			'where'     => null
+		];
+//		$db->sql = "UPDATE $table";
 
 		return $db;
 	}
@@ -91,7 +114,12 @@ class QueryBuilder
 	{
 		$db = clone $this;
 		$db->bind = [];
-		$db->sql = "DELETE";
+		$db->sql = '';
+		$db->query = [
+			'action'    => 'DELETE',
+			'from'      => null,
+			'where'     => null
+		];
 
 		return $db;
 	}
@@ -113,7 +141,7 @@ class QueryBuilder
 	 * @param $type
 	 * @return QueryBuilder
 	 */
-	public function show($type)
+	public function show($type, $from = null)
 	{
 		$showType = strtoupper($type);
 		if (!in_array($showType,['TABLES','COLUMNS','INDEX','VARIABLES']))
@@ -122,7 +150,13 @@ class QueryBuilder
 
 		$db = clone $this;
 		$db->bind = [];
-		$db->sql = "SHOW {$showType}";
+		$db->sql = '';
+		$db->query = [
+			'action'    => 'SHOW',
+			'show'      => $showType,
+			'from'      => $from
+		];
+//		$db->sql = "SHOW {$showType}";
 
 		return $db;
 	}
@@ -131,22 +165,33 @@ class QueryBuilder
 	/**
 	 * @param string $table
 	 * @return $this
+	 * @throws Exception
 	 */
 	public function from(string $table)
 	{
-		$this->sql .= /** @lang text */
-			" FROM $table";
+		if (!array_key_exists('from',$this->query))
+			throw new Exception("method \"from\" cannot be used with \"{$this->query['action']}\"");
+
+		$this->query['from'] = $table;
+//		$this->sql .= /** @lang text */
+//			" FROM $table";
 
 		return $this;
 	}
 
+
 	/**
 	 * @param string $table
 	 * @return $this
+	 * @throws Exception
 	 */
 	public function into(string $table)
 	{
-		$this->sql .= " INTO $table";
+		if (!array_key_exists('into',$this->query))
+			throw new Exception("method \"into\" cannot be used with \"{$this->query['action']}\"");
+
+		$this->query['into'] = $table;
+//		$this->sql .= " INTO $table";
 
 		return $this;
 	}
@@ -160,20 +205,23 @@ class QueryBuilder
 	private function columns($columns=null)
 	{
 		if (empty($columns)) {
-			return "*";
+			$result = "*";
 		}
 		elseif (is_array($columns))
 		{
-			return implode(', ', $columns);
+			$result = implode(', ', $columns);
 		}
 		elseif (is_string($columns))
 		{
-			return $columns;
+			//TODO: Написать проверку по шаблону
+			$result = $columns;
 		}
 		else
 		{
 			throw new Exception('Request Error: Invalid query result column format');
 		}
+
+		return $result;
 	}
 
 
@@ -184,16 +232,57 @@ class QueryBuilder
 	 */
 	public function set(array $values=[])
 	{
+		if (!array_key_exists('set',$this->query))
+			throw new Exception("method \"set\" cannot be used with \"{$this->query['action']}\"");
+
 		if (!empty($values)) {
-			$this->sql .= " SET";
+//			$this->sql .= " SET";
 
 			$bindValues = [];
 			foreach ($values as $key => $value)
 			{
-				$bindValues[$key] = " {$key} = :{$key}";
+//				$bindValues[$key] = " {$key} = :{$key}";
+				$bindValues[] = "{$key} = :{$key}";
 				$this->bind[":{$key}"] = $value;
 			}
-			$this->sql .= implode(",", $bindValues);
+//			$this->sql .= implode(",", $bindValues);
+			$this->query['set'] = implode(", ", $bindValues);
+		}
+		else
+		{
+			throw new Exception('Request failed: no values to update');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param array $values
+	 * @return $this
+	 * @throws Exception
+	 */
+	public function values(array $values=[])
+	{
+		if (!array_key_exists('values',$this->query))
+			throw new Exception("method \"values\" cannot be used with \"{$this->query['action']}\"");
+
+		if (!empty($values)) {
+//			$this->sql .= " (";
+//			$this->sql .= implode(", ", array_keys($values));
+//			$this->sql .= ") VALUES (";
+			$result = "(";
+			$result .= implode(", ", array_keys($values));
+			$result .= ") VALUES (";
+			$bindValues = [];
+			foreach ($values as $key => $value)
+			{
+				$bindValues[$key] = ":$key";
+				$this->bind[":$key"] = $value;
+			}
+			$result .= implode(", ", $bindValues);
+			$result .= ")";
+
+			$this->query['values'] = $result;
 		}
 		else
 		{
@@ -206,99 +295,139 @@ class QueryBuilder
 	/**
 	 * @param $orderBy
 	 * @return $this
+	 * @throws Exception
 	 */
 	public function orderBy($orderBy)
 	{
+		if (!array_key_exists('orderBy',$this->query))
+			throw new Exception("method \"orderBy\" cannot be used with \"{$this->query['action']}\"");
+
 		if (!empty($orderBy))
 		{
-			$this->sql .= " ORDER BY";
+//			$this->sql .= " ORDER BY";
 
 			if ( is_array($orderBy) )
 			{
+				$result = [];
 				foreach ($orderBy as $key => $value)
 				{
 					if (is_numeric($key))
 					{
-						$this->sql .= " $value ASC";
+//						$this->sql .= " $value ASC";
+						$result[] = "$value ASC";
 					}
 					else
 					{
-						$this->sql .= " $key " . ((!$value || strtoupper($value) == "DESC") ? "DESC" : "ASC");
+//						$this->sql .= " $key " . ((!$value || strtoupper($value) == "DESC") ? "DESC" : "ASC");
+						$result[] = "$key " . (!$value || strtoupper($value) == "DESC") ? "DESC" : "ASC";
 					}
 				}
+				$result = implode(', ', $result);
 			}
+			//TODO: Написать проверку с ASC и DESC
 			elseif(preg_match('/^[A-z0-9\-_, ]+$/', $orderBy))
 			{
-				$this->sql .= " $orderBy";
+//				$this->sql .= " $orderBy";
+				$result = $orderBy;
 			}
-		}
-
-		return $this;
-	}
-
-	public function limit(int $l1=null, int $l2=null)
-	{
-		if ($l1 !== null)
-			$this->sql .= " LIMIT $l1" . ($l2 !== null ? ", $l2" : "");
-		return $this;
-	}
-
-	/**
-	 * @param string|null $key
-	 * @return array|bool|string
-	 * @throws Exception
-	 */
-	public function all(string $key=null)
-	{
-		$result = $this->do();
-
-		if ( $result )
-		{
-			//Common::print('rowCount: '.$this->statement->rowCount());
-			$result = $this->statement->fetchAll(PDO::FETCH_ASSOC);
-		}
-		if(!empty($key) && isset($result[0][$key]))
-		{
-			$tmp = [];
-			foreach ($result as $item)
+			else
 			{
-				$tmp[$item[$key]] = $item;
+				throw new Exception('Invalid argument type');
 			}
-			$result = $tmp;
+			$this->query['orderBy'] = $result;
 		}
 
-		return $result;
+		return $this;
 	}
 
 	/**
-	 * @return array|false
+	 * @param int|null $count
+	 * @param int|null $offset
+	 * @return $this
 	 * @throws Exception
 	 */
-	public function one()
+	public function limit(int $count=null, int $offset=null)
 	{
-		$result = $this->do();
-		if ($result)
-			return $this->statement->fetch(PDO::FETCH_ASSOC);
+		if (!array_key_exists('limit',$this->query))
+			throw new Exception("method \"limit\" cannot be used with \"{$this->query['action']}\"");
 
-		return false;
+		if ($count !== null)
+//			$this->sql .= " LIMIT $l1" . ($l2 !== null ? ", $l2" : "");
+			$this->query['limit'] = $count . ($offset !== null ? " OFFSET {$offset}" : "");
+		return $this;
 	}
 
+
 	/**
-	 * @return bool|string
+	 * @param string $column
+	 * @return array
 	 * @throws Exception
 	 */
-	public function do()
+	public function resultBy(string $column)
 	{
+		$resultBy = [];
+
+		$result = $this->result();
+
+		foreach ($result as $item)
+		{
+			if (isset($item[$column]))
+			{
+				$resultBy[$item[$column]] = $item;
+			}
+			else
+			{
+				break;
+			}
+		}
+		return $resultBy;
+	}
+
+
+	/**
+	 * @param bool $single
+	 * @return array
+	 * @throws Exception
+	 */
+	public function result(bool $single = false)
+	{
+		$query = [];
+		foreach ($this->query as $key => $value)
+		{
+			if (empty($value)) continue;
+			if ($key == 'into') $value = "INTO {$value}";
+			if ($key == 'from') $value = "FROM {$value}";
+			if ($key == 'where') $value = "WHERE {$value}";
+			if ($key == 'set') $value = "SET {$value}";
+			if ($key == 'orderBy') $value = "ORDER BY {$value}";
+			if ($key == 'limit') $value = "LIMIT {$value}";
+
+			$query[] = $value;
+		}
+		$this->sql = implode(' ', $query);
+
+//		debug($this->bind, $this->sql);
+
 		$this->statement = $this->prepare($this->sql, $this->bind);
-
 		$this->statement = $this->execute($this->statement);
-
 
 		if($this->statement)
 		{
-			if (preg_match('#^insert#is', $this->sql))
+//			debug('statement', $this->statement);
+			if ($this->query['action'] == 'INSERT')
 			{
 				$result = $this->_link->lastInsertId();
+			}
+			elseif (in_array($this->query['action'], ['SELECT','SHOW']))
+			{
+				if($single)
+				{
+					$result = $this->statement->fetch(PDO::FETCH_ASSOC);
+				}
+				else
+				{
+					$result = $this->statement->fetchAll(PDO::FETCH_ASSOC);
+				}
 			}
 			else
 			{
@@ -310,8 +439,82 @@ class QueryBuilder
 			$result = false;
 		}
 
+//		return $result;
 		return $result;
 	}
+
+
+	/**
+	 * @param string|null $key
+	 * @return array|bool|string
+	 * @throws Exception
+	 */
+//	public function all(string $key=null)
+//	{
+//		$result = $this->do();
+//
+//		if ( $result )
+//		{
+//			$result = $this->statement->fetchAll(PDO::FETCH_ASSOC);
+//		}
+//		if(!empty($key) && isset($result[0][$key]))
+//		{
+//			$tmp = [];
+//			foreach ($result as $item)
+//			{
+//				$tmp[$item[$key]] = $item;
+//			}
+//			$result = $tmp;
+//		}
+//
+//		return $result;
+//	}
+
+
+	/**
+	 * @return array|false
+	 * @throws Exception
+	 */
+//	public function one()
+//	{
+//		$result = $this->do();
+//		if ($result)
+//			return $this->statement->fetch(PDO::FETCH_ASSOC);
+//
+//		return false;
+//	}
+
+
+	/**
+	 * @return bool|string
+	 * @throws Exception
+	 */
+//	public function do()
+//	{
+//		$this->statement = $this->prepare($this->sql, $this->bind);
+//
+//		$this->statement = $this->execute($this->statement);
+//
+//
+//		if($this->statement)
+//		{
+//			if (preg_match('#^insert#is', $this->sql))
+//			{
+//				$result = $this->_link->lastInsertId();
+//			}
+//			else
+//			{
+//				$result = true;
+//			}
+//		}
+//		else
+//		{
+//			$result = false;
+//		}
+//
+//		return $result;
+//	}
+
 
 	/**
 	 * @param null $where
@@ -323,7 +526,8 @@ class QueryBuilder
 		//Common::print($whereString);
 		if ( !empty($whereString) )
 		{
-			$this->sql .= " WHERE $whereString";
+//			$this->sql .= " WHERE $whereString";
+			$this->query['where'] = $whereString;
 		}
 
 //		Common::print(
@@ -431,7 +635,6 @@ class QueryBuilder
 						if ($this->isset_glue($item))
 						{
 							$glue = $this->get_glue($item);
-
 							foreach ($item as $ikey => $value)
 							{
 								if ( is_numeric($ikey) )
@@ -442,6 +645,8 @@ class QueryBuilder
 								}
 								else
 								{
+									if (!is_array($value))
+										$value = ['=',$value];
 									$tmp = $this->parseValueWhere($value);
 									if (!empty($tmp))
 										$result .= " $glue $ikey $tmp";
@@ -484,11 +689,20 @@ class QueryBuilder
 							}
 						}
 					}
+					elseif (is_numeric($key) && is_string($item) && !empty($item))
+					{
+						if ( !empty($result) ) $result .= " && ";
+						$result .= $item;
+					}
 				}
 			}
-			elseif(is_string($where))
+			elseif(
+				is_string($where)
+				&&
+				!in_array(strtoupper($where),['AND','OR','&&','||'])
+			)
 			{
-				#
+				$result = $where;
 			}
 			else
 			{
@@ -505,7 +719,7 @@ class QueryBuilder
 	 */
 	private function isset_glue(array $item)
 	{
-		return (count($item) == 2 && isset($item[0]) && in_array(strtoupper($item[0]), ['AND','OR','&&','||']));
+		return (count($item) == 2 && isset($item[0]) && is_string($item[0]) && in_array(strtoupper($item[0]), ['AND','OR','&&','||']));
 	}
 
 	/**
@@ -521,7 +735,7 @@ class QueryBuilder
 	 * @param array $array
 	 * @return string
 	 */
-	private function parseValueWhere(array $array)
+	private function parseValueWhere($array)
 	{
 		$result = '';
 		$operator = strtoupper(array_shift($array));

@@ -9,7 +9,7 @@
  */
 try
 {
-	require 'fw/bootstrap.php';
+	require 'Fw/bootstrap.php';
 
 	//	Старт
 	$Fw = new Fw\Core();
@@ -29,6 +29,3 @@ catch (Exception $e)
 		$e->getTrace()
 	);
 }
-?>
-
-

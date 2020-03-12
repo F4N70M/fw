@@ -1,6 +1,6 @@
 <?php
 /**
- * User: F4N70M
+ * Project: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */
@@ -15,7 +15,7 @@ class Users
 	private $Entity;
 
 	/**
-	 * Users constructor.
+	 * Projects constructor.
 	 * @param Entity $Entity
 	 */
 	public function __construct(Entity $Entity)
@@ -38,7 +38,7 @@ class Users
 		else
 			throw new Exception("Invalid argument type \"{$id}\"");
 
-		return $this->Entity->getOne('users',[$column=>$id]);
+		return $this->Entity->selectFirst('users',[$column=>$id]);
 	}
 
 	/**
@@ -48,5 +48,33 @@ class Users
 	 */
 	public function set(int $id, array $parameters = [])
 	{
+//		return $this->Entity->
+	}
+
+	/**
+	 * @param array $parameters
+	 * @return mixed
+	 */
+	public function new(array $parameters = [])
+	{
+	}
+
+	/**
+	 * @param $id
+	 * @param string $password
+	 * @return bool
+	 * @throws Exception
+	 */
+	public function verifyPassword($id, string $password)
+	{
+		$user = $this->get($id);
+
+		if (password_verify($password, $user['password']))
+		{
+			$rehash = password_hash($password, PASSWORD_DEFAULT);
+			$result = $this->Entity->update('users', ['password'=>$rehash], ['id'=>$user['id']]);
+			return $result;
+		}
+		return false;
 	}
 }

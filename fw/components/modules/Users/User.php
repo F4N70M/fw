@@ -1,6 +1,6 @@
 <?php
 /**
- * User: F4N70M
+ * Project: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */
@@ -13,7 +13,7 @@ class User
 	private $id;
 	private $data;
 
-	public function __construct(Users $users, int $id)
+	public function __construct(Projects $users, int $id)
 	{
 		$this->users = $users;
 		$this->id = $id;

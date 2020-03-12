@@ -1,6 +1,6 @@
 <?php
 /**
- * User: F4N70M
+ * Project: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */

@@ -28,7 +28,7 @@ class Core
 	    //  Создаем объект DI контейнера
 		$this->container = new Container();
 		//  Получаем стандартную конфигурацию
-		$config = json(file_get_contents(__DIR__.'/config/default.json'),false);
+		$config = json(file_get_contents(__DIR__.'/Config/default.json'),false);
 		$this->config = $config;
 		//  Создаем константы
 		$this->definePathConstants($this->config['paths']);
@@ -40,6 +40,9 @@ class Core
 		$this->initModules();
 		//  Инициализация роутов
 		$this->initRoutes();
+
+
+		$this->Auth;
 	}
 
 
@@ -79,7 +82,10 @@ class Core
 				if ($include)
 				{
 					$providerClass = "\\Fw\\Components\\Providers\\Provider_{$name}";
-					new $providerClass($this->container);
+					if (class_exists($providerClass))
+						new $providerClass($this->container);
+					else
+						throw new Exception("Provider for component \"{$name}\" is not found");
 				}
 			}
 		}
@@ -125,7 +131,20 @@ class Core
 
 		foreach ($apps as $app => $appConfig)
 		{
-			$routes = $appConfig['routes'];
+			$appConfigPath = APPS_DIR.'/'.ucfirst($app).'/config.json';
+
+			if (file_exists($appConfigPath))
+			{
+				$tmpConfig = json(file_get_contents($appConfigPath));
+				if (isset($tmpConfig['routes']))
+				{
+					$routes = $tmpConfig['routes'];
+				}
+			}
+			if (!isset($routes)) continue;
+
+//			$routes = $appConfig['routes'];
+
 
 			if (is_array($routes))
 			{

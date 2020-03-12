@@ -14,18 +14,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Fw\\": "fw",
-      "Fw\\Di\\": "fw/di",
-      "Fw\\Components\\": "fw/components",
-      "Fw\\Components\\Interfaces\\": "fw/components/interfaces",
-      "Fw\\Components\\Modules\\": "fw/components/modules",
-      "Fw\\Components\\Providers\\": "fw/components/providers",
-      "Fw\\Components\\Services\\": "fw/components/services",
-      "Apps\\": "apps",
-      "Apps\\Main\\": "apps/main",
-      "Apps\\Main\\Controller\\": "apps/main/controller",
-      "Apps\\Main\\Model\\": "apps/main/model",
-      "Apps\\Main\\View\\": "apps/main/view"
+      "Fw\\": "Fw",
+      "Apps\\": "Apps"
     }
   }
 }

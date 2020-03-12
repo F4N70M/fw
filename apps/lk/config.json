@@ -1,0 +1,100 @@
+{
+	"template": "default",
+	"routes"    :   {
+		"(signup|login|logout|recovery)"    :	{
+			"controller"    :	"Auth_Controller",
+			"method"        :	"$1",
+			"arguments"     :	[]
+		},
+		""    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"indexAction",
+			"arguments"     :   []
+		},
+		"projects"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"projectsAction",
+			"arguments"     :   []
+		},
+		"new-project"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"projectCreateAction",
+			"arguments"     :   []
+		},
+		"project-([^/]+)"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"projectAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"services-([^/]+)"  :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"servicesAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"service-([^/]+)"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"serviceAction",
+			"arguments"     :   {
+				"project"   : "$1",
+				"id"        : "$2"
+			}
+		},
+		"new-service"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"serviceCreateAction",
+			"arguments"     :   []
+		},
+		"accesses-([^/]+)"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"accessesAction",
+			"arguments"     :   {
+				"project"   : "$1",
+				"id"        : "$2"
+			}
+		},
+		"access-([^/]+)"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"accessAction",
+			"arguments"     :   {
+				"project"   : "$1",
+				"id"        : "$2"
+			}
+		},
+		"new-access"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"accessCreateAction",
+			"arguments"     :   []
+		},
+		"treats-([^/]+)"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"treatsAction",
+			"arguments"     :   {
+				"id"        : "$2"
+			}
+		},
+		"treat-([^/]+)"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"treatAction",
+			"arguments"     :   {
+				"project"   : "$1",
+				"id"        : "$2"
+			}
+		},
+		"new-treat"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"treatCreateAction",
+			"arguments"     :   []
+		},
+		"(.+)"    :	{
+			"controller"    :	"Main_Controller",
+			"method"        :	"direct",
+			"arguments"     :   {
+				"path"      :   "$1"
+			}
+		}
+	}
+}

@@ -20,7 +20,7 @@
 		"default"   :   {
 			"HOST"  :   "localhost",
 			"USER"  :   "u0415910_default",
-			"PASS"  :   "wBb2U!M5",
+			"PASS"  :   "5C1j2R9q",
 			"BASE"  :   "u0415910_fw"
 		}
 	},
@@ -31,95 +31,42 @@
 		"PORT"      :   465
 	},
 	"modules"  :   {
-		"Users"     :    true,
-		"Account"   :    true
+		"Users"     :   true,
+		"Pages"     :   true,
+		"Account"   :   true,
+		"TemplateManager"   :   true,
+		"Projects"   :   true
 	},
 	"services"  :   {
 		"Cookie"    :   true,
+		"Assets"    :   true,
 		"Db"        :   true,
 		"Entity"    :   true,
 		"Auth"      :   true,
 		"Router"    :   true,
 		"Mailer"    :   true,
-		"Template"    :   true,
 		"License"   :   false
 	},
 	"apps"  :   {
-		"admin" :   {
+		"Admin" :   {
 			"include"   :   true,
-			"prefix"    :   "admin",
-			"routes"    :   {
-				"(signup|login|logout|recovery)"    :	{
-					"controller"    :	"Auth_Controller",
-					"method"        :	"$1",
-					"arguments"     :	[]
-				},
-				"mail/({A-z}+)"     :	{
-					"controller"    :	"Mail_Controller",
-					"method"        :	"$1",
-					"arguments"     :	[]
-				},
-				"(.*)"    :	{
-					"controller"    :	"Main_Controller",
-					"method"        :	"direct",
-					"arguments"     :   {
-						"path"      :   "$1"
-					}
-				},
-				""    :	{
-					"controller"    :	"Index_Controller",
-					"method"        :	null,
-					"arguments"     :	[]
-				}
-			}
+			"prefix"    :   "admin"
 		},
-		"main"  :   {
+		"Lk"  :   {
 			"include"   :   true,
-			"prefix"    :   "",
-			"routes"    :   {
-				"(signup|login|logout|recovery)"    :	{
-					"controller"    :	"Auth_Controller",
-					"method"        :	"$1",
-					"arguments"     :	[]
-				},
-				"mail/({A-z}+)"    :	{
-					"controller"    :	"Mail_Controller",
-					"method"        :	"$1",
-					"arguments"     :	[]
-				},
-				"news/({A-z}+)"    :	{
-					"controller"    :	"News_Controller",
-					"method"        :	"$1",
-					"arguments"     :	[]
-				},
-				""    :	{
-					"controller"    :	"Main_Controller",
-					"method"        :	"direct",
-					"arguments"     :   {
-						"path"      :   ""
-					}
-				},
-				"(.*)"    :	{
-					"controller"    :	"Main_Controller",
-					"method"        :	"direct",
-					"arguments"     :   {
-						"path"      :   "$1"
-					}
-				},
-				".*"    :	{
-					"controller"    :	"NotFound_Controller",
-					"method"        :	null,
-					"arguments"     :	[]
-				}
-			}
+			"prefix"    :   "lk"
+		},
+		"Main"  :   {
+			"include"   :   true,
+			"prefix"    :   ""
 		}
 	},
 	"paths" :   {
 		"root"      :	"",
-		"log"       :   "/fw/logs",
-		"fw"		:	"/fw",
-		"apps"		:	"/apps",
+		"log"       :   "/Fw/Logs",
+		"fw"		:	"/Fw",
+		"apps"		:	"/Apps",
 		"uploads"   :	"/uploads",
-		"config"	:	"/fw/config"
+		"config"	:	"/Fw/config"
 	}
 }

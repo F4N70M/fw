@@ -1,6 +1,6 @@
 <?php
 /**
- * User: F4N70M
+ * Project: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */
@@ -47,11 +47,17 @@ class Account
 
 
 	/**
-	 * @return array
+	 * @return array|false
+	 * @throws Exception
 	 */
 	public function getCurrent()
 	{
-		return $this->auth->getCurrent();
+		$currentID = $this->auth->getCurrent();
+
+		$currentUser = false;
+		if ($currentID)
+			$currentUser = $this->users->get($currentID);
+		return $currentUser;
 	}
 
 
@@ -63,14 +69,11 @@ class Account
 	 */
 	public function login($login, $password)
 	{
-		$user = $this->users->get($login);
-
-		if (password_verify($password, $user['password']))
+		if ($this->users->verifyPassword($login, $password))
 		{
-//			$this->users->rehashPassword($password);
+			$user = $this->users->get($login);
+//			debug($user);
 			$result = $this->auth->in($user['id']);
-//			debug($this->auth->check($user['id']));
-			debug('VERIFY!');
 			return $result;
 		}
 		return false;

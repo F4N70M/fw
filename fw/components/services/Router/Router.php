@@ -25,7 +25,6 @@ class Router
 		$config = $this->get($uri);
 
 		//TODO: Сделать проверку существования метода
-
 		$app = new $config['controller']($fw);
 
 		//TODO: Сделать проверку аргументов рефлексии метода и упорядочивание по ключам
@@ -54,6 +53,11 @@ class Router
 	public function setRoute(string $app, string $pattern, array $route)
 	{
 		if (!$this->hasApp($app)) return false;
+
+		$route['app'] = [
+			'name'  => $app,
+			'prefix'=> $this->apps[$app]
+		];
 
 		$fullPattern = $this->getFullPattern($this->apps[$app], $pattern);
 
@@ -101,10 +105,10 @@ class Router
 	{
 		if ($uri === null)
 			$uri = $this->getCurrentUri();
-
 		foreach ($this->routes as $pattern => $route)
 		{
 			$pattern = '#^'.$pattern.'$#i';
+
 
 			if (preg_match($pattern, $uri, $matches))
 			{
@@ -115,6 +119,8 @@ class Router
 					if (is_string($argument))
 						$route['arguments'][$key] = preg_replace($pattern,$argument,$uri);
 				}
+				$appPrefix =  !empty(($route['app']['prefix'])) ? '/'.($route['app']['prefix']) : null;
+				define('APP_PREFIX', ($appPrefix));
 				return $route;
 			}
 		}

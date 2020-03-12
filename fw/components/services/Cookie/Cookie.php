@@ -49,7 +49,7 @@ class Cookie implements \ArrayAccess
 		return isset($this->cookies[$name]);
 	}
 
-	public function set($name, $value, int $expire=0, string $path="", string $domain="", bool $sequre=false, bool $httponly=false)
+	public function set($name, $value, int $expire=0)
 	{
 		if (!(is_bool($value) || is_numeric($value) || is_string($value) || is_array($value)))
 		{
@@ -66,7 +66,8 @@ class Cookie implements \ArrayAccess
 			$value = $value ? 1 : 0;
 		}
 
-		$result = setcookie($name, $value, $expire, $path, $domain, $sequre, $httponly);
+//		debug($name, $value);
+		$result = setcookie($name, $value, $expire, '/');
 
 		if ($result)
 		{
@@ -81,7 +82,7 @@ class Cookie implements \ArrayAccess
 
 	public function unset($name)
 	{
-		$result = setcookie($name, "", -3600);
+		$result = setcookie($name, "", -3600, '/');
 
 		if ($result)
 		{

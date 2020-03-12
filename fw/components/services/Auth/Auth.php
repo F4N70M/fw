@@ -1,6 +1,6 @@
 <?php
 /**
- * User: F4N70M
+ * Project: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */
@@ -104,7 +104,11 @@ class Auth
 		$this->data['list'][$userID] = $remember;
 		$this->data['current'] = $userID;
 
-		$result = $this->cookie->set('auth', $this->data, time() + 60 * 60 * 24 * 30);
+		$expire = $remember
+			? time() + 60 * 60 * 24 * 30
+			: 0;
+
+		$result = $this->cookie->set('auth', $this->data, $expire);
 
 		return $result;
 	}
@@ -116,5 +120,6 @@ class Auth
 	public function out()
 	{
 		$this->cookie->unset('auth');
+//		debug($this->cookie->get());
 	}
 }

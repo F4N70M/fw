@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: KONARD
+ * Project: KONARD
  * Date: 03.11.2019
  * Time: 6:21
  */
@@ -10,6 +10,8 @@ namespace Apps\Main\Controller;
 
 
 use Apps\Main\Model\Main_Model;
+use Apps\Main\View\Main_View;
+use Exception;
 use Fw\Core;
 
 class Main_Controller
@@ -23,6 +25,8 @@ class Main_Controller
 	private $action;
 	private $template = 'default';
 
+	private $tpl;
+
 
 	/**
 	 * Main_Controller constructor.
@@ -32,20 +36,28 @@ class Main_Controller
 	{
 		$this->Fw = $Fw;
 		$this->model = new Main_Model($this->Fw);
+		$this->view = new Main_View($this->Fw, $this->model);
 
 		// Обработка запросов
 		$this->request();
 
-//		debug('Main_Controller: __construct');
+
 	}
 
 
 	/**
 	 * @param string $uri
+	 * @throws Exception
 	 */
 	public function direct(string $uri)
 	{
-//		debug('uri:',$uri);
+		// Получить информацию о странице из БД по uri
+		$name = $this->model->getNameByUri($uri);
+
+		$this->data = $this->model->getInfo($name);
+
+		$this->tpl = ($name == 'index') ? 'page/index' : $this->data['type'].'/'.$this->data['name'];
+
 	}
 
 
@@ -61,21 +73,11 @@ class Main_Controller
 	}
 
 
-    /**
-     *
-     */
+	/**
+	 *
+	 */
     public function render()
 	{
-
-
-		debug('Accounts:', $this->Fw->Account->getList());
-
-		?>
-		<?php
-
-
-
-
-		debug('УРА! ЭТО СТРАНИЦА!');
+		$this->view->render($this->tpl,$this->data);
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * User: F4N70M
+ * Project: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */
@@ -31,19 +31,5 @@ class Provider_Users
 			},
 			true
 		);
-
-		/*
-		$class = \Fw\Components\Modules\Users\User::class;
-		$container->setAlias('User', $class);
-		$container->set(
-			$class,
-			function(\Fw\Di\Container $container,$parameters=[]) {
-				$class = \Fw\Components\Modules\Users\User::class;
-				$instance = $this->getInstance($class, $parameters);
-				return $instance;
-			},
-			false
-		);
-		*/
 	}
 }
