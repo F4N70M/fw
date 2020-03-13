@@ -1,0 +1,26 @@
+@font-face{
+font-family: 'OpenSans';
+src: url('/resources/fonts/OpenSans/OpenSans-Bold.ttf') format('truetype');
+font-weight: bold;
+font-style: normal;
+}
+@font-face{
+font-family: 'OpenSans';
+src: url('/resources/fonts/OpenSans/OpenSans-Regular.ttf') format('truetype');
+font-weight: normal;
+font-style: normal;
+}
+
+
+@font-face{
+font-family: 'AvenirNextCyr';
+src: url('/resources/fonts/AvenirNextCyr/AvenirNextCyr-Bold.ttf') format('truetype');
+font-weight: bold;
+font-style: normal;
+}
+@font-face{
+font-family: 'AvenirNextCyr';
+src: url('/resources/fonts/AvenirNextCyr/AvenirNextCyr-Regular.ttf') format('truetype');
+font-weight: normal;
+font-style: normal;
+}

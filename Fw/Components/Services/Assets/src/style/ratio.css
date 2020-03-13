@@ -1,0 +1,320 @@
+
+.ratio-1-1,.ratio-1-2,.ratio-1-3,.ratio-1-4,.ratio-1-5,.ratio-1-6,.ratio-1-7,.ratio-1-8,.ratio-1-9,.ratio-1-10,.ratio-1-11,.ratio-1-12,.ratio-1-13,.ratio-1-14,.ratio-1-15,.ratio-1-16,
+.ratio-2-1,.ratio-2-2,.ratio-2-3,.ratio-2-4,.ratio-2-5,.ratio-2-6,.ratio-2-7,.ratio-2-8,.ratio-2-9,.ratio-2-10,.ratio-2-11,.ratio-2-12,.ratio-2-13,.ratio-2-14,.ratio-2-15,.ratio-2-16,
+.ratio-3-1,.ratio-3-2,.ratio-3-3,.ratio-3-4,.ratio-3-5,.ratio-3-6,.ratio-3-7,.ratio-3-8,.ratio-3-9,.ratio-3-10,.ratio-3-11,.ratio-3-12,.ratio-3-13,.ratio-3-14,.ratio-3-15,.ratio-3-16,
+.ratio-4-1,.ratio-4-2,.ratio-4-3,.ratio-4-4,.ratio-4-5,.ratio-4-6,.ratio-4-7,.ratio-4-8,.ratio-4-9,.ratio-4-10,.ratio-4-11,.ratio-4-12,.ratio-4-13,.ratio-4-14,.ratio-4-15,.ratio-4-16,
+.ratio-5-1,.ratio-5-2,.ratio-5-3,.ratio-5-4,.ratio-5-5,.ratio-5-6,.ratio-5-7,.ratio-5-8,.ratio-5-9,.ratio-5-10,.ratio-5-11,.ratio-5-12,.ratio-5-13,.ratio-5-14,.ratio-5-15,.ratio-5-16,
+.ratio-6-1,.ratio-6-2,.ratio-6-3,.ratio-6-4,.ratio-6-5,.ratio-6-6,.ratio-6-7,.ratio-6-8,.ratio-6-9,.ratio-6-10,.ratio-6-11,.ratio-6-12,.ratio-6-13,.ratio-6-14,.ratio-6-15,.ratio-6-16,
+.ratio-7-1,.ratio-7-2,.ratio-7-3,.ratio-7-4,.ratio-7-5,.ratio-7-6,.ratio-7-7,.ratio-7-8,.ratio-7-9,.ratio-7-10,.ratio-7-11,.ratio-7-12,.ratio-7-13,.ratio-7-14,.ratio-7-15,.ratio-7-16,
+.ratio-8-1,.ratio-8-2,.ratio-8-3,.ratio-8-4,.ratio-8-5,.ratio-8-6,.ratio-8-7,.ratio-8-8,.ratio-8-9,.ratio-8-10,.ratio-8-11,.ratio-8-12,.ratio-8-13,.ratio-8-14,.ratio-8-15,.ratio-8-16,
+.ratio-9-1,.ratio-9-2,.ratio-9-3,.ratio-9-4,.ratio-9-5,.ratio-9-6,.ratio-9-7,.ratio-9-8,.ratio-9-9,.ratio-9-10,.ratio-9-11,.ratio-9-12,.ratio-9-13,.ratio-9-14,.ratio-9-15,.ratio-9-16,
+.ratio-10-1,.ratio-10-2,.ratio-10-3,.ratio-10-4,.ratio-10-5,.ratio-10-6,.ratio-10-7,.ratio-10-8,.ratio-10-9,.ratio-10-10,.ratio-10-11,.ratio-10-12,.ratio-10-13,.ratio-10-14,.ratio-10-15,.ratio-10-16,
+.ratio-11-1,.ratio-11-2,.ratio-11-3,.ratio-11-4,.ratio-11-5,.ratio-11-6,.ratio-11-7,.ratio-11-8,.ratio-11-9,.ratio-11-10,.ratio-11-11,.ratio-11-12,.ratio-11-13,.ratio-11-14,.ratio-11-15,.ratio-11-16,
+.ratio-12-1,.ratio-12-2,.ratio-12-3,.ratio-12-4,.ratio-12-5,.ratio-12-6,.ratio-12-7,.ratio-12-8,.ratio-12-9,.ratio-12-10,.ratio-12-11,.ratio-12-12,.ratio-12-13,.ratio-12-14,.ratio-12-15,.ratio-12-16,
+.ratio-13-1,.ratio-13-2,.ratio-13-3,.ratio-13-4,.ratio-13-5,.ratio-13-6,.ratio-13-7,.ratio-13-8,.ratio-13-9,.ratio-13-10,.ratio-13-11,.ratio-13-12,.ratio-13-13,.ratio-13-14,.ratio-13-15,.ratio-13-16,
+.ratio-14-1,.ratio-14-2,.ratio-14-3,.ratio-14-4,.ratio-14-5,.ratio-14-6,.ratio-14-7,.ratio-14-8,.ratio-14-9,.ratio-14-10,.ratio-14-11,.ratio-14-12,.ratio-14-13,.ratio-14-14,.ratio-14-15,.ratio-14-16,
+.ratio-15-1,.ratio-15-2,.ratio-15-3,.ratio-15-4,.ratio-15-5,.ratio-15-6,.ratio-15-7,.ratio-15-8,.ratio-15-9,.ratio-15-10,.ratio-15-11,.ratio-15-12,.ratio-15-13,.ratio-15-14,.ratio-15-15,.ratio-15-16,
+.ratio-16-1,.ratio-16-2,.ratio-16-3,.ratio-16-4,.ratio-16-5,.ratio-16-6,.ratio-16-7,.ratio-16-8,.ratio-16-9,.ratio-16-10,.ratio-16-11,.ratio-16-12,.ratio-16-13,.ratio-16-14,.ratio-16-15,.ratio-16-16
+{
+	position: relative;
+}
+
+
+.ratio-1-1 > *,.ratio-1-2 > *,.ratio-1-3 > *,.ratio-1-4 > *,.ratio-1-5 > *,.ratio-1-6 > *,.ratio-1-7 > *,.ratio-1-8 > *,.ratio-1-9 > *,.ratio-1-10 > *,.ratio-1-11 > *,.ratio-1-12 > *,.ratio-1-13 > *,.ratio-1-14 > *,.ratio-1-15 > *,.ratio-1-16 > *,
+.ratio-2-1 > *,.ratio-2-2 > *,.ratio-2-3 > *,.ratio-2-4 > *,.ratio-2-5 > *,.ratio-2-6 > *,.ratio-2-7 > *,.ratio-2-8 > *,.ratio-2-9 > *,.ratio-2-10 > *,.ratio-2-11 > *,.ratio-2-12 > *,.ratio-2-13 > *,.ratio-2-14 > *,.ratio-2-15 > *,.ratio-2-16 > *,
+.ratio-3-1 > *,.ratio-3-2 > *,.ratio-3-3 > *,.ratio-3-4 > *,.ratio-3-5 > *,.ratio-3-6 > *,.ratio-3-7 > *,.ratio-3-8 > *,.ratio-3-9 > *,.ratio-3-10 > *,.ratio-3-11 > *,.ratio-3-12 > *,.ratio-3-13 > *,.ratio-3-14 > *,.ratio-3-15 > *,.ratio-3-16 > *,
+.ratio-4-1 > *,.ratio-4-2 > *,.ratio-4-3 > *,.ratio-4-4 > *,.ratio-4-5 > *,.ratio-4-6 > *,.ratio-4-7 > *,.ratio-4-8 > *,.ratio-4-9 > *,.ratio-4-10 > *,.ratio-4-11 > *,.ratio-4-12 > *,.ratio-4-13 > *,.ratio-4-14 > *,.ratio-4-15 > *,.ratio-4-16 > *,
+.ratio-5-1 > *,.ratio-5-2 > *,.ratio-5-3 > *,.ratio-5-4 > *,.ratio-5-5 > *,.ratio-5-6 > *,.ratio-5-7 > *,.ratio-5-8 > *,.ratio-5-9 > *,.ratio-5-10 > *,.ratio-5-11 > *,.ratio-5-12 > *,.ratio-5-13 > *,.ratio-5-14 > *,.ratio-5-15 > *,.ratio-5-16 > *,
+.ratio-6-1 > *,.ratio-6-2 > *,.ratio-6-3 > *,.ratio-6-4 > *,.ratio-6-5 > *,.ratio-6-6 > *,.ratio-6-7 > *,.ratio-6-8 > *,.ratio-6-9 > *,.ratio-6-10 > *,.ratio-6-11 > *,.ratio-6-12 > *,.ratio-6-13 > *,.ratio-6-14 > *,.ratio-6-15 > *,.ratio-6-16 > *,
+.ratio-7-1 > *,.ratio-7-2 > *,.ratio-7-3 > *,.ratio-7-4 > *,.ratio-7-5 > *,.ratio-7-6 > *,.ratio-7-7 > *,.ratio-7-8 > *,.ratio-7-9 > *,.ratio-7-10 > *,.ratio-7-11 > *,.ratio-7-12 > *,.ratio-7-13 > *,.ratio-7-14 > *,.ratio-7-15 > *,.ratio-7-16 > *,
+.ratio-8-1 > *,.ratio-8-2 > *,.ratio-8-3 > *,.ratio-8-4 > *,.ratio-8-5 > *,.ratio-8-6 > *,.ratio-8-7 > *,.ratio-8-8 > *,.ratio-8-9 > *,.ratio-8-10 > *,.ratio-8-11 > *,.ratio-8-12 > *,.ratio-8-13 > *,.ratio-8-14 > *,.ratio-8-15 > *,.ratio-8-16 > *,
+.ratio-9-1 > *,.ratio-9-2 > *,.ratio-9-3 > *,.ratio-9-4 > *,.ratio-9-5 > *,.ratio-9-6 > *,.ratio-9-7 > *,.ratio-9-8 > *,.ratio-9-9 > *,.ratio-9-10 > *,.ratio-9-11 > *,.ratio-9-12 > *,.ratio-9-13 > *,.ratio-9-14 > *,.ratio-9-15 > *,.ratio-9-16 > *,
+.ratio-10-1 > *,.ratio-10-2 > *,.ratio-10-3 > *,.ratio-10-4 > *,.ratio-10-5 > *,.ratio-10-6 > *,.ratio-10-7 > *,.ratio-10-8 > *,.ratio-10-9 > *,.ratio-10-10 > *,.ratio-10-11 > *,.ratio-10-12 > *,.ratio-10-13 > *,.ratio-10-14 > *,.ratio-10-15 > *,.ratio-10-16 > *,
+.ratio-11-1 > *,.ratio-11-2 > *,.ratio-11-3 > *,.ratio-11-4 > *,.ratio-11-5 > *,.ratio-11-6 > *,.ratio-11-7 > *,.ratio-11-8 > *,.ratio-11-9 > *,.ratio-11-10 > *,.ratio-11-11 > *,.ratio-11-12 > *,.ratio-11-13 > *,.ratio-11-14 > *,.ratio-11-15 > *,.ratio-11-16 > *,
+.ratio-12-1 > *,.ratio-12-2 > *,.ratio-12-3 > *,.ratio-12-4 > *,.ratio-12-5 > *,.ratio-12-6 > *,.ratio-12-7 > *,.ratio-12-8 > *,.ratio-12-9 > *,.ratio-12-10 > *,.ratio-12-11 > *,.ratio-12-12 > *,.ratio-12-13 > *,.ratio-12-14 > *,.ratio-12-15 > *,.ratio-12-16 > *,
+.ratio-13-1 > *,.ratio-13-2 > *,.ratio-13-3 > *,.ratio-13-4 > *,.ratio-13-5 > *,.ratio-13-6 > *,.ratio-13-7 > *,.ratio-13-8 > *,.ratio-13-9 > *,.ratio-13-10 > *,.ratio-13-11 > *,.ratio-13-12 > *,.ratio-13-13 > *,.ratio-13-14 > *,.ratio-13-15 > *,.ratio-13-16 > *,
+.ratio-14-1 > *,.ratio-14-2 > *,.ratio-14-3 > *,.ratio-14-4 > *,.ratio-14-5 > *,.ratio-14-6 > *,.ratio-14-7 > *,.ratio-14-8 > *,.ratio-14-9 > *,.ratio-14-10 > *,.ratio-14-11 > *,.ratio-14-12 > *,.ratio-14-13 > *,.ratio-14-14 > *,.ratio-14-15 > *,.ratio-14-16 > *,
+.ratio-15-1 > *,.ratio-15-2 > *,.ratio-15-3 > *,.ratio-15-4 > *,.ratio-15-5 > *,.ratio-15-6 > *,.ratio-15-7 > *,.ratio-15-8 > *,.ratio-15-9 > *,.ratio-15-10 > *,.ratio-15-11 > *,.ratio-15-12 > *,.ratio-15-13 > *,.ratio-15-14 > *,.ratio-15-15 > *,.ratio-15-16 > *,
+.ratio-16-1 > *,.ratio-16-2 > *,.ratio-16-3 > *,.ratio-16-4 > *,.ratio-16-5 > *,.ratio-16-6 > *,.ratio-16-7 > *,.ratio-16-8 > *,.ratio-16-9 > *,.ratio-16-10 > *,.ratio-16-11 > *,.ratio-16-12 > *,.ratio-16-13 > *,.ratio-16-14 > *,.ratio-16-15 > *,.ratio-16-16 > *
+{
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+
+
+.ratio-1-1 { padding-top: calc(100% / 1 * 1); }
+.ratio-1-2 { padding-top: calc(100% / 1 * 2); }
+.ratio-1-3 { padding-top: calc(100% / 1 * 3); }
+.ratio-1-4 { padding-top: calc(100% / 1 * 4); }
+.ratio-1-5 { padding-top: calc(100% / 1 * 5); }
+.ratio-1-6 { padding-top: calc(100% / 1 * 6); }
+.ratio-1-7 { padding-top: calc(100% / 1 * 7); }
+.ratio-1-8 { padding-top: calc(100% / 1 * 8); }
+.ratio-1-9 { padding-top: calc(100% / 1 * 9); }
+.ratio-1-10 { padding-top: calc(100% / 1 * 10); }
+.ratio-1-11 { padding-top: calc(100% / 1 * 11); }
+.ratio-1-12 { padding-top: calc(100% / 1 * 12); }
+.ratio-1-13 { padding-top: calc(100% / 1 * 13); }
+.ratio-1-14 { padding-top: calc(100% / 1 * 14); }
+.ratio-1-15 { padding-top: calc(100% / 1 * 15); }
+.ratio-1-16 { padding-top: calc(100% / 1 * 16); }
+
+.ratio-2-1 { padding-top: calc(100% / 2 * 1); }
+.ratio-2-2 { padding-top: calc(100% / 2 * 2); }
+.ratio-2-3 { padding-top: calc(100% / 2 * 3); }
+.ratio-2-4 { padding-top: calc(100% / 2 * 4); }
+.ratio-2-5 { padding-top: calc(100% / 2 * 5); }
+.ratio-2-6 { padding-top: calc(100% / 2 * 6); }
+.ratio-2-7 { padding-top: calc(100% / 2 * 7); }
+.ratio-2-8 { padding-top: calc(100% / 2 * 8); }
+.ratio-2-9 { padding-top: calc(100% / 2 * 9); }
+.ratio-2-10 { padding-top: calc(100% / 2 * 10); }
+.ratio-2-11 { padding-top: calc(100% / 2 * 11); }
+.ratio-2-12 { padding-top: calc(100% / 2 * 12); }
+.ratio-2-13 { padding-top: calc(100% / 2 * 13); }
+.ratio-2-14 { padding-top: calc(100% / 2 * 14); }
+.ratio-2-15 { padding-top: calc(100% / 2 * 15); }
+.ratio-2-16 { padding-top: calc(100% / 2 * 16); }
+
+.ratio-3-1 { padding-top: calc(100% / 3 * 1); }
+.ratio-3-2 { padding-top: calc(100% / 3 * 2); }
+.ratio-3-3 { padding-top: calc(100% / 3 * 3); }
+.ratio-3-4 { padding-top: calc(100% / 3 * 4); }
+.ratio-3-5 { padding-top: calc(100% / 3 * 5); }
+.ratio-3-6 { padding-top: calc(100% / 3 * 6); }
+.ratio-3-7 { padding-top: calc(100% / 3 * 7); }
+.ratio-3-8 { padding-top: calc(100% / 3 * 8); }
+.ratio-3-9 { padding-top: calc(100% / 3 * 9); }
+.ratio-3-10 { padding-top: calc(100% / 3 * 10); }
+.ratio-3-11 { padding-top: calc(100% / 3 * 11); }
+.ratio-3-12 { padding-top: calc(100% / 3 * 12); }
+.ratio-3-13 { padding-top: calc(100% / 3 * 13); }
+.ratio-3-14 { padding-top: calc(100% / 3 * 14); }
+.ratio-3-15 { padding-top: calc(100% / 3 * 15); }
+.ratio-3-16 { padding-top: calc(100% / 3 * 16); }
+
+.ratio-4-1 { padding-top: calc(100% / 4 * 1); }
+.ratio-4-2 { padding-top: calc(100% / 4 * 2); }
+.ratio-4-3 { padding-top: calc(100% / 4 * 3); }
+.ratio-4-4 { padding-top: calc(100% / 4 * 4); }
+.ratio-4-5 { padding-top: calc(100% / 4 * 5); }
+.ratio-4-6 { padding-top: calc(100% / 4 * 6); }
+.ratio-4-7 { padding-top: calc(100% / 4 * 7); }
+.ratio-4-8 { padding-top: calc(100% / 4 * 8); }
+.ratio-4-9 { padding-top: calc(100% / 4 * 9); }
+.ratio-4-10 { padding-top: calc(100% / 4 * 10); }
+.ratio-4-11 { padding-top: calc(100% / 4 * 11); }
+.ratio-4-12 { padding-top: calc(100% / 4 * 12); }
+.ratio-4-13 { padding-top: calc(100% / 4 * 13); }
+.ratio-4-14 { padding-top: calc(100% / 4 * 14); }
+.ratio-4-15 { padding-top: calc(100% / 4 * 15); }
+.ratio-4-16 { padding-top: calc(100% / 4 * 16); }
+
+.ratio-5-1 { padding-top: calc(100% / 5 * 1); }
+.ratio-5-2 { padding-top: calc(100% / 5 * 2); }
+.ratio-5-3 { padding-top: calc(100% / 5 * 3); }
+.ratio-5-4 { padding-top: calc(100% / 5 * 4); }
+.ratio-5-5 { padding-top: calc(100% / 5 * 5); }
+.ratio-5-6 { padding-top: calc(100% / 5 * 6); }
+.ratio-5-7 { padding-top: calc(100% / 5 * 7); }
+.ratio-5-8 { padding-top: calc(100% / 5 * 8); }
+.ratio-5-9 { padding-top: calc(100% / 5 * 9); }
+.ratio-5-10 { padding-top: calc(100% / 5 * 10); }
+.ratio-5-11 { padding-top: calc(100% / 5 * 11); }
+.ratio-5-12 { padding-top: calc(100% / 5 * 12); }
+.ratio-5-13 { padding-top: calc(100% / 5 * 13); }
+.ratio-5-14 { padding-top: calc(100% / 5 * 14); }
+.ratio-5-15 { padding-top: calc(100% / 5 * 15); }
+.ratio-5-16 { padding-top: calc(100% / 5 * 16); }
+
+.ratio-6-1 { padding-top: calc(100% / 6 * 1); }
+.ratio-6-2 { padding-top: calc(100% / 6 * 2); }
+.ratio-6-3 { padding-top: calc(100% / 6 * 3); }
+.ratio-6-4 { padding-top: calc(100% / 6 * 4); }
+.ratio-6-5 { padding-top: calc(100% / 6 * 5); }
+.ratio-6-6 { padding-top: calc(100% / 6 * 6); }
+.ratio-6-7 { padding-top: calc(100% / 6 * 7); }
+.ratio-6-8 { padding-top: calc(100% / 6 * 8); }
+.ratio-6-9 { padding-top: calc(100% / 6 * 9); }
+.ratio-6-10 { padding-top: calc(100% / 6 * 10); }
+.ratio-6-11 { padding-top: calc(100% / 6 * 11); }
+.ratio-6-12 { padding-top: calc(100% / 6 * 12); }
+.ratio-6-13 { padding-top: calc(100% / 6 * 13); }
+.ratio-6-14 { padding-top: calc(100% / 6 * 14); }
+.ratio-6-15 { padding-top: calc(100% / 6 * 15); }
+.ratio-6-16 { padding-top: calc(100% / 6 * 16); }
+
+.ratio-7-1 { padding-top: calc(100% / 7 * 1); }
+.ratio-7-2 { padding-top: calc(100% / 7 * 2); }
+.ratio-7-3 { padding-top: calc(100% / 7 * 3); }
+.ratio-7-4 { padding-top: calc(100% / 7 * 4); }
+.ratio-7-5 { padding-top: calc(100% / 7 * 5); }
+.ratio-7-6 { padding-top: calc(100% / 7 * 6); }
+.ratio-7-7 { padding-top: calc(100% / 7 * 7); }
+.ratio-7-8 { padding-top: calc(100% / 7 * 8); }
+.ratio-7-9 { padding-top: calc(100% / 7 * 9); }
+.ratio-7-10 { padding-top: calc(100% / 7 * 10); }
+.ratio-7-11 { padding-top: calc(100% / 7 * 11); }
+.ratio-7-12 { padding-top: calc(100% / 7 * 12); }
+.ratio-7-13 { padding-top: calc(100% / 7 * 13); }
+.ratio-7-14 { padding-top: calc(100% / 7 * 14); }
+.ratio-7-15 { padding-top: calc(100% / 7 * 15); }
+.ratio-7-16 { padding-top: calc(100% / 7 * 16); }
+
+.ratio-8-1 { padding-top: calc(100% / 8 * 1); }
+.ratio-8-2 { padding-top: calc(100% / 8 * 2); }
+.ratio-8-3 { padding-top: calc(100% / 8 * 3); }
+.ratio-8-4 { padding-top: calc(100% / 8 * 4); }
+.ratio-8-5 { padding-top: calc(100% / 8 * 5); }
+.ratio-8-6 { padding-top: calc(100% / 8 * 6); }
+.ratio-8-7 { padding-top: calc(100% / 8 * 7); }
+.ratio-8-8 { padding-top: calc(100% / 8 * 8); }
+.ratio-8-9 { padding-top: calc(100% / 8 * 9); }
+.ratio-8-10 { padding-top: calc(100% / 8 * 10); }
+.ratio-8-11 { padding-top: calc(100% / 8 * 11); }
+.ratio-8-12 { padding-top: calc(100% / 8 * 12); }
+.ratio-8-13 { padding-top: calc(100% / 8 * 13); }
+.ratio-8-14 { padding-top: calc(100% / 8 * 14); }
+.ratio-8-15 { padding-top: calc(100% / 8 * 15); }
+.ratio-8-16 { padding-top: calc(100% / 8 * 16); }
+
+.ratio-9-1 { padding-top: calc(100% / 9 * 1); }
+.ratio-9-2 { padding-top: calc(100% / 9 * 2); }
+.ratio-9-3 { padding-top: calc(100% / 9 * 3); }
+.ratio-9-4 { padding-top: calc(100% / 9 * 4); }
+.ratio-9-5 { padding-top: calc(100% / 9 * 5); }
+.ratio-9-6 { padding-top: calc(100% / 9 * 6); }
+.ratio-9-7 { padding-top: calc(100% / 9 * 7); }
+.ratio-9-8 { padding-top: calc(100% / 9 * 8); }
+.ratio-9-9 { padding-top: calc(100% / 9 * 9); }
+.ratio-9-10 { padding-top: calc(100% / 9 * 10); }
+.ratio-9-11 { padding-top: calc(100% / 9 * 11); }
+.ratio-9-12 { padding-top: calc(100% / 9 * 12); }
+.ratio-9-13 { padding-top: calc(100% / 9 * 13); }
+.ratio-9-14 { padding-top: calc(100% / 9 * 14); }
+.ratio-9-15 { padding-top: calc(100% / 9 * 15); }
+.ratio-9-16 { padding-top: calc(100% / 9 * 16); }
+
+.ratio-10-1 { padding-top: calc(100% / 10 * 1); }
+.ratio-10-2 { padding-top: calc(100% / 10 * 2); }
+.ratio-10-3 { padding-top: calc(100% / 10 * 3); }
+.ratio-10-4 { padding-top: calc(100% / 10 * 4); }
+.ratio-10-5 { padding-top: calc(100% / 10 * 5); }
+.ratio-10-6 { padding-top: calc(100% / 10 * 6); }
+.ratio-10-7 { padding-top: calc(100% / 10 * 7); }
+.ratio-10-8 { padding-top: calc(100% / 10 * 8); }
+.ratio-10-9 { padding-top: calc(100% / 10 * 9); }
+.ratio-10-10 { padding-top: calc(100% / 10 * 10); }
+.ratio-10-11 { padding-top: calc(100% / 10 * 11); }
+.ratio-10-12 { padding-top: calc(100% / 10 * 12); }
+.ratio-10-13 { padding-top: calc(100% / 10 * 13); }
+.ratio-10-14 { padding-top: calc(100% / 10 * 14); }
+.ratio-10-15 { padding-top: calc(100% / 10 * 15); }
+.ratio-10-16 { padding-top: calc(100% / 10 * 16); }
+
+.ratio-11-1 { padding-top: calc(100% / 11 * 1); }
+.ratio-11-2 { padding-top: calc(100% / 11 * 2); }
+.ratio-11-3 { padding-top: calc(100% / 11 * 3); }
+.ratio-11-4 { padding-top: calc(100% / 11 * 4); }
+.ratio-11-5 { padding-top: calc(100% / 11 * 5); }
+.ratio-11-6 { padding-top: calc(100% / 11 * 6); }
+.ratio-11-7 { padding-top: calc(100% / 11 * 7); }
+.ratio-11-8 { padding-top: calc(100% / 11 * 8); }
+.ratio-11-9 { padding-top: calc(100% / 11 * 9); }
+.ratio-11-10 { padding-top: calc(100% / 11 * 10); }
+.ratio-11-11 { padding-top: calc(100% / 11 * 11); }
+.ratio-11-12 { padding-top: calc(100% / 11 * 12); }
+.ratio-11-13 { padding-top: calc(100% / 11 * 13); }
+.ratio-11-14 { padding-top: calc(100% / 11 * 14); }
+.ratio-11-15 { padding-top: calc(100% / 11 * 15); }
+.ratio-11-16 { padding-top: calc(100% / 11 * 16); }
+
+.ratio-12-1 { padding-top: calc(100% / 12 * 1); }
+.ratio-12-2 { padding-top: calc(100% / 12 * 2); }
+.ratio-12-3 { padding-top: calc(100% / 12 * 3); }
+.ratio-12-4 { padding-top: calc(100% / 12 * 4); }
+.ratio-12-5 { padding-top: calc(100% / 12 * 5); }
+.ratio-12-6 { padding-top: calc(100% / 12 * 6); }
+.ratio-12-7 { padding-top: calc(100% / 12 * 7); }
+.ratio-12-8 { padding-top: calc(100% / 12 * 8); }
+.ratio-12-9 { padding-top: calc(100% / 12 * 9); }
+.ratio-12-10 { padding-top: calc(100% / 12 * 10); }
+.ratio-12-11 { padding-top: calc(100% / 12 * 11); }
+.ratio-12-12 { padding-top: calc(100% / 12 * 12); }
+.ratio-12-13 { padding-top: calc(100% / 12 * 13); }
+.ratio-12-14 { padding-top: calc(100% / 12 * 14); }
+.ratio-12-15 { padding-top: calc(100% / 12 * 15); }
+.ratio-12-16 { padding-top: calc(100% / 12 * 16); }
+
+.ratio-13-1 { padding-top: calc(100% / 13 * 1); }
+.ratio-13-2 { padding-top: calc(100% / 13 * 2); }
+.ratio-13-3 { padding-top: calc(100% / 13 * 3); }
+.ratio-13-4 { padding-top: calc(100% / 13 * 4); }
+.ratio-13-5 { padding-top: calc(100% / 13 * 5); }
+.ratio-13-6 { padding-top: calc(100% / 13 * 6); }
+.ratio-13-7 { padding-top: calc(100% / 13 * 7); }
+.ratio-13-8 { padding-top: calc(100% / 13 * 8); }
+.ratio-13-9 { padding-top: calc(100% / 13 * 9); }
+.ratio-13-10 { padding-top: calc(100% / 13 * 10); }
+.ratio-13-11 { padding-top: calc(100% / 13 * 11); }
+.ratio-13-12 { padding-top: calc(100% / 13 * 12); }
+.ratio-13-13 { padding-top: calc(100% / 13 * 13); }
+.ratio-13-14 { padding-top: calc(100% / 13 * 14); }
+.ratio-13-15 { padding-top: calc(100% / 13 * 15); }
+.ratio-13-16 { padding-top: calc(100% / 13 * 16); }
+
+.ratio-14-1 { padding-top: calc(100% / 14 * 1); }
+.ratio-14-2 { padding-top: calc(100% / 14 * 2); }
+.ratio-14-3 { padding-top: calc(100% / 14 * 3); }
+.ratio-14-4 { padding-top: calc(100% / 14 * 4); }
+.ratio-14-5 { padding-top: calc(100% / 14 * 5); }
+.ratio-14-6 { padding-top: calc(100% / 14 * 6); }
+.ratio-14-7 { padding-top: calc(100% / 14 * 7); }
+.ratio-14-8 { padding-top: calc(100% / 14 * 8); }
+.ratio-14-9 { padding-top: calc(100% / 14 * 9); }
+.ratio-14-10 { padding-top: calc(100% / 14 * 10); }
+.ratio-14-11 { padding-top: calc(100% / 14 * 11); }
+.ratio-14-12 { padding-top: calc(100% / 14 * 12); }
+.ratio-14-13 { padding-top: calc(100% / 14 * 13); }
+.ratio-14-14 { padding-top: calc(100% / 14 * 14); }
+.ratio-14-15 { padding-top: calc(100% / 14 * 15); }
+.ratio-14-16 { padding-top: calc(100% / 14 * 16); }
+
+.ratio-15-1 { padding-top: calc(100% / 15 * 1); }
+.ratio-15-2 { padding-top: calc(100% / 15 * 2); }
+.ratio-15-3 { padding-top: calc(100% / 15 * 3); }
+.ratio-15-4 { padding-top: calc(100% / 15 * 4); }
+.ratio-15-5 { padding-top: calc(100% / 15 * 5); }
+.ratio-15-6 { padding-top: calc(100% / 15 * 6); }
+.ratio-15-7 { padding-top: calc(100% / 15 * 7); }
+.ratio-15-8 { padding-top: calc(100% / 15 * 8); }
+.ratio-15-9 { padding-top: calc(100% / 15 * 9); }
+.ratio-15-10 { padding-top: calc(100% / 15 * 10); }
+.ratio-15-11 { padding-top: calc(100% / 15 * 11); }
+.ratio-15-12 { padding-top: calc(100% / 15 * 12); }
+.ratio-15-13 { padding-top: calc(100% / 15 * 13); }
+.ratio-15-14 { padding-top: calc(100% / 15 * 14); }
+.ratio-15-15 { padding-top: calc(100% / 15 * 15); }
+.ratio-15-16 { padding-top: calc(100% / 15 * 16); }
+
+.ratio-16-1 { padding-top: calc(100% / 16 * 1); }
+.ratio-16-2 { padding-top: calc(100% / 16 * 2); }
+.ratio-16-3 { padding-top: calc(100% / 16 * 3); }
+.ratio-16-4 { padding-top: calc(100% / 16 * 4); }
+.ratio-16-5 { padding-top: calc(100% / 16 * 5); }
+.ratio-16-6 { padding-top: calc(100% / 16 * 6); }
+.ratio-16-7 { padding-top: calc(100% / 16 * 7); }
+.ratio-16-8 { padding-top: calc(100% / 16 * 8); }
+.ratio-16-9 { padding-top: calc(100% / 16 * 9); }
+.ratio-16-10 { padding-top: calc(100% / 16 * 10); }
+.ratio-16-11 { padding-top: calc(100% / 16 * 11); }
+.ratio-16-12 { padding-top: calc(100% / 16 * 12); }
+.ratio-16-13 { padding-top: calc(100% / 16 * 13); }
+.ratio-16-14 { padding-top: calc(100% / 16 * 14); }
+.ratio-16-15 { padding-top: calc(100% / 16 * 15); }
+.ratio-16-16 { padding-top: calc(100% / 16 * 16); }

@@ -1,0 +1,12 @@
+{
+	"tpl"   :   "main",
+	"data"  : {
+		"content"   :   [
+			{
+				"tpl": "form",
+				"name": "login",
+				"data": []
+			}
+		]
+	}
+}
