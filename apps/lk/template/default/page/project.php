@@ -10,26 +10,27 @@
 $project = $this->Fw->Projects->get($data['id']);
 ?>
 
+<section>
+    <div class="limit">
+        <div class="part">
+            <div class="part-min">
+                <a href="<?= APP_PREFIX; ?>" class="btn">Все проекты</a>
+            </div>
+            <div class="part-min">
+                <h1>Проект: "<?=$project['title'];?>"</h1>
+            </div>
+            <div class="part-min">
+                <form method="post">
+                    <input type="hidden" name="request" value="projectDelete">
+                    <input type="hidden" name="id" value="<?= $data['id']; ?>">
+                    <input type="hidden" name="redirect" value="<?= APP_PREFIX; ?>">
+                    <button type="submit">Удалить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 
-<a href="<?= APP_PREFIX; ?>"><button>Все проекты</button></a>
-
-
-<h1>Проект: "<?=$project['title'];?>"</h1>
 
 
 
-<?php
-//debug($data);
-//debug($this->Fw->TemplateManager->getTemplatesForApp('lk'));
-?>
-
-
-
-
-
-<form method="post" style="display: grid; grid-gap: 1rem; width: auto;">
-    <input type="hidden" name="request" value="projectDelete">
-    <input type="hidden" name="id" value="<?= $data['id']; ?>">
-    <input type="hidden" name="redirect" value="<?= APP_PREFIX; ?>">
-    <button type="submit">Удалить</button>
-</form>

@@ -22,11 +22,18 @@ class Assets
 	 */
 	public function __construct()
 	{
-		$this->setStyle('base.css','base.css',-1);
-		$this->setStyle('main.css','main.css',1);
-		$this->setScript('base.js','base.js',0,['jquery']);
-		$this->setScript('main.js','main.js',1,['jquery']);
-		$this->setScript('jquery','jquery.js',-1);
+		$this->defineAssetsUri();
+		$this->setStyle('base',ASSETS_SRC_URI.'/style/base.css',-1);
+
+		$this->setScript('base',ASSETS_SRC_URI.'/script/base.js',0,['jquery']);
+		$this->setScript('jquery',ASSETS_SRC_URI.'/script/jquery-3.4.1.min.js',-1);
+	}
+
+
+	private function defineAssetsUri()
+	{
+		$assetsSrcUri = str_replace('\\', '/', str_replace(getcwd(),'',__DIR__)).'/src';
+		define('ASSETS_SRC_URI',$assetsSrcUri);
 	}
 
 
@@ -43,12 +50,21 @@ class Assets
 		if ($this->has($type,$id))
 			throw new Exception("\"$id\" $type already exists");
 
-		$this->list[$id] = [
-			'type'          => $type,
-			'url'         => $url,
+		$this->list[$type][$id] = [
+			'url'           => $url,
 			'dependencies'  => $dependencies,
-			'priority'       => $priority,
+			'priority'      => $priority,
 		];
+	}
+
+	/**
+	 * @param string $type
+	 * @param string $id
+	 * @return bool
+	 */
+	private function has(string $type, string $id)
+	{
+		return isset($this->list[$type][$id]);
 	}
 
 
@@ -83,13 +99,19 @@ class Assets
 	 */
 	public function get()
 	{
+//		debug($this->list);
 		$result = [[],[]];
-		foreach ($this->prepare() as $itemId => $priority)
+		$prepare = $this->prepare();
+		foreach ($prepare as $type => $items)
 		{
-			$item = $this->list[$itemId];
-			unset($item['dependencies']);
-			unset($item['preload']);
-			$result[($priority >= 0 ? 1 : 0)][] = $item;
+			foreach ($items as $id => $priority)
+			{
+				$item = $this->list[$type][$id];
+				$item['type'] = $type;
+				unset($item['dependencies']);
+				unset($item['preload']);
+				$result[($priority >= 0 ? 1 : 0)][] = $item;
+			}
 		}
 		ksort($result);
 		return $result;
@@ -101,27 +123,30 @@ class Assets
 	private function prepare()
 	{
 		$this->prepare = [];
-		foreach ($this->list as $id => $item)
+		foreach ($this->list as $type => $items)
 		{
-			$this->prepareItem($id, $item['dependencies'], $item['priority']);
+			foreach ($items as $id => $item)
+			{
+				$this->prepareItem($type, $id, $item['dependencies'], $item['priority']);
+			}
 		}
-		asort($this->prepare);
 
 		return $this->prepare;
 	}
 
 	/**
+	 * @param string $type
 	 * @param string $id
 	 * @param array $dependencies
 	 * @param int $priority
 	 */
-	private function prepareItem(string $id, array $dependencies, int $priority = 0)
+	private function prepareItem(string $type, string $id, array $dependencies, int $priority = 0)
 	{
 		if (is_array($dependencies) && !empty($dependencies))
 		{
 			foreach ($dependencies as $dependencyId)
 			{
-				$dependency = $this->list[$dependencyId];
+				$dependency = $this->list[$type][$dependencyId];
 
 //				$dependencyPreload = $preload
 //					|| $dependency['preload']
@@ -129,26 +154,16 @@ class Assets
 				$dependencyPriority = min(
 					$priority,
 					$dependency['priority'],
-					(isset($this->prepare[$dependencyId]) ? $this->prepare[$dependencyId] : 1)
+					(isset($this->prepare[$type][$dependencyId]) ? $this->prepare[$type][$dependencyId] : 1)
 				);
-				$this->prepareItem($dependencyId, $dependency['dependencies'], $dependencyPriority);
+				$this->prepareItem($type, $dependencyId, $dependency['dependencies'], $dependencyPriority);
 			}
 		}
 		$itemPriority = min(
 			$priority,
-			$this->list[$id]['priority'],
-			(isset($this->prepare[$id]) ? $this->prepare[$id] : 1)
+			$this->list[$type][$id]['priority'],
+			(isset($this->prepare[$type][$id]) ? $this->prepare[$type][$id] : 1)
 		);
-		$this->prepare[$id] = $itemPriority;
-	}
-
-	/**
-	 * @param string $type
-	 * @param string $id
-	 * @return bool
-	 */
-	private function has(string $type, string $id)
-	{
-		return isset($this->list[$type][$id]);
+		$this->prepare[$type][$id] = $itemPriority;
 	}
 }

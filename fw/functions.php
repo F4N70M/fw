@@ -205,7 +205,7 @@ echo /** @lang text */
 		max-height: 50vh;
 		overflow:auto;
 	">
-		<pre style="margin: 0; padding: .5rem 0; font-size: 1rem; text-align: left;">';
+		<pre style="margin: 0; padding: .5rem 0; font-size: .75rem; text-align: left;">';
 
 	foreach ($args as $key => $arg)
 	{
@@ -258,7 +258,7 @@ echo /** @lang text */
 		color: rgb(136, 136, 136);
 		font-size: .8rem;
 	">
-		<pre style="margin: 0; padding: .5rem 0; font-size: 1rem; text-align: left;">';
+		<pre style="margin: 0; padding: .5rem 0; font-size: .75rem; text-align: left;">';
 	$i = 0;
 	foreach ($debug as $key => $backtrace)
 	{

@@ -5,22 +5,33 @@
  * Date: 03.02.2020
  */
 ?>
+<section>
+    <div class="limit part">
+        <div class="part-min">
+            <h1 class="ta-c"><?=$data['title'];?></h1>
+        </div>
+        <div class="part-min">
+            <a href="<?= APP_PREFIX; ?>/new-project" class="btn">Создать проект</a>
+        </div>
+        <div class="part-min">
+            <h2>Мои проекты</h2>
+        </div>
+        <div class="part-min">
+	        <?php
+	        $projects = $this->Fw->Projects->getUserProjects($this->Fw->Account->getCurrent()['id']);
+	        ?>
+            <div class="d-g gg-1">
+		        <?php foreach ($projects as $project): ?>
+                    <a href="<?= APP_PREFIX; ?>/project-<?= $project['id']; ?>" class="btn"><?= $project['title']; ?></a>
+		        <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</section>
 
-<h1><?=$data['title'];?></h1>
 
-<a href="<?= APP_PREFIX; ?>/new-project"><button>Создать</button></a>
-<?php
-$projects = $this->Fw->Projects->getUserProjects($this->Fw->Account->getCurrent()['id']);
-// debug($projects);
-?>
-<h3>Проекты</h3>
-    <ul>
-<?php foreach ($projects as $project): ?>
-    <li>
-        <a href="<?= APP_PREFIX; ?>/project-<?= $project['id']; ?>"><button><?= $project['title']; ?></button></a>
-    </li>
-<?php endforeach; ?>
-    </ul>
+
+
 <?php
 //debug($data);
 //debug($this->Fw->TemplateManager->getTemplatesForApp('lk'));
