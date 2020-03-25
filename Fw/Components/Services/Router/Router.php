@@ -28,7 +28,8 @@ class Router
 		$app = new $config['controller']($fw);
 
 		//TODO: Сделать проверку аргументов рефлексии метода и упорядочивание по ключам
-		call_user_func_array(array($app, $config['method']), $config['arguments']);
+		if (isset($config['method']))
+			call_user_func_array(array($app, $config['method']), $config['arguments']);
 
 		return $app;
 	}
@@ -112,12 +113,14 @@ class Router
 
 			if (preg_match($pattern, $uri, $matches))
 			{
-				if (is_string($route['method']))
+				if (isset($route['method']) && is_string($route['method']))
 					$route['method'] = preg_replace($pattern,$route['method'],$uri);
-				foreach ($route['arguments'] as $key => $argument)
+				if (isset($route['arguments']) && is_array($route['arguments']))
 				{
-					if (is_string($argument))
-						$route['arguments'][$key] = preg_replace($pattern,$argument,$uri);
+					foreach ($route['arguments'] as $key => $argument) {
+						if (is_string($argument))
+							$route['arguments'][$key] = preg_replace($pattern, $argument, $uri);
+					}
 				}
 				$appPrefix =  !empty(($route['app']['prefix'])) ? '/'.($route['app']['prefix']) : null;
 				define('APP_PREFIX', ($appPrefix));

@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * Project: edkon
+ * Treat: edkon
  * Date: 03.11.2019
  * Time: 6:21
  */
@@ -9,8 +9,8 @@
 namespace Apps\Lk\Controller;
 
 
-use Apps\Lk\Model\Main_Model;
-use Apps\Lk\View\Main_View;
+use Apps\Lk\Model\Lk_Model;
+use Apps\Lk\View\Lk_View;
 use Exception;
 use Fw\Components\Interfaces\iAppController;
 use Fw\Core;
@@ -28,8 +28,8 @@ class Auth_Controller implements iAppController
 	public function __construct(Core $Fw)
 	{
 		$this->Fw = $Fw;
-		$this->model = new Main_Model($this->Fw);
-		$this->view = new Main_View($this->Fw, $this->model);
+		$this->model = new Lk_Model($this->Fw);
+		$this->view = new Lk_View($this->Fw, $this->model);
 
 		// Обработка запросов
 		$this->request = $this->request();

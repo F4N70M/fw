@@ -1,17 +1,17 @@
 <?php
 /**
- * Project: F4N70M
+ * Treat: F4N70M
  * Version: 0.1
  * Date: 14.01.2020
  */
 
-namespace Apps\LK\View;
+namespace Apps\Crm\View;
 
 
 use Fw\Core;
 use Exception;
 
-class Main_View
+class Lk_View
 {
 	/**
 	 * @var Core
@@ -21,7 +21,7 @@ class Main_View
 
 
 	/**
-	 * Main_View constructor.
+	 * Lk_View constructor.
 	 * @param Core $Fw
 	 * @param $model
 	 */

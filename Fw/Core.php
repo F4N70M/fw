@@ -47,27 +47,33 @@ class Core
 
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @return mixed
-	 * @throws Exception
 	 */
-	public function __get($name)
+	public function __get(string $name)
 	{
 		return $this->container->get($name);
 	}
 
 
 	/**
-	 * @param $name
-	 * @param $value
+	 * @param string $name
+	 * @param array $parameters
 	 * @return mixed
-	 * @throws Exception
 	 */
-	public function __set($name,$value)
+	public function __call(string $name, array $parameters = [])
 	{
-		return $this->container->set($name, $value);
-//		return $this->container[$name] = $value;
+		return $this->container->get($name, $parameters);
+	}
 
+
+	/**
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	public function __set(string $name, $value)
+	{
+		$this->container->set($name, $value);
 	}
 
 
@@ -131,6 +137,8 @@ class Core
 
 		foreach ($apps as $app => $appConfig)
 		{
+			if (!$appConfig['include']) continue;
+
 			$appConfigPath = APPS_DIR.'/'.ucfirst($app).'/config.json';
 
 			if (file_exists($appConfigPath))

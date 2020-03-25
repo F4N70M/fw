@@ -1,12 +1,13 @@
 <?php
 /**
- * Project: F4N70M
+ * Treat: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */
 
 namespace Fw\Di;
 
+use Closure;
 use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
@@ -74,10 +75,13 @@ class Container /*implements \ArrayAccess*/
 
 		$definition = $this->definitions[$id];
 
-		if ($definition instanceof \Closure)
+		if ($definition instanceof Closure)
 		{
-			$this->objects[$id] = $definition($this, $parameters);
-			$result = $this->objects[$id];
+			$object = $definition($this, $parameters);
+//			debug($id, $this->singletons[$id]);
+			if ($this->singletons[$id])
+				$this->objects[$id] = $object;
+			$result = $object;
 		}
 		else
 		{

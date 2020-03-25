@@ -7,94 +7,116 @@
 			"arguments"     :	[]
 		},
 		""    :	{
-			"controller"    :	"Main_Controller",
+			"controller"    :	"Lk_Controller",
 			"method"        :	"indexAction",
 			"arguments"     :   []
 		},
-		"projects"    :	{
-			"controller"    :	"Main_Controller",
-			"method"        :	"projectsAction",
+		"clients"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"clientsAction",
 			"arguments"     :   []
 		},
-		"new-project"    :	{
-			"controller"    :	"Main_Controller",
-			"method"        :	"projectCreateAction",
+		"new-client"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"clientNewAction",
 			"arguments"     :   []
+		},
+		"projects-([^/]+)"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"projectsAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"new-project-([^/]+)"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"projectNewAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
 		},
 		"project-([^/]+)"    :	{
-			"controller"    :	"Main_Controller",
+			"controller"    :	"Lk_Controller",
 			"method"        :	"projectAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
 		"services-([^/]+)"  :	{
-			"controller"    :	"Main_Controller",
+			"controller"    :	"Lk_Controller",
 			"method"        :	"servicesAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
-		"service-([^/]+)"    :	{
-			"controller"    :	"Main_Controller",
-			"method"        :	"serviceAction",
+		"new-service-([^/]+)"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"serviceNewAction",
 			"arguments"     :   {
-				"project"   : "$1",
-				"id"        : "$2"
+				"id"        : "$1"
 			}
 		},
-		"new-service"    :	{
-			"controller"    :	"Main_Controller",
-			"method"        :	"serviceCreateAction",
+		"service-([^/]+)"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"serviceAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"accesses"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"accessesAction",
 			"arguments"     :   []
 		},
 		"accesses-([^/]+)"    :	{
-			"controller"    :	"Main_Controller",
+			"controller"    :	"Lk_Controller",
 			"method"        :	"accessesAction",
 			"arguments"     :   {
-				"project"   : "$1",
-				"id"        : "$2"
+				"id"        : "$1"
 			}
 		},
 		"access-([^/]+)"    :	{
-			"controller"    :	"Main_Controller",
+			"controller"    :	"Lk_Controller",
 			"method"        :	"accessAction",
 			"arguments"     :   {
-				"project"   : "$1",
-				"id"        : "$2"
+				"id"        : "$1"
 			}
 		},
 		"new-access"    :	{
-			"controller"    :	"Main_Controller",
-			"method"        :	"accessCreateAction",
+			"controller"    :	"Lk_Controller",
+			"method"        :	"accessNewAction",
 			"arguments"     :   []
 		},
-		"treats-([^/]+)"    :	{
-			"controller"    :	"Main_Controller",
-			"method"        :	"treatsAction",
+		"new-access-([^/]+)"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"accessNewAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"tickets-([^/]+)"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"ticketsAction",
 			"arguments"     :   {
 				"id"        : "$2"
 			}
 		},
-		"treat-([^/]+)"    :	{
-			"controller"    :	"Main_Controller",
-			"method"        :	"treatAction",
+		"ticket-([^/]+)"     :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"ticketAction",
 			"arguments"     :   {
-				"project"   : "$1",
-				"id"        : "$2"
+				"id"        : "$1"
 			}
 		},
-		"new-treat"    :	{
-			"controller"    :	"Main_Controller",
-			"method"        :	"treatCreateAction",
-			"arguments"     :   []
+		"new-ticket-([^/]+)"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"ticketNewAction",
+			"arguments"     :   {
+				"id"   : "$1"
+			}
 		},
 		"(.+)"    :	{
-			"controller"    :	"Main_Controller",
-			"method"        :	"direct",
-			"arguments"     :   {
-				"path"      :   "$1"
-			}
+			"controller"    :	"NotFound_Controller"
 		}
 	}
 }

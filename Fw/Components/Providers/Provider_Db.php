@@ -1,6 +1,6 @@
 <?php
 /**
- * Project: F4N70M
+ * Treat: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */
@@ -19,7 +19,7 @@ class Provider_Db
 	 */
 	public function __construct(Container $container)
 	{
-	$this->container = $container;
+		$this->container = $container;
 
 		$class = \Fw\Components\Services\Database\Connection::class;
 		$container->setAlias('Connection', $class);

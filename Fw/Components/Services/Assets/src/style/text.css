@@ -32,12 +32,10 @@
 	--h6-m: .5rem;
 }
 
-/*
-*
+a
 {
-	font-family: var(--ff-0);
+	text-decoration: none;
 }
-*/
 
 p
 {
@@ -124,6 +122,12 @@ h6:last-child
 {
 	margin-bottom: 0;
 }
+
+
+
+.fw-b { font-weight: bold; }
+.fw-n { font-weight: normal; }
+
 
 
 

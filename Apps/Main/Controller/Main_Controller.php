@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * Project: KONARD
+ * Treat: KONARD
  * Date: 03.11.2019
  * Time: 6:21
  */
@@ -29,7 +29,7 @@ class Main_Controller
 
 
 	/**
-	 * Main_Controller constructor.
+	 * Lk_Controller constructor.
 	 * @param Core $Fw
 	 */
 	public function __construct(Core $Fw)

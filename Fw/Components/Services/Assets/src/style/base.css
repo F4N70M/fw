@@ -1,8 +1,8 @@
 @import url(root.css);
 @import url(fonts.css);
-@import url(inputs.css);
 @import url(layouts.css);
 @import url(indents.css);
+@import url(inputs.css);
 @import url(grid.css);
 
 @import url(ratio.css);

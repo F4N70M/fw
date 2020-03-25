@@ -1,6 +1,6 @@
 <?php
 /**
- * Project: F4N70M
+ * Treat: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */
@@ -12,10 +12,13 @@ use Fw\Components\Services\Entity\Entity;
 
 class Users
 {
+	private $users = [];
+	private $logins = [];
+
 	private $Entity;
 
 	/**
-	 * Projects constructor.
+	 * Treats constructor.
 	 * @param Entity $Entity
 	 */
 	public function __construct(Entity $Entity)
@@ -25,13 +28,30 @@ class Users
 
 
 	/**
-	 * @param $id
+	 * @param $unique
 	 * @return array|false
 	 * @throws Exception
 	 */
-	public function get($id)
+	public function get($unique)
 	{
-		if (is_int($id))
+		$id = $this->getId($unique);
+		if (!$id)
+		{
+			$user = new User($this->Entity, $unique);
+			$this->users[$user->get('id')] = $user;
+			$this->logins[$user->get('login')] = $user->get('id');
+		}
+
+		$result = $this->users[$id];
+
+		debug($result);
+
+		return $result;
+
+
+		if (empty($id)) return false;
+
+		if (is_numeric($id))
 			$column = 'id';
 		elseif (is_string($id))
 			$column = 'login';
@@ -39,6 +59,21 @@ class Users
 			throw new Exception("Invalid argument type \"{$id}\"");
 
 		return $this->Entity->selectFirst('users',[$column=>$id]);
+	}
+
+
+	public function getId($unique)
+	{
+		if (isset($this->users[$unique]))
+		{
+			return $unique;
+		}
+		elseif (isset($this->logins[$unique]))
+		{
+			return $this->logins[$unique];
+		}
+
+		return false;
 	}
 
 	/**

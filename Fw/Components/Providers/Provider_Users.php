@@ -1,6 +1,6 @@
 <?php
 /**
- * Project: F4N70M
+ * Treat: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */
@@ -21,15 +21,40 @@ class Provider_Users
 	{
 		$this->container = $container;
 
-		$class = \Fw\Components\Modules\Users\Users::class;
-		$container->setAlias('Users', $class);
+
+		$class = \Fw\Components\Modules\Users\UserManager::class;
+		$container->setAlias('UserManager', $class);
 		$container->set(
 			$class,
-			function(\Fw\Di\Container $container) {
-				$instance = $container->getInstance(\Fw\Components\Modules\Users\Users::class);
+			function(\Fw\Di\Container $container, $parameters=[]) {
+				$instance = $container->getInstance(\Fw\Components\Modules\Users\UserManager::class, $parameters);
 				return $instance;
 			},
 			true
+		);
+
+
+//		$class = \Fw\Components\Modules\Users\Users::class;
+//		$container->setAlias('Users', $class);
+//		$container->set(
+//			$class,
+//			function(\Fw\Di\Container $container, $parameters=[]) {
+//				$instance = $container->getInstance(\Fw\Components\Modules\Users\Users::class, $parameters);
+//				return $instance;
+//			},
+//			true
+//		);
+
+
+		$class = \Fw\Components\Modules\Users\User::class;
+		$container->setAlias('User', $class);
+		$container->set(
+			$class,
+			function(\Fw\Di\Container $container, $parameters=[]) {
+				$instance = $container->getInstance(\Fw\Components\Modules\Users\User::class, $parameters);
+				return $instance;
+			},
+			false
 		);
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Project: F4N70M
+ * Treat: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */
@@ -27,8 +27,8 @@ class Provider_Entity
 
 		$this->container->set(
 			$class,
-			function(\Fw\Di\Container $container) {
-				$instance = $container->getInstance(\Fw\Components\Services\Entity\Entity::class);
+			function(\Fw\Di\Container $container, $parameters=[]) {
+				$instance = $container->getInstance(\Fw\Components\Services\Entity\Entity::class, $parameters);
 				return $instance;
 			},
 			true

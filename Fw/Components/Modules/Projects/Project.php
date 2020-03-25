@@ -1,25 +1,35 @@
 <?php
 /**
- * Project: F4N70M
+ * User: F4N70M
  * Version: 0.1
- * Date: 10.01.2020
+ * Date: 17.03.2020
  */
 
 namespace Fw\Components\Modules\Projects;
 
-class Project
+
+use Fw\Components\Modules\Tickets\TicketManager;
+use Fw\Components\Services\Entity\Entity;
+use Fw\Components\Modules\Objects\Obj;
+
+class Project extends Obj
 {
-	private $users;
-	private $id;
-	private $data;
+	protected $TicketManager;
 
-	public function __construct(Projects $users, int $id)
+	public function __construct(Entity $Entity, TicketManager $TicketManager, int $id)
 	{
-		$this->users = $users;
-		$this->id = $id;
-
-		$this->data = $this->users->get($id);
+		parent ::__construct($Entity, $id);
+		$this->where['type'] = 'project';
+		$this->TicketManager = $TicketManager;
 	}
 
 
+	public function getTickets()
+	{
+		$data = $this->info();
+//		debug($data['id']);
+		$where = ['project' => $data['id']];
+		return $this->TicketManager->get($where);
+
+	}
 }

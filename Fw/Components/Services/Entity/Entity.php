@@ -1,6 +1,6 @@
 <?php
 /**
- * Project: F4N70M
+ * Treat: F4N70M
  * Version: 0.1
  * Date: 12.01.2020
  */
@@ -16,6 +16,7 @@ use Fw\Components\Services\Database\QueryBuilder;
  */
 class Entity
 {
+	protected $entityName;
 	public $entities;
 	public $QueryBuilder;
 
@@ -52,177 +53,6 @@ class Entity
 
 
 	/**
-	 * @param mixed $where
-	 * @param array $aliases
-	 * @return array
-	 */
-	private function where($where, array $aliases = [])
-	{
-		$result = [];
-		if (is_array($where))
-		{
-			foreach ($where as $key => $value)
-			{
-				if (is_array($value))
-				{
-					$value = $this->where($value, $aliases);
-				}
-				$result[(is_string($key) && isset($aliases[$key]) ? $aliases[$key] : $key)] = $value;
-			}
-		}
-		else
-		{
-			$result = $where;
-		}
-		unset($where);
-		return $result;
-	}
-
-
-	/**
-	 * @param string $entity
-	 * @return bool
-	 */
-	private function hasTypes(string $entity)
-	{
-		return
-			in_array('type', $this->entities[$entity]['columns']) &&
-			in_array('types', $this->entities[$entity]['tables']);
-	}
-
-
-	/**
-	 * @param string $entity
-	 * @param $type
-	 * @return false|int|string
-	 */
-	private function getTypeId(string $entity, $type)
-	{
-		return (!is_numeric($type))
-			? $data['type'] = array_search($type, $this->entities[$entity]['types'])
-			: $type;
-	}
-
-
-	/**
-	 * @param string $entity
-	 * @return bool
-	 */
-	private function hasMetaTables(string $entity)
-	{
-		return
-			in_array('keys', $this->entities[$entity]['tables']) &&
-			in_array('meta', $this->entities[$entity]['tables']);
-	}
-
-
-	/**
-	 * @param string $entity
-	 * @param array $columns
-	 * @return bool
-	 */
-	private function NameNeedsCreate(string $entity, array $columns)
-	{
-		return
-			in_array('title',$this->entities[$entity]['columns']) &&
-			in_array('name',$this->entities[$entity]['columns']) &&
-			(
-				!isset($columns['name']) ||
-				(
-					isset($columns['name']) &&
-					empty($columns['name'])
-				)
-			);
-	}
-
-
-	/**
-	 * @param string $entity
-	 * @param string $title
-	 * @return string
-	 * @throws Exception
-	 */
-	private function createUniqueNameFromTitle(string $entity, string $title)
-	{
-		$name = $this->titleToName($title);
-		$count = 0;
-
-		do
-		{
-			$result = $name . ($count > 0 ? '-'.$count : null);
-			$issetName = (bool) $this->QueryBuilder
-				->select()
-				->from($entity)
-				->where(['name'=>$result])
-				->result();
-			$count++;
-		}
-		while (!empty($issetName));
-
-		return $result;
-	}
-
-
-	/**
-	 * @param string $entity
-	 * @param int $itemId
-	 * @param array $columns
-	 * @param array $data
-	 * @throws Exception
-	 */
-	private function insertMetaValues(string $entity, int $itemId, array $columns, array $data)
-	{
-		foreach ($columns as $column => $value)
-		{
-			if (isset($data[$column]))
-				$value = $data[$column];
-
-			if (!empty($value))
-			{
-				$metaValues = [
-					'item_id'   =>  $itemId,
-					'meta_key'  =>  $column,
-					'meta_value'=>  $value
-				];
-
-				$this->QueryBuilder
-					->insert()
-					->into($entity.'_meta')
-					->values($metaValues)
-					->result();
-			}
-		}
-	}
-
-
-	/**
-	 * @param string $entity
-	 * @param int $type
-	 * @return array
-	 * @throws Exception
-	 */
-	private function getAllMetaColumns(string $entity, int $type=null)
-	{
-		$metaColumns = [];
-
-		$where = null;
-		if ($type == null)
-			$where = ['type'=>null,['or','type'=>$type]];
-
-		$metaColumnsInfo = $this->QueryBuilder
-			->select()
-			->from($entity.'_keys')
-			->where($where)
-			->result();
-
-		foreach ($metaColumnsInfo as $metaColumnInfo)
-			$metaColumns[$metaColumnInfo['meta_key']] = $metaColumnInfo['default_value'];
-
-		return $metaColumns;
-	}
-
-
-	/**
 	 * @param string $entity
 	 * @param array $data
 	 * @return int
@@ -235,7 +65,7 @@ class Entity
 			$data['type'] = $this->getTypeId($entity, $data['type']);
 
 			if ($this->hasMetaTables($entity))
-				$metaColumns = $this->getAllMetaColumns($entity, $data['type']);
+				$metaColumns = $this->getMetaColumns($entity, $data['type']);
 		}
 
 		$columns = $this->entities[$entity]['columns'];
@@ -248,7 +78,18 @@ class Entity
 		}
 
 		if ($this->NameNeedsCreate($entity, $queryColumns))
-			$queryColumns['name'] = $this->createUniqueNameFromTitle($entity, $queryColumns['title']);
+		{
+			if (!empty($queryColumns['title'])) :
+				$name = $this->titleToName($queryColumns['title']);
+			elseif(isset($data['type'])) :
+				$name = $this->entities[$entity]['types'][$data['type']];
+			else :
+				$name = $entity;
+			endif;
+
+			$queryColumns['name'] = $this->createUniqueNameFromTitle($entity, $name);
+		}
+
 
 		/** @var int $resultID */
 		$resultID = $this->QueryBuilder
@@ -341,7 +182,7 @@ class Entity
 	/**
 	 * @param string $entity
 	 * @param array|null $where
-	 * @return array
+	 * @return bool
 	 * @throws Exception
 	 */
 	public function delete(string $entity, array $where=null)
@@ -349,10 +190,17 @@ class Entity
 		if ($this->hasMetaTables($entity))
 		{
 			$list = $this->select($entity, $where);
+
 			if (!empty($list))
 			{
 				foreach ($list as $item)
 				{
+					$this->QueryBuilder
+						-> delete()
+						-> from($entity)
+						-> where(['id'=>$item['id']])
+						-> result();
+
 					$this->QueryBuilder
 						-> delete()
 						-> from($entity . "_meta")
@@ -361,14 +209,15 @@ class Entity
 				}
 			}
 		}
-
-		$result = $this->QueryBuilder
-			->delete()
-			->from($entity)
-			->where($where)
-			->result();
-
-		return $result;
+		else
+		{
+			$this->QueryBuilder
+				->delete()
+				->from($entity)
+				->where($where)
+				->result();
+		}
+		return true;
 	}
 
 
@@ -475,16 +324,21 @@ class Entity
 		{
 			foreach ($result as $key => $item)
 			{
+//				debug($typesColumns[null],$typesFlip[$item['type']],$typesColumns);
 				foreach ($item as $column => $value)
 				{
 					if(
-						isset($typesColumns[null]) &&
-						!in_array($column,$typesColumns[null]) &&
-						isset($item['type']) &&
-						isset($typesFlip) &&
-						isset($typesFlip[$item['type']]) &&
-						isset($typesColumns[$typesFlip[$item['type']]]) &&
-						!in_array($column,$typesColumns[$typesFlip[$item['type']]])
+						!((
+							isset($typesColumns[null]) &&
+							in_array($column,$typesColumns[null])
+						) ||
+						(
+							isset($item['type']) &&
+							isset($typesFlip) &&
+							isset($typesFlip[$item['type']]) &&
+							isset($typesColumns[$typesFlip[$item['type']]]) &&
+							in_array($column,$typesColumns[$typesFlip[$item['type']]])
+						))
 					)
 					{
 						unset($result[$key][$column]);
@@ -492,7 +346,6 @@ class Entity
 				}
 			}
 		}
-
 		return $result;
 
 		/*
@@ -537,6 +390,162 @@ class Entity
 		WHERE
 			meta0.meta_value = 1
 		 */
+	}
+
+
+	/**
+	 * @param mixed $where
+	 * @param array $aliases
+	 * @return array
+	 */
+	private function where($where, array $aliases = [])
+	{
+		$result = [];
+		if (is_array($where))
+		{
+			foreach ($where as $key => $value)
+			{
+				if (is_array($value))
+				{
+					$value = $this->where($value, $aliases);
+				}
+				$result[(is_string($key) && isset($aliases[$key]) ? $aliases[$key] : $key)] = $value;
+			}
+		}
+		else
+		{
+			$result = $where;
+		}
+		unset($where);
+		return $result;
+	}
+
+
+	/**
+	 * @param string $entity
+	 * @return bool
+	 */
+	private function hasTypes(string $entity)
+	{
+		return
+			in_array('type', $this->entities[$entity]['columns']) &&
+			in_array('types', $this->entities[$entity]['tables']);
+	}
+
+
+	/**
+	 * @param string $entity
+	 * @param $type
+	 * @return false|int|string
+	 */
+	private function getTypeId(string $entity, $type)
+	{
+		return (!is_numeric($type))
+			? $data['type'] = array_search($type, $this->entities[$entity]['types'])
+			: $type;
+	}
+
+
+	/**
+	 * @param string $entity
+	 * @return bool
+	 */
+	private function hasMetaTables(string $entity)
+	{
+		return
+			in_array('keys', $this->entities[$entity]['tables']) &&
+			in_array('meta', $this->entities[$entity]['tables']);
+	}
+
+
+	/**
+	 * @param string $entity
+	 * @param array $columns
+	 * @return bool
+	 */
+	private function NameNeedsCreate(string $entity, array $columns)
+	{
+		return
+			in_array('title',$this->entities[$entity]['columns']) &&
+			in_array('name',$this->entities[$entity]['columns']) &&
+			(
+				!isset($columns['name']) ||
+				(
+					isset($columns['name']) &&
+					empty($columns['name'])
+				)
+			);
+	}
+
+
+	/**
+	 * @param string $entity
+	 * @param string $name
+	 * @return string
+	 * @throws Exception
+	 */
+	private function createUniqueNameFromTitle(string $entity, string $name)
+	{
+		$count = 0;
+
+		do
+		{
+			$result = $name . ($count > 0 ? '-'.$count : null);
+			$issetName = (bool) $this->QueryBuilder
+				->select()
+				->from($entity)
+				->where(['name'=>$result])
+				->result();
+			$count++;
+		}
+		while (!empty($issetName));
+
+		return $result;
+	}
+
+
+	/**
+	 * @param string $entity
+	 * @param int $itemId
+	 * @param array $columns
+	 * @param array $data
+	 * @throws Exception
+	 */
+	private function insertMetaValues(string $entity, int $itemId, array $columns, array $data)
+	{
+		foreach ($columns as $column => $value)
+		{
+			if (isset($data[$column]))
+				$value = $data[$column];
+
+			if (!empty($value))
+			{
+				$metaValues = [
+					'item_id'   =>  $itemId,
+					'meta_key'  =>  $column,
+					'meta_value'=>  $value
+				];
+
+				$this->QueryBuilder
+					->insert()
+					->into($entity.'_meta')
+					->values($metaValues)
+					->result();
+			}
+		}
+	}
+
+
+	/**
+	 * @param string $entity
+	 * @param int $type
+	 * @return array
+	 * @throws Exception
+	 */
+	private function getMetaColumns(string $entity, int $type=null)
+	{
+		$metaColumns = $this->entities[$entity]['metaColumns'][$type];
+		return $metaColumns;
 	}
 
 
@@ -586,8 +595,31 @@ class Entity
 				foreach ($typesResults as $typesResult)
 				{
 					$result[$entity]['types'][$typesResult['id']] = $typesResult['name'];
+
 				}
+
+
+				$metaKeysResult = $this->QueryBuilder->select()->from($entity.'_keys')->result();
+				$metaColumns = [];
+				foreach ($metaKeysResult as $metaKey)
+				{
+					if ($metaKey['type'] == null)
+					{
+						$metaColumns[null][$metaKey['meta_key']] = $metaKey['default_value'];
+						foreach ($result[$entity]['types'] as $type => $name)
+						{
+							$metaColumns[$type][$metaKey['meta_key']] = $metaKey['default_value'];
+						}
+					}
+					else
+					{
+						$metaColumns[$metaKey['type']][$metaKey['meta_key']] = $metaKey['default_value'];
+					}
+				}
+				$result[$entity]['metaColumns'] = $metaColumns;
 			}
+
+
 		}
 
 		return $result;
@@ -620,12 +652,12 @@ class Entity
 	 */
 	public function titleToName(string $string)
 	{
-		$trinslit = [
+		$translit = [
 			'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'e', 'ё' => 'e', 'ж' => 'zj', 'з' => 'z',
 			'и' => 'i', 'й' => 'i', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o', 'п' => 'p', 'р' => 'r',
 			'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'kh', 'ц' => 'z', 'ч' => 'ch', 'ш' => 'sh',
 			'щ' => 'sch','э' => 'e', 'ю' => 'yu', 'я' => 'ya', ' ' => '-', '–' => '-', '—' => '-', '_' => '-'];
-		foreach ($trinslit as $key => $value)
+		foreach ($translit as $key => $value)
 		{
 			$pattern = '#['.$key.']#ui';
 			$string = preg_replace($pattern,$value,$string);

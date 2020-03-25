@@ -24,6 +24,16 @@
 {
     justify-content: space-between;
 }
+.jc-l
+{
+    justify-content: left;
+}
+
+
+.ac-c
+{
+    align-content: center;
+}
 
 
 

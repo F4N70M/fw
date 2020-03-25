@@ -30,36 +30,50 @@
 		"HOST"      :   "ssl://smtp.timeweb.ru",
 		"PORT"      :   465
 	},
-	"modules"  :   {
-		"Users"     :   true,
-		"Pages"     :   true,
-		"Account"   :   true,
-		"TemplateManager"   :   true,
-		"Projects"   :   true
-	},
-	"services"  :   {
-		"Cookie"    :   true,
-		"Assets"    :   true,
-		"Db"        :   true,
-		"Entity"    :   true,
-		"Auth"      :   true,
-		"Router"    :   true,
-		"Mailer"    :   true,
-		"License"   :   false
-	},
 	"apps"  :   {
 		"Admin" :   {
 			"include"   :   true,
 			"prefix"    :   "admin"
 		},
 		"Lk"  :   {
-			"include"   :   true,
+			"include"   :   false,
 			"prefix"    :   "lk"
+		},
+		"Crm"  :   {
+			"include"   :   true,
+			"prefix"    :   "crm"
 		},
 		"Main"  :   {
 			"include"   :   true,
 			"prefix"    :   ""
 		}
+	},
+	"modules"  :   {
+		"Users"             :   true,
+		"Pages"             :   true,
+		"Account"           :   true,
+		"TemplateManager"   :   false,
+		"Clients"          :   true,
+		"Projects"          :   true,
+		"Messages"          :   true,
+		"Tickets"           :   true,
+		"Tasks"           :   true,
+		"Treats"            :   true,
+		"Accesses"          :   true,
+		"Services"          :   true
+	},
+	"services"  :   {
+		"Cookie"    :   true,
+		"Assets"    :   true,
+		"Db"        :   true,
+		"Entity"    :   true,
+		"Objects"   :   true,
+		"Auth"      :   true,
+		"Router"    :   true,
+		"Mailer"    :   true,
+		"License"   :   false,
+		"Uploader"  :   true,
+		"Relations" :   true
 	},
 	"paths" :   {
 		"root"      :	"",

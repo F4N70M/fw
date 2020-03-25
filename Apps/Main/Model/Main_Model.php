@@ -1,6 +1,6 @@
 <?php
 /**
- * Project: F4N70M
+ * Treat: F4N70M
  * Version: 0.1
  * Date: 13.01.2020
  */
@@ -20,7 +20,7 @@ class Main_Model
 
 
 	/**
-	 * Main_Model constructor.
+	 * Lk_Model constructor.
 	 * @param Core $Fw
 	 */
 	public function __construct(Core $Fw)

@@ -1,6 +1,6 @@
 <?php
 /**
- * Project: F4N70M
+ * Treat: F4N70M
  * Version: 0.1
  * Date: 03.02.2020
  */
@@ -15,7 +15,7 @@ class Pages
 	private $Entity;
 
 	/**
-	 * Projects constructor.
+	 * Treats constructor.
 	 * @param Entity $Entity
 	 */
 	public function __construct(Entity $Entity)

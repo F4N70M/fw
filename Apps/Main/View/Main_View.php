@@ -1,6 +1,6 @@
 <?php
 /**
- * Project: F4N70M
+ * Treat: F4N70M
  * Version: 0.1
  * Date: 14.01.2020
  */
@@ -21,7 +21,7 @@ class Main_View
 
 
 	/**
-	 * Main_View constructor.
+	 * Lk_View constructor.
 	 * @param Core $Fw
 	 * @param $model
 	 */
