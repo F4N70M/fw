@@ -3,7 +3,7 @@
 namespace Fw;
 	
 use \Exception;
-use \Fw\Di\Container;
+use \Fw\Components\Di\Container;
 
 /**
  * Class Core
@@ -40,15 +40,49 @@ class Core
 		$this->initModules();
 		//  Инициализация роутов
 		$this->initRoutes();
+		//  Проверка подключения БД
+		$installUri = 'admin/setup';
+//		debug(!$this->validateDatabase(), $this->Router->getCurrentUri(), $installUri);
+		if (!$this->validateDatabase() && $this->Router->getCurrentUri() != $installUri)
+		{
+			header('Location: /'.$installUri);
+			exit;
+		}
 
 
 		$this->Auth;
 	}
 
 
+
+	private function validateDatabase()
+	{
+		$validate = true;
+		$qb =  $this->Db;
+		$show = $qb->show('tables')->result();
+//		debug($qb->show('index')->result());
+		$tables = [];
+		foreach ($show as $item)
+		{
+			$tables[] = array_shift($item);
+		}
+		$sample = [
+			'objects'
+		];
+		foreach ($sample as $table)
+		{
+			if (!in_array($table, $tables))
+				$validate = false;
+		}
+
+		return $validate;
+	}
+
+
 	/**
 	 * @param string $name
 	 * @return mixed
+	 * @throws Exception
 	 */
 	public function __get(string $name)
 	{
@@ -60,6 +94,7 @@ class Core
 	 * @param string $name
 	 * @param array $parameters
 	 * @return mixed
+	 * @throws Exception
 	 */
 	public function __call(string $name, array $parameters = [])
 	{
@@ -87,7 +122,7 @@ class Core
 			{
 				if ($include)
 				{
-					$providerClass = "\\Fw\\Components\\Providers\\Provider_{$name}";
+					$providerClass = $name;
 					if (class_exists($providerClass))
 						new $providerClass($this->container);
 					else
@@ -103,12 +138,7 @@ class Core
 	 */
 	private function initServices()
 	{
-		$config = $this->container->get('config');
-		if (isset($config['services']))
-		{
-			$list = $config['services'];
-			$this->initComponents($list);
-		}
+		$this->initComponents($this->getComponentList('services'));
 	}
 
 
@@ -117,12 +147,28 @@ class Core
 	 */
 	private function initModules()
 	{
+		$this->initComponents($this->getComponentList('modules'));
+	}
+
+
+	/**
+	 * @param string $componentsName
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getComponentList(string $componentsName)
+	{
+		$list = [];
 		$config = $this->container->get('config');
-		if (isset($config['modules']))
+		if (isset($config[$componentsName]))
 		{
-			$list = $config['modules'];
-			$this->initComponents($list);
+			foreach ($config[$componentsName] as $name => $include)
+			{
+				$providerClass = "\\Fw\\Components\\" . ucfirst($componentsName) . "\\Provider_{$name}";
+				$list[$providerClass] = $include;
+			}
 		}
+		return $list;
 	}
 
 
@@ -132,32 +178,30 @@ class Core
 	 */
 	private function initRoutes()
 	{
-		$config = $this->container->get('config');
-		$apps = $config['apps'];
+		$FwConfig = $this->container->get('config');
+		$apps = $FwConfig['apps'];
 
-		foreach ($apps as $app => $appConfig)
+		foreach ($apps as $app => $config)
 		{
-			if (!$appConfig['include']) continue;
+			if (!$config['include']) continue;
 
 			$appConfigPath = APPS_DIR.'/'.ucfirst($app).'/config.json';
 
 			if (file_exists($appConfigPath))
 			{
-				$tmpConfig = json(file_get_contents($appConfigPath));
-				if (isset($tmpConfig['routes']))
+				$appConfig = json(file_get_contents($appConfigPath));
+				if (isset($appConfig['routes']))
 				{
-					$routes = $tmpConfig['routes'];
+					$routes = $appConfig['routes'];
 				}
 			}
+
 			if (!isset($routes)) continue;
-
-//			$routes = $appConfig['routes'];
-
 
 			if (is_array($routes))
 			{
 				$router = $this->container->get('Router');
-				$router->setApp($app, $appConfig['prefix']);
+				$router->setApp($app, $config['prefix'], $appConfig);
 
 				$classPrefix = 'Apps\\' . ucfirst($app) . '\\Controller';
 

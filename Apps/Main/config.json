@@ -1,18 +1,18 @@
 {
-	"template": "default",
+	"theme"  : "public/default",
+	"verification" : {
+		"google"    : null,
+		"yandex"    : null
+	},
+	"analytics" : {
+		"google"    : null,
+		"yandex"    : null
+	},
+	"html"          : "",
+	"css"           : "",
 	"routes"    :   {
 		"(signup|login|logout|recovery)"    :	{
 			"controller"    :	"Auth_Controller",
-			"method"        :	"$1",
-			"arguments"     :	[]
-		},
-		"mail/({A-z}+)"    :	{
-			"controller"    :	"Mail_Controller",
-			"method"        :	"$1",
-			"arguments"     :	[]
-		},
-		"news/({A-z}+)"    :	{
-			"controller"    :	"News_Controller",
 			"method"        :	"$1",
 			"arguments"     :	[]
 		},

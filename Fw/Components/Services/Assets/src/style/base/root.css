@@ -1,0 +1,60 @@
+:root
+{
+	/* aqua */
+	--c-turquoise: 26,188,156;
+	--c-greensea: 22,160,133;
+	/* green */
+	--c-emerland: 46,204,113;
+	--c-nephritis: 39,174,96;
+	/* blue */
+	--c-peterriver: 52,152,219;
+	--c-belizehole: 41,128,185;
+	/* purple */
+	--c-amethyst: 155,89,182;
+	--c-wisteria: 142,68,173;
+	/* dark */
+	--c-wetasphalt: 52,73,94;
+	--c-midnightblue: 44,62,80;
+	/* yellow */
+	--c-sunflower: 241,196,15;
+	--c-orange: 243,156,18;
+	/* orange */
+	--c-carrot: 230,126,34;
+	--c-pumpkin: 211,84,0;
+	/* red */
+	--c-alizarin: 231,76,60;
+	--c-pomegranate: 192,57,43;
+	/* lightgrey */
+	--c-clouds: 236,240,241;
+	--c-silver: 189,195,199;
+	/* darkgrey */
+	--c-concrete: 149,165,166;
+	--c-asbestos: 127,140,141;
+
+
+	--c-w:		255,255,255;
+	--c-w-i:	0,0,0;
+
+	--c-b:		0,0,0;
+	--c-b-i:	255,255,255;
+
+	--c-g:		var(--c-silver);
+	--c-g-i:	0,0,0;
+
+	--c-1:		var(--c-alizarin);
+	--c-1-i:	255,255,255;
+
+	--c-2:		var(--c-peterriver);
+	--c-2-i:	255,255,255;
+
+	--c-3:		var(--c-emerland);
+	--c-3-i:	255,255,255;
+
+	--c-4:		var(--c-sunflower);
+	--c-4-i:	0,0,0;
+
+	--c-5:		var(--c-amethyst);
+	--c-5-i:	255,255,255;
+
+	--ff-0:	sans-serif;
+}

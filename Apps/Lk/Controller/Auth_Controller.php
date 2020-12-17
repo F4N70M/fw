@@ -10,42 +10,35 @@ namespace Apps\Lk\Controller;
 
 
 use Apps\Lk\Model\Lk_Model;
+use Apps\Lk\Request\Lk_Request;
 use Apps\Lk\View\Lk_View;
 use Exception;
-use Fw\Components\Interfaces\iAppController;
+use Fw\Components\Classes\Controller;
 use Fw\Core;
 
-class Auth_Controller implements iAppController
+class Auth_Controller extends Controller
 {
-	private $Fw;
+    protected $theme = 'public/lk';  //  Default value
+    protected $template = 'error/404';    //  Default value
 
-	private $model;
-	private $view;
 
-	private $action;
-	private $request;
-
-	public function __construct(Core $Fw)
-	{
-		$this->Fw = $Fw;
-		$this->model = new Lk_Model($this->Fw);
-		$this->view = new Lk_View($this->Fw, $this->model);
-
-		// Обработка запросов
-		$this->request = $this->request();
-	}
+    public function __construct(Core $Fw, $config = [])
+    {
+        parent::__construct($Fw, $config, new Lk_Model($Fw), new Lk_View($Fw), new Lk_Request($Fw));
+    }
 
 	public function signup()
 	{
-		$this->action = 'signup';
+		$this->template = 'auth/signup';
 	}
 	public function login()
 	{
+//	    debug($this->model->getAccess(),APP_PREFIX);
 		if ($this->model->getAccess())
 		{
-			header('Location: '.APP_PREFIX);
+			header('Location: '.APP_PREFIX.'/');
 		}
-		$this->action = 'login';
+		$this->template = 'auth/login';
 	}
 	public function logout()
 	{
@@ -55,26 +48,8 @@ class Auth_Controller implements iAppController
 	}
 	public function recovery()
 	{
-		$this->action = 'recovery';
+		$this->template = 'auth/recovery';
 	}
 
 
-	/**
-	 * @return bool
-	 * @throws Exception
-	 */
-	public function request()
-	{
-		return isset($_POST['request']) ? $this->model->request($_POST['request']) : false;
-	}
-
-
-	public function render()
-	{
-		$tpl = "auth/" . $this->action;
-		$this->view->render($tpl);
-
-//		$content = file_get_contents(__DIR__ . "/../template/default/auth/" . $this->action . ".tpl");
-//		$this->Fw->TemplateBuilder->render($content);
-	}
 }

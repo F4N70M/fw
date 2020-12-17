@@ -15,7 +15,7 @@
 			"HOST"  :   "localhost",
 			"USER"  :   "root",
 			"PASS"  :   "",
-			"BASE"  :   "fw"
+			"BASE"  :   "fw_ref"
 		},
 		"default"   :   {
 			"HOST"  :   "localhost",
@@ -31,49 +31,41 @@
 		"PORT"      :   465
 	},
 	"apps"  :   {
-		"Admin" :   {
-			"include"   :   true,
-			"prefix"    :   "admin"
-		},
-		"Lk"  :   {
-			"include"   :   false,
-			"prefix"    :   "lk"
-		},
 		"Crm"  :   {
 			"include"   :   true,
 			"prefix"    :   "crm"
 		},
-		"Main"  :   {
+		"Admin" :   {
+			"include"   :   false,
+			"prefix"    :   "admin"
+		},
+		"Lk"  :   {
 			"include"   :   true,
+			"prefix"    :   "lk"
+		},
+		"Main"  :   {
+			"include"   :   false,
 			"prefix"    :   ""
 		}
 	},
 	"modules"  :   {
-		"Users"             :   true,
-		"Pages"             :   true,
-		"Account"           :   true,
-		"TemplateManager"   :   false,
-		"Clients"          :   true,
-		"Projects"          :   true,
-		"Messages"          :   true,
-		"Tickets"           :   true,
-		"Tasks"           :   true,
-		"Treats"            :   true,
-		"Accesses"          :   true,
-		"Services"          :   true
+		"Bills":   true,
+		"TemplateEngine":   false
 	},
 	"services"  :   {
-		"Cookie"    :   true,
-		"Assets"    :   true,
-		"Db"        :   true,
-		"Entity"    :   true,
-		"Objects"   :   true,
-		"Auth"      :   true,
-		"Router"    :   true,
-		"Mailer"    :   true,
-		"License"   :   false,
-		"Uploader"  :   true,
-		"Relations" :   true
+		"Cookie"        :   true,
+		"Assets"        :   true,
+		"Db"            :   true,
+		"Cache"         :   true,
+		"Entity"        :   false,
+		"Objects"       :   false,
+		"Auth"          :   true,
+		"Account"       :   true,
+		"Router"        :   true,
+		"Mailer"        :   true,
+		"Uploader"      :   true,
+		"Relations"     :   false,
+		"Files"         :   true
 	},
 	"paths" :   {
 		"root"      :	"",
@@ -81,6 +73,8 @@
 		"fw"		:	"/Fw",
 		"apps"		:	"/Apps",
 		"uploads"   :	"/uploads",
-		"config"	:	"/Fw/config"
+		"config"	:	"/Fw/config",
+		"themes" :	"/src/themes",
+		"cache"     :	"/src/cache"
 	}
 }

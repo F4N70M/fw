@@ -10,27 +10,25 @@ namespace Apps\Lk\Controller;
 
 
 use Apps\Lk\Model\Lk_Model;
-use Apps\LK\View\Lk_View;
+use Apps\Lk\Request\Lk_Request;
+use Apps\Lk\View\Lk_View;
+use Fw\Components\Classes\Controller;
 use Fw\Core;
 
-class NotFound_Controller
+class NotFound_Controller extends Controller
 {
-	private $Fw;
+    protected $Fw;
 
-	private $model;
-	private $view;
+	protected $model;
+    protected $view;
 
-	public function __construct(Core $Fw)
-	{
-		$this->Fw = $Fw;
-		$this->model = new Lk_Model($this->Fw);
-		$this->view = new Lk_View($this->Fw, $this->model);
-	}
+    protected $theme = 'public/lk';  //  Default value
+    protected $template = 'error/404';    //  Default value
 
 
-	public function render()
-	{
-		$tpl = "error/404";
-		$this->view->render($tpl);
-	}
+    public function __construct(Core $Fw, $config = [])
+    {
+        http_response_code(404);
+        parent::__construct($Fw, $config, new Lk_Model($Fw), new Lk_View($Fw), new Lk_Request($Fw));
+    }
 }

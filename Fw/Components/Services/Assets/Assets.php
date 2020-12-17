@@ -23,10 +23,13 @@ class Assets
 	public function __construct()
 	{
 		$this->defineAssetsUri();
-		$this->setStyle('base',ASSETS_SRC_URI.'/style/base.css',-1);
+        $this->setStyle('fa',ASSETS_SRC_URI.'/style/font-awesome.css',0);
+        $this->setStyle('base',ASSETS_SRC_URI.'/style/base.css',-1);
+        $this->setStyle('popup',ASSETS_SRC_URI.'/style/popup.css',0);
 
-		$this->setScript('base',ASSETS_SRC_URI.'/script/base.js',0,['jquery']);
-		$this->setScript('jquery',ASSETS_SRC_URI.'/script/jquery-3.4.1.min.js',-1);
+        $this->setScript('jquery',ASSETS_SRC_URI.'/script/jquery-3.4.1.min.js',-1);
+        $this->setScript('base',ASSETS_SRC_URI.'/script/base.js',0,['jquery']);
+        $this->setScript('popup',ASSETS_SRC_URI.'/script/popup.js',0,['jquery']);
 	}
 
 
@@ -75,7 +78,7 @@ class Assets
 	 * @param array $dependencies
 	 * @throws Exception
 	 */
-	public function setStyle(string $id, string $url, $priority = 0, array $dependencies = [])
+	public function setStyle(string $id, string $url, int $priority = 0, array $dependencies = [])
 	{
 		$this->set('style', $id, $url, $priority, $dependencies);
 	}
@@ -110,7 +113,21 @@ class Assets
 				$item['type'] = $type;
 				unset($item['dependencies']);
 				unset($item['preload']);
-				$result[($priority >= 0 ? 1 : 0)][] = $item;
+
+
+                switch ($item['type'])
+                {
+                    case 'style' :
+                        $code = '<link href="'.$item['url'].'" rel="stylesheet" type="text/css">';
+                        break;
+                    case 'script' :
+                        $code = '<script type="text/javascript" src="'.$item['url'].'"></script>';
+                        break;
+                    default :
+                        break;
+                }
+
+				$result[($priority >= 0 ? 1 : 0)][] = $code;
 			}
 		}
 		ksort($result);

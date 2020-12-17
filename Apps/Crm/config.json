@@ -1,127 +1,252 @@
 {
 	"template": "default",
 	"routes"    :   {
-		"(signup|login|logout|recovery)"    :	{
+		"response"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"response",
+			"arguments"     :	[]
+		},
+		"(login|logout|recovery)"    :	{
 			"controller"    :	"Auth_Controller",
 			"method"        :	"$1",
 			"arguments"     :	[]
 		},
-		""    :	{
-			"controller"    :	"Lk_Controller",
+		"index"    :	{
+			"controller"    :	"Crm_Controller",
 			"method"        :	"indexAction",
 			"arguments"     :   []
 		},
+		""    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"indexAction",
+			"arguments"     :   []
+		},
+		"requisites-(\\d+)"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"requisitesAction",
+			"arguments"     :	{
+				"id"        :	"$1"
+			}
+		},
+		"requisite-(\\d+)-new"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"requisiteNewAction",
+			"arguments"     :	{
+				"id"        :	"$1"
+			}
+		},
+		"requisite-(\\d+)-edit"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"requisiteEditAction",
+			"arguments"     :	{
+				"id"        :	"$1"
+			}
+		},
 		"new-task"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"taskNewAction",
 			"arguments"     :   []
 		},
 		"task-(\\d+)"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"taskAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
+		"task-(\\d+)-add-files"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"taskAddFilesAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"task-state-(\\d+)"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"taskChangeStateAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
 		"clients"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"clientsAction",
 			"arguments"     :   []
 		},
-		"new-client"    :	{
-			"controller"    :	"Lk_Controller",
+		"client-new"    :	{
+			"controller"    :	"Crm_Controller",
 			"method"        :	"clientNewAction",
 			"arguments"     :   []
 		},
+		"client-([^/]+)"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"clientAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"services"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"servicesAction",
+			"arguments"     :   []
+		},
+		"service-new"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"serviceNewAction",
+			"arguments"     :   []
+		},
+		"service-([^/]+)"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"serviceAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"change-password-([^/]+)"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"changePasswordAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"bills"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"billsAction",
+			"arguments"     :   []
+		},
+		"bill-new"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"billNewAction",
+			"arguments"     :   []
+		},
+		"bill-([^/]+)-print"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"billPrintAction",
+			"format"		: 	"popup",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"bill-([^/]+)"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"billAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"debts"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"debtsAction",
+			"arguments"     :   []
+		},
+		"new-debt"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"debtNewAction",
+			"arguments"     :   []
+		},
+		"debt-([^/]+)"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"debtAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"thailand"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"thailandAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
+		"thailand-new"    :	{
+			"controller"    :	"Crm_Controller",
+			"method"        :	"thailandNewAction",
+			"arguments"     :   {
+				"id"        : "$1"
+			}
+		},
 		"projects-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"projectsAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
 		"new-project-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"projectNewAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
 		"project-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"projectAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
 		"services-([^/]+)"  :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"servicesAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
 		"new-service-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"serviceNewAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
-		"service-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
-			"method"        :	"serviceAction",
-			"arguments"     :   {
-				"id"        : "$1"
-			}
-		},
 		"accesses"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"accessesAction",
 			"arguments"     :   []
 		},
 		"accesses-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"accessesAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
 		"access-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"accessAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
 		"new-access"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"accessNewAction",
 			"arguments"     :   []
 		},
 		"new-access-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"accessNewAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
 		"tickets-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"ticketsAction",
 			"arguments"     :   {
 				"id"        : "$2"
 			}
 		},
 		"ticket-([^/]+)"     :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"ticketAction",
 			"arguments"     :   {
 				"id"        : "$1"
 			}
 		},
 		"new-ticket-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
+			"controller"    :	"Crm_Controller",
 			"method"        :	"ticketNewAction",
 			"arguments"     :   {
 				"id"   : "$1"

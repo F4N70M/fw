@@ -9,20 +9,24 @@ namespace Fw\Components\Services\Uploader;
 
 
 use Exception;
-use Fw\Components\Services\Entity\Entity;
+// use Fw\Components\Services\Entity\Entity;
+use Fw\Components\Services\Database\QueryBuilder;
 
 class Uploader
 {
-	protected $Entity;
+	protected $Db;
+	// protected $Entity;
 
 
 	/**
 	 * Uploader constructor.
 	 * @param Entity $Entity
 	 */
-	public function __construct(Entity $Entity)
+	public function __construct(QueryBuilder $QueryBuilder)
+	// public function __construct(Entity $Entity)
 	{
-		$this->Entity = $Entity;
+		$this->Db = $QueryBuilder;
+		// $this->Entity = $Entity;
 	}
 
 
@@ -38,8 +42,14 @@ class Uploader
 		foreach ($uploadedFiles as $uploadedFile)
 		{
 			$uploadedFile['url'] = $uploadedFile['uri'];
-			$result[] = $this -> Entity -> insert('files',$uploadedFile);
+			// debug($uploadedFile);
+			$data = $this->Db->intersectTableData('files', $uploadedFile);
+			$uploadResult = $this->Db->insert()->into('files')->values($data)->result();
+			if ($uploadResult)
+				$result[] = $uploadResult;
+			// $result[] = $this -> Entity -> insert('files',$uploadedFile);
 		}
+		// var_dump($result);
 		return $result;
 	}
 
@@ -116,6 +126,7 @@ class Uploader
 
 		$result = [
 			'title'  =>  $explodeUri['title'],
+			'path'  =>  $explodeUri['path'],
 			'name'  =>  $explodeUri['name'],
 			'extension' => $explodeUri['extension'],
 			'type'  => $mime,

@@ -3,10 +3,10 @@
  * @author: KONARD
  * @version: 0.1
  */
-
 /**
  * Подключение системы
  */
+//$microtime = microtime(true);
 try
 {
 	require 'Fw/bootstrap.php';
@@ -16,7 +16,6 @@ try
 
 	//	Приложение
 	$App = $Fw->Router->init($Fw);
-
 	//	Рендер страницы
 	$App->render();
 }
@@ -43,7 +42,13 @@ catch (Exception $e)
 			}
 		}
 		$trace['args'] = implode(', ',$funcArgs);
-		$traces[$key] = $trace['file'] . " : " . $trace['line'] . " — " . $trace['class'] . '::' . $trace['function'] . ' ( ' . $trace['args'] . ' )';
+		$traces[$key] =
+			(isset($trace['file']) ? $trace['file'] : null) .
+			(isset($trace['line']) ? " : " . $trace['line'] : null) .
+			((isset($trace['file']) || isset($trace['line'])) ? " — " : null) .
+			(isset($trace['class']) ? $trace['class'] : null) . '::' .
+			(isset($trace['function']) ? $trace['function'] : null) .
+			' ( ' . $trace['args'] . ' )';
 	}
 	debug(
 		'Error: '.$e->getMessage()
@@ -51,4 +56,7 @@ catch (Exception $e)
 		.' on line ' . $e->getLine(),
 		$traces
 	);
+//	throw new Exception($e->getMessage();
 }
+
+//debug(microtime(true) - $microtime, $Fw->Connection);

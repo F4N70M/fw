@@ -1,0 +1,26 @@
+[
+	{
+		"family"    :   "Form",
+		"name"      :   "Default",
+		"data"      :   {
+			"method"    :   "post",
+			"inputs"    :   [
+				{
+					"name"  :   "name",
+					"title" :   "Название сайта"
+				},
+				{
+					"name"  :   "description",
+					"title" :   "Описание сайта"
+				}
+			]
+		}
+	},
+	{
+		"family"    :   "Other",
+		"name"      :   "Html",
+		"data"      :   {
+			"content"   :   "<pre>ololo</pre>"
+		}
+	}
+]

@@ -1,14 +1,16 @@
-@import url(root.css);
-@import url(fonts.css);
-@import url(layouts.css);
-@import url(indents.css);
-@import url(inputs.css);
-@import url(grid.css);
+@import url(base/root.css);
+@import url(base/fonts.css);
+@import url(base/main.css);
+@import url(base/layouts.css);
+@import url(base/indents.css);
+@import url(base/inputs.css);
+@import url(base/ratio.css);
+@import url(base/grid.css);
 
-@import url(ratio.css);
-@import url(text.css);
-@import url(colors.css);
-@import url(sizes.css);
+@import url(base/text.css);
+@import url(base/colors.css);
+@import url(base/sizes.css);
+@import url(base/formatting.css);
 
 
-@import url(grid-media.css);
+@import url(base/grid-media.css);

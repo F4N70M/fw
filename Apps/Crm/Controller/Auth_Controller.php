@@ -9,43 +9,36 @@
 namespace Apps\Crm\Controller;
 
 
-use Apps\Crm\Model\Lk_Model;
-use Apps\Crm\View\Lk_View;
+use Apps\Crm\Model\Crm_Model as Model;
+use Apps\Crm\Request\Crm_Request as Request;
+use Apps\Crm\View\Crm_View as View;
 use Exception;
-use Fw\Components\Interfaces\iAppController;
+use Fw\Components\Classes\Controller;
 use Fw\Core;
 
-class Auth_Controller implements iAppController
+class Auth_Controller extends Controller
 {
-	private $Fw;
+    protected $theme = 'public/crm';  //  Default value
+    protected $template = 'error/404';    //  Default value
 
-	private $model;
-	private $view;
 
-	private $action;
-	private $request;
-
-	public function __construct(Core $Fw)
-	{
-		$this->Fw = $Fw;
-		$this->model = new Lk_Model($this->Fw);
-		$this->view = new Lk_View($this->Fw, $this->model);
-
-		// Обработка запросов
-		$this->request = $this->request();
-	}
+    public function __construct(Core $Fw, $config = [])
+    {
+        parent::__construct($Fw, $config, new Model($Fw), new View($Fw), new Request($Fw));
+    }
 
 	public function signup()
 	{
-		$this->action = 'signup';
+		$this->template = 'auth/signup';
 	}
 	public function login()
 	{
+//	    debug($this->model->getAccess(),APP_PREFIX);
 		if ($this->model->getAccess())
 		{
-			header('Location: '.APP_PREFIX);
+			header('Location: '.APP_PREFIX.'/');
 		}
-		$this->action = 'login';
+		$this->template = 'auth/login';
 	}
 	public function logout()
 	{
@@ -55,26 +48,8 @@ class Auth_Controller implements iAppController
 	}
 	public function recovery()
 	{
-		$this->action = 'recovery';
+		$this->template = 'auth/recovery';
 	}
 
 
-	/**
-	 * @return bool
-	 * @throws Exception
-	 */
-	public function request()
-	{
-		return isset($_POST['request']) ? $this->model->request($_POST['request']) : false;
-	}
-
-
-	public function render()
-	{
-		$tpl = "auth/" . $this->action;
-		$this->view->render($tpl);
-
-//		$content = file_get_contents(__DIR__ . "/../template/default/auth/" . $this->action . ".tpl");
-//		$this->Fw->TemplateBuilder->render($content);
-	}
 }

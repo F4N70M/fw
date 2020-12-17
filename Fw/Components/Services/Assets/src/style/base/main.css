@@ -1,0 +1,43 @@
+body
+{
+    margin: 0;
+    padding: 0;
+}
+
+a
+{
+    color: inherit;
+}
+
+*
+{
+    background-size: cover;
+    background-position: center;
+}
+*:before,
+*:after
+{
+    background-size: contain;
+    background-position: center;
+}
+
+
+ul
+{
+    margin: inherit;
+    padding: inherit;
+    list-style-position: inside;
+}
+
+
+::selection
+{
+    color: rgb(var(--c-1-i)); /* Цвет текста */
+    background: rgba(var(--c-1),.8); /* Цвет фона */
+}
+select option:checked,
+select option:hover
+{
+     /*box-shadow: 0 0 10px 100px rgba(var(--c-1),.8) inset;*/
+    box-shadow: 0 0 10px 100px #1882A8 inset;
+}

@@ -1,6 +1,15 @@
 {
-	"template": "default",
+	"info"  :   {
+		"title"         :   "Admin",
+		"description"   :   "Framework"
+	},
+	"template"  : "default",
 	"routes"    :   {
+		"setup"    :	{
+			"controller"    :	"Setup_Controller",
+			"method"        :	"start",
+			"arguments"     :	[]
+		},
 		"(signup|login|logout|recovery)"    :	{
 			"controller"    :	"Auth_Controller",
 			"method"        :	"$1",

@@ -81,11 +81,11 @@ function catchFatalErrors()
                 <div class="error500__content">
                     <h1>500</h1>
                     <h2>Fatal Error</h2>
-                    <pre class="error500__info"><?php
+                    <div class="error500__info" style="max-width: 100vw; overflow:auto;"><?php
                         print_r($error['message']);
-                        print_r('in ' . $error['file']);
+                        print_r('<br>in ' . $error['file']);
                         print_r('on line ' . $error['line']);
-                    ?></pre>
+                    ?></div>
                 </div>
             </div>
         </body>
@@ -94,7 +94,7 @@ function catchFatalErrors()
         <?php
         $bufer = ob_get_clean();
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-//      echo $bufer;
+//        echo $bufer;
         debug($error);
     endif;
 }

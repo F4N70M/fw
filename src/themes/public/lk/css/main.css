@@ -1,0 +1,49 @@
+/*Hello*//*Hello*/
+
+[type=file]
+{
+    display: none;
+}
+
+
+[type=file] + label
+{
+    display: inline-block;
+    font-family: var(--file-ff);
+    font-size: var(--file-fz);
+    font-weight: var(--file-fw);
+    padding: var(--file-pv) var(--file-ph);
+    background-color: rgb(var(--file-bg));
+    color: rgb(var(--file-c));
+    border-style: var(--file-bds);
+    border-width: var(--file-bdw);
+    border-color: rgb(var(--file-bdc));
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    line-height: 1;
+}
+
+
+.copyToClipboard
+{
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 1rem;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.copyToClipboard::after
+{
+    content: "\f0c5";
+    display: block;
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 300;
+    line-height: 1;
+    font-style: normal;
+    opacity: .5;
+}
+.copyToClipboard:hover::after
+{
+    opacity: 1;
+}

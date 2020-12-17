@@ -1,0 +1,1 @@
+<div class="nav nav_default">{% blocks %}</div>

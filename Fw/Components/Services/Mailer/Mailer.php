@@ -53,7 +53,7 @@ class Mailer
 		$this->boundary = "--".md5(uniqid(time()));
 
 		$this->addFiles($files);
-		$contentMail = $this->getContentMail($subject, $message, $from);
+		$contentMail = $this->getContentMail($to, $subject, $message, $from);
 		$result = $this->sending($to,$contentMail);
 
 		return $result;
@@ -67,7 +67,7 @@ class Mailer
 	 * @return string
 	 * @throws Exception
 	 */
-	private function getContentMail($subject, $message, $from)
+	private function getContentMail($to, $subject, $message, $from)
 	{
 		$contentMail = "Date: " . date("D, d M Y H:i:s") . " UT\r\n";
 		$contentMail .= 'Subject: =?' . $this->smtp_charset . '?B?'  . base64_encode($subject) . "=?=\r\n";
@@ -86,6 +86,8 @@ class Mailer
 			$headers .= "From: {$from} <{$this->LOGIN}>\r\n"; // от кого письмо
 		else
 			$headers .= "From: {$this->LOGIN}\r\n"; // от кого письмо
+
+		$headers .= "To: {$to}\r\n";    // кому
 
 		// Добавляем заголовки в тело письма
 		$contentMail .= $headers . "\r\n";

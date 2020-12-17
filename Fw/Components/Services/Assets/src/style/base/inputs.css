@@ -1,0 +1,280 @@
+:root
+{
+	/* font-face */
+	--inp-ff: var(--ff-0);
+	--btn-ff: var(--inp-ff);
+	--file-ff: var(--inp-ff);
+	/* font-size */
+	--inp-fz: 1rem;
+	--btn-fz: var(--inp-fz);
+	--file-fz: var(--inp-fz);
+	/* font-weight */
+	--inp-fw: normal;
+	--btn-fw: var(--inp-fw);
+	--file-fw: var(--inp-fw);
+
+	/* width */
+	--inp-w: 15rem;
+	--btn-w: auto;
+	--file-w: auto;
+
+	/* background */
+	--inp-bg: 255,255,255;
+	--btn-bg: var(--c-1);
+	--file-bg: var(--c-2);
+	--dis-bg: var(--c-silver);
+	/* color */
+	--inp-c: 0,0,0;
+	--btn-c: var(--c-1-i);
+	--file-c: var(--c-2-i);
+	--dis-c: var(--c-clouds);
+
+	/* padding */
+	--inp-pv: .5rem;
+	--btn-pv: var(--inp-pv);
+	--file-pv: var(--inp-pv);
+
+	--inp-ph: 1rem;
+	--btn-ph: var(--inp-ph);
+	--file-ph: var(--inp-ph);
+
+	/* border-style */
+	--inp-bds: solid;
+	--btn-bds: none;
+	--file-bds: none;
+	/* border-width */
+	--inp-bdw: 1px;
+	--btn-bdw: 1px;
+	--file-bdw: 1px;
+	/* border-color */
+	--inp-bdc: var(--inp-c);
+	--btn-bdc: var(--btn-c);
+	--file-bdc: var(--btn-c);
+
+	/* line-height */
+	--inp-lh: 1;
+	--btn-lh: var(--inp-lh);
+	--file-lh: var(--inp-lh);
+}
+
+
+input[type=text],
+input[type=number],
+input[type=password],
+input[type=tel],
+input[type=email],
+input[type=submit],
+input[type=time],
+input[type=date],
+input[type=color],
+select
+{
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+
+::-webkit-input-placeholder
+{
+	text-overflow: ellipsis;
+	color: rgba(var(--inp-c),.6);
+}
+::-moz-placeholder
+{
+	text-overflow: ellipsis;
+	color: rgba(var(--inp-c),.6);
+} /* Firefox 19+ */
+:-moz-placeholder
+{
+	text-overflow: ellipsis;
+	color: rgba(var(--inp-c),.6);
+} /* Firefox 18- */
+:-ms-input-placeholder
+{
+	text-overflow: ellipsis;
+	color: rgba(var(--inp-c),.6);
+}
+
+
+input:not([type=radio]):not([type=checkbox]):not([type=file]),
+textarea,
+select,
+button,
+label
+{
+	display: inline-block;
+	line-height: 1;
+	box-sizing: border-box;
+}
+input,
+label,
+label > *
+{
+	vertical-align: middle;
+}
+
+
+input:not([type=radio]):not([type=checkbox]),
+textarea,
+select
+{
+	font-family: var(--inp-ff);
+	font-size: var(--inp-fz);
+	font-weight: var(--inp-fw);
+	padding: var(--inp-pv) var(--inp-ph);
+	background-color: rgb(var(--inp-bg));
+	color: rgb(var(--inp-c));
+	border-style: var(--inp-bds);
+	border-width: var(--inp-bdw);
+	border-color: rgb(var(--inp-bdc));
+}
+button,
+.btn
+{
+	display: inline-block;
+	font-family: var(--btn-ff);
+	font-size: var(--btn-fz);
+	font-weight: var(--btn-fw);
+	padding: var(--btn-pv) var(--btn-ph);
+	background-color: rgb(var(--btn-bg));
+	color: rgb(var(--btn-c));
+	border-style: var(--btn-bds);
+	border-width: var(--btn-bdw);
+	border-color: rgb(var(--btn-bdc));
+	text-decoration: none;
+	text-align: center;
+	cursor: pointer;
+	line-height: 1;
+}
+
+
+input:not([type=radio]):not([type=checkbox]):not([class^="w-"])/*[type=text],
+input[type=number],
+input[type=password],
+input[type=tel],
+input[type=email],
+input[type=time],
+input[type=date]*/,
+select
+{
+	width: var(--inp-w);
+}
+
+textarea
+{
+	width: 100%;
+}
+
+
+
+
+
+
+/*d
+[type=file]
+{isplay: none;
+}
+[type=file] + label
+{
+	display: inline-block;
+	font-family: var(--file-ff);
+	font-size: var(--file-fz);
+	font-weight: var(--file-fw);
+	padding: var(--file-pv) var(--file-ph);
+	background-color: rgb(var(--file-bg));
+	color: rgb(var(--file-c));
+	border-style: var(--file-bds);
+	border-width: var(--file-bdw);
+	border-color: rgb(var(--file-bdc));
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	line-height: 1;
+}
+*/
+
+
+
+
+
+
+button:disabled,
+.btn:disabled
+{
+	background-color: rgb(var(--dis-bg));
+	color: rgb(var(--dis-c));
+	cursor: default;
+}
+
+
+
+
+
+.select
+{
+	display: inline-block;
+	line-height: 1;
+	box-sizing: border-box;
+	position: relative;
+}
+.select__title + label
+{
+	font-family: var(--inp-ff);
+	font-size: var(--inp-fz);
+	font-weight: var(--inp-fw);
+	padding: var(--inp-pv) var(--inp-ph);
+	background-color: rgb(var(--inp-bg));
+	color: rgb(var(--inp-c));
+	border-style: var(--inp-bds);
+	border-width: var(--inp-bdw);
+	border-color: rgb(var(--inp-bdc));
+}
+.select__list
+{
+	position: absolute;
+	width: 100%;
+	background-color: rgb(var(--c-2));
+}
+.select__list
+{
+	display: none;
+}
+.select__title:checked ~ .select__list
+{
+	display: block;
+}
+.select__option
+{
+	display: block;
+}
+.select input[type=radio],
+.select input[type=checkbox]
+{
+	display: none;
+}
+.select__option input + label
+{
+	display: block;
+	padding: var(--inp-pv) var(--inp-ph);
+}
+.select__option input:checked + label
+{
+	background-color: rgb(var(--c-1));
+}
+
+
+
+
+
+
+
+
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus
+{
+	outline: none;
+}

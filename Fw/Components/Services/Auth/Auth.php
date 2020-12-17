@@ -1,6 +1,6 @@
 <?php
 /**
- * Treat: F4N70M
+ * User: F4N70M
  * Version: 0.1
  * Date: 10.01.2020
  */

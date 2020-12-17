@@ -1,0 +1,8 @@
+{
+	"styles"    :   [
+		"styles/style.css"
+	],
+	"scripts"   :   [
+		"scripts/script.js"
+	]
+}

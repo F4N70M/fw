@@ -9,28 +9,26 @@
 namespace Apps\Crm\Controller;
 
 
-use Apps\Crm\Model\Lk_Model;
-use Apps\Crm\View\Lk_View;
+use Apps\Crm\Model\Crm_Model as Model;
+use Apps\Crm\Request\Crm_Request as Request;
+use Apps\Crm\View\Crm_View as View;
+use Fw\Components\Classes\Controller;
 use Fw\Core;
 
-class NotFound_Controller
+class NotFound_Controller extends Controller
 {
-	private $Fw;
+    protected $Fw;
 
-	private $model;
-	private $view;
+	protected $model;
+    protected $view;
 
-	public function __construct(Core $Fw)
-	{
-		$this->Fw = $Fw;
-		$this->model = new Lk_Model($this->Fw);
-		$this->view = new Lk_View($this->Fw, $this->model);
-	}
+    protected $theme = 'public/crm';  //  Default value
+    protected $template = 'error/404';    //  Default value
 
 
-	public function render()
-	{
-		$tpl = "error/404";
-		$this->view->render($tpl);
-	}
+    public function __construct(Core $Fw, $config = [])
+    {
+        http_response_code(404);
+        parent::__construct($Fw, $config, new Model($Fw), new View($Fw), new Request($Fw));
+    }
 }

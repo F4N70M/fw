@@ -1,0 +1,169 @@
+
+
+
+
+.d-g
+{ display: grid; }
+
+
+
+.d-g > *
+{
+    min-width: 0;
+    min-height: 0;
+}
+
+
+
+
+.d-g.jc-c
+{position:relative}
+
+.jc-c
+{
+    justify-content: center;
+}
+.jc-sb
+{
+    justify-content: space-between;
+}
+.jc-l
+{
+    justify-content: left;
+}
+
+
+.ac-c
+{
+    align-content: center;
+}
+
+
+
+
+.gg-05{grid-gap:0.5rem;}
+.gg-1{grid-gap:1rem;}
+.gg-2{grid-gap:2rem;}
+.gg-3{grid-gap:3rem;}
+.gg-4{grid-gap:4rem;}
+
+
+
+
+.gtc-4{grid-template-columns:repeat(4,1fr);}
+.gtc-3{grid-template-columns:repeat(3,1fr);}
+.gtc-2{grid-template-columns:repeat(2,1fr);}
+
+
+
+
+.gaf-c { grid-auto-flow: column; }
+.gaf-r { grid-auto-flow: row; }
+.gaf-d { grid-auto-flow: dense; }
+.gaf-cd { grid-auto-flow: column dense; }
+.gaf-rd { grid-auto-flow: row dense; }
+
+
+
+
+.d-g.jc-c.gg-1.gtc-4 > :nth-child(4n+1):nth-last-child(3),
+.d-g.jc-c.gg-1.gtc-4 > :nth-child(4n+1):nth-last-child(3)~*
+{transform: translateX(calc(50% * (4 - 3) + 1rem * (4 - 3) / 2));}
+
+.d-g.jc-c.gg-2.gtc-4 > :nth-child(4n+1):nth-last-child(3),
+.d-g.jc-c.gg-2.gtc-4 > :nth-child(4n+1):nth-last-child(3)~*
+{transform: translateX(calc(50% * (4 - 3) + 2rem * (4 - 3) / 2));}
+
+.d-g.jc-c.gg-3.gtc-4 > :nth-child(4n+1):nth-last-child(3),
+.d-g.jc-c.gg-3.gtc-4 > :nth-child(4n+1):nth-last-child(3)~*
+{transform: translateX(calc(50% * (4 - 3) + 3rem * (4 - 3) / 2));}
+
+.d-g.jc-c.gg-4.gtc-4 > :nth-child(4n+1):nth-last-child(3),
+.d-g.jc-c.gg-4.gtc-4 > :nth-child(4n+1):nth-last-child(3)~*
+{transform: translateX(calc(50% * (4 - 3) + 4rem * (4 - 3) / 2));}
+
+.d-g.jc-c.gg-1.gtc-4 > :nth-child(4n+1):nth-last-child(2),
+.d-g.jc-c.gg-1.gtc-4 > :nth-child(4n+1):nth-last-child(2)~*
+{transform: translateX(calc(50% * (4 - 2) + 1rem * (4 - 2) / 2));}
+
+.d-g.jc-c.gg-2.gtc-4 > :nth-child(4n+1):nth-last-child(2),
+.d-g.jc-c.gg-2.gtc-4 > :nth-child(4n+1):nth-last-child(2)~*
+{transform: translateX(calc(50% * (4 - 2) + 2rem * (4 - 2) / 2));}
+
+.d-g.jc-c.gg-3.gtc-4 > :nth-child(4n+1):nth-last-child(2),
+.d-g.jc-c.gg-3.gtc-4 > :nth-child(4n+1):nth-last-child(2)~*
+{transform: translateX(calc(50% * (4 - 2) + 3rem * (4 - 2) / 2));}
+
+.d-g.jc-c.gg-4.gtc-4 > :nth-child(4n+1):nth-last-child(2),
+.d-g.jc-c.gg-4.gtc-4 > :nth-child(4n+1):nth-last-child(2)~*
+{transform: translateX(calc(50% * (4 - 2) + 4rem * (4 - 2) / 2));}
+
+.d-g.jc-c.gg-1.gtc-4 > :nth-child(4n+1):nth-last-child(1),
+.d-g.jc-c.gg-1.gtc-4 > :nth-child(4n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (4 - 1) + 1rem * (4 - 1) / 2));}
+
+.d-g.jc-c.gg-2.gtc-4 > :nth-child(4n+1):nth-last-child(1),
+.d-g.jc-c.gg-2.gtc-4 > :nth-child(4n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (4 - 1) + 2rem * (4 - 1) / 2));}
+
+.d-g.jc-c.gg-3.gtc-4 > :nth-child(4n+1):nth-last-child(1),
+.d-g.jc-c.gg-3.gtc-4 > :nth-child(4n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (4 - 1) + 3rem * (4 - 1) / 2));}
+
+.d-g.jc-c.gg-4.gtc-4 > :nth-child(4n+1):nth-last-child(1),
+.d-g.jc-c.gg-4.gtc-4 > :nth-child(4n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (4 - 1) + 4rem * (4 - 1) / 2));}
+
+
+
+
+.d-g.jc-c.gg-1.gtc-3 > :nth-child(3n+1):nth-last-child(2),
+.d-g.jc-c.gg-1.gtc-3 > :nth-child(3n+1):nth-last-child(2)~*
+{transform: translateX(calc(50% * (3 - 2) + 1rem * (3 - 2) / 2));}
+
+.d-g.jc-c.gg-2.gtc-3 > :nth-child(3n+1):nth-last-child(2),
+.d-g.jc-c.gg-2.gtc-3 > :nth-child(3n+1):nth-last-child(2)~*
+{transform: translateX(calc(50% * (3 - 2) + 2rem * (3 - 2) / 2));}
+
+.d-g.jc-c.gg-3.gtc-3 > :nth-child(3n+1):nth-last-child(2),
+.d-g.jc-c.gg-3.gtc-3 > :nth-child(3n+1):nth-last-child(2)~*
+{transform: translateX(calc(50% * (3 - 2) + 3rem * (3 - 2) / 2));}
+
+.d-g.jc-c.gg-4.gtc-3 > :nth-child(3n+1):nth-last-child(2),
+.d-g.jc-c.gg-4.gtc-3 > :nth-child(3n+1):nth-last-child(2)~*
+{transform: translateX(calc(50% * (3 - 2) + 4rem * (3 - 2) / 2));}
+
+.d-g.jc-c.gg-1.gtc-3 > :nth-child(3n+1):nth-last-child(1),
+.d-g.jc-c.gg-1.gtc-3 > :nth-child(3n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (3 - 1) + 1rem * (3 - 1) / 2));}
+
+.d-g.jc-c.gg-2.gtc-3 > :nth-child(3n+1):nth-last-child(1),
+.d-g.jc-c.gg-2.gtc-3 > :nth-child(3n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (3 - 1) + 2rem * (3 - 1) / 2));}
+
+.d-g.jc-c.gg-3.gtc-3 > :nth-child(3n+1):nth-last-child(1),
+.d-g.jc-c.gg-3.gtc-3 > :nth-child(3n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (3 - 1) + 3rem * (3 - 1) / 2));}
+
+.d-g.jc-c.gg-4.gtc-3 > :nth-child(3n+1):nth-last-child(1),
+.d-g.jc-c.gg-4.gtc-3 > :nth-child(3n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (3 - 1) + 4rem * (3 - 1) / 2));}
+
+
+
+
+.d-g.jc-c.gg-1.gtc-2 > :nth-child(2n+1):nth-last-child(1),
+.d-g.jc-c.gg-1.gtc-2 > :nth-child(2n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (2 - 1) + 1rem * (2 - 1) / 2));}
+
+.d-g.jc-c.gg-2.gtc-2 > :nth-child(2n+1):nth-last-child(1),
+.d-g.jc-c.gg-2.gtc-2 > :nth-child(2n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (2 - 1) + 2rem * (2 - 1) / 2));}
+
+.d-g.jc-c.gg-3.gtc-2 > :nth-child(2n+1):nth-last-child(1),
+.d-g.jc-c.gg-3.gtc-2 > :nth-child(2n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (2 - 1) + 3rem * (2 - 1) / 2));}
+
+.d-g.jc-c.gg-4.gtc-2 > :nth-child(2n+1):nth-last-child(1),
+.d-g.jc-c.gg-4.gtc-2 > :nth-child(2n+1):nth-last-child(1)~*
+{transform: translateX(calc(50% * (2 - 1) + 4rem * (2 - 1) / 2));}

@@ -1,0 +1,6 @@
+{
+	"header"    :   "header",
+	"aside"     :   false,
+	"footer"    :   "footer",
+	"content"   :   "content/start"
+}

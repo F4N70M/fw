@@ -11,35 +11,35 @@ namespace Apps\Main\Controller;
 
 use Apps\Main\Model\Main_Model;
 use Apps\Main\View\Main_View;
+use Apps\Main\Request\Main_Request;
 use Exception;
+use Fw\Components\Classes\Controller;
 use Fw\Core;
 
-class Main_Controller
+class Main_Controller extends Controller
 {
-	private $Fw;
+    protected $Fw;
 
-	private $model;
-	private $view;
+    protected $model;
+    protected $view;
 
-	private $data = [];
-	private $action;
-	private $template = 'default';
+    protected $info = [];
+    protected $data = [];
 
-	private $tpl;
+    protected $theme = 'public/main';  //  Default value
+    protected $template = 'error/404';    //  Default value
+
+    protected $access = false;
 
 
 	/**
-	 * Lk_Controller constructor.
+	 * Main_Controller constructor.
 	 * @param Core $Fw
+	 * @param array $config
 	 */
-	public function __construct(Core $Fw)
+	public function __construct(Core $Fw, array $config)
 	{
-		$this->Fw = $Fw;
-		$this->model = new Main_Model($this->Fw);
-		$this->view = new Main_View($this->Fw, $this->model);
-
-		// Обработка запросов
-		$this->request();
+        parent::__construct($Fw, $config, new Main_Model($Fw), new Main_View($Fw), new Main_Request($Fw));
 
 
 	}
@@ -51,13 +51,11 @@ class Main_Controller
 	 */
 	public function direct(string $uri)
 	{
-		// Получить информацию о странице из БД по uri
-		$name = $this->model->getNameByUri($uri);
+	    $explode = explode('/',$uri);
+		$namePage = array_pop($explode);
+		$this->data = $this->model->getInfo($namePage);
 
-		$this->data = $this->model->getInfo($name);
-
-		$this->tpl = ($name == 'index') ? 'page/index' : $this->data['type'].'/'.$this->data['name'];
-
+		$this->template = ($namePage == 'index' ? 'page/index' : $this->data['type'].'/'.$this->data['name']);
 	}
 
 
@@ -78,6 +76,6 @@ class Main_Controller
 	 */
     public function render()
 	{
-		$this->view->render($this->tpl,$this->data);
+		$this->view->render($this->theme, $this->template, $this->data, $this->info);
 	}
 }

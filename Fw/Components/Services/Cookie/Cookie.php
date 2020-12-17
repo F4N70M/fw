@@ -30,7 +30,8 @@ class Cookie implements \ArrayAccess
 				return $result;
 			}
 			else{
-				throw new \Exception("Cookie \"{$name}\" Not found");
+				return null;
+//				throw new \Exception("Cookie \"{$name}\" Not found");
 			}
 		}
 		else

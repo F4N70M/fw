@@ -5,23 +5,63 @@ namespace Fw\Components\Services\Database;
 
 
 use Exception;
+use Fw\Components\Interfaces\iDatabase;
 use InvalidArgumentException;
 use PDO;
 use PDOException;
 use PDOStatement;
 
-class QueryBuilder
+class QueryBuilder implements iDatabase
 {
-	private $_link;
 
-	private $sql;
-	private $query = [];
-	private $bind = [];
-	private $statement;
+
+	/** EXAMPLES **
+
+	* SELECT *
+	-> select(array|null)
+	-> from(string $table)
+	-> where(array $where)
+	-> orderBy()
+	-> limit(int, int|null)
+	-> result()
+
+	* INSERT *
+	-> insert()
+	-> into(string $table)
+	-> values(array $values)
+	-> result()
+
+	 * UPDATE *
+	-> update(string $table)
+	-> set(array $values)
+	-> where(array)
+	-> result()
+
+	 * DELETE *
+	-> delete()
+	-> from(string $table)
+	-> where(array $where)
+	-> result()
+
+	* SHOW *
+	-> show(string TABLES|COLUMNS|INDEX|VARIABLES, string|null $table)
+	-> result
+
+	 */
+
+
+    protected $connection;
+	protected $_link;
+
+	protected $sql;
+	protected $query = [];
+	protected $bind = [];
+	protected $statement;
 
 
 	public function __construct(Connection $connection)
 	{
+	    $this->connection = $connection;
 		$this->_link = $connection->get();
 	}
 
@@ -55,12 +95,11 @@ class QueryBuilder
 			'action'    => 'SELECT',
 			'columns'   => $this->columns($columns),
 			'from'      => null,
+			'join'      => [],
 			'where'     => null,
 			'orderBy'   => null,
 			'limit'     => null
 		];
-//		$db->sql = /** @lang text */
-//			"SELECT {$this->columns($columns)}";
 
 		return $db;
 	}
@@ -79,8 +118,6 @@ class QueryBuilder
 			'into'      => null,
 			'values'    => null
 		];
-//		$db->sql = /** @lang text */
-//			"INSERT";
 
 		return $db;
 	}
@@ -101,7 +138,6 @@ class QueryBuilder
 			'set'       => null,
 			'where'     => null
 		];
-//		$db->sql = "UPDATE $table";
 
 		return $db;
 	}
@@ -126,13 +162,14 @@ class QueryBuilder
 
 
 	/**
-	 * SHOW DATABASES; - список баз данных
 	 * SHOW TABLES [FROM db_name]; -  список таблиц в базе
-	 * SHOW COLUMNS FROM таблица [FROM db_name]; - список столбцов в таблице
-	 * SHOW CREATE TABLE table_name; - показать структуру таблицы в формате "CREATE TABLE"
+	 * SHOW COLUMNS FROM tbl_name [FROM db_name]; - список столбцов в таблице
 	 * SHOW INDEX FROM tbl_name; - список индексов
+	 * SHOW VARIABLES - значения системных переменных
+	 *
+	 * SHOW DATABASES; - список баз данных
+	 * SHOW CREATE TABLE table_name; - показать структуру таблицы в формате "CREATE TABLE"
 	 * SHOW GRANTS FOR user [FROM db_name]; - привилегии для пользователя.
-	 * SHOW VARIABLES; - значения системных переменных
 	 * SHOW [FULL] PROCESSLIST; - статистика по mysqld процессам
 	 * SHOW STATUS; - общая статистика
 	 * SHOW TABLE STATUS [FROM db_name]; - статистика по всем таблицам в базе
@@ -144,7 +181,7 @@ class QueryBuilder
 	public function show($type, $from = null)
 	{
 		$showType = strtoupper($type);
-		if (!in_array($showType,['TABLES','COLUMNS','INDEX','VARIABLES']))
+		if (!(in_array($showType,['TABLES','VARIABLES']) OR (in_array($showType,['COLUMNS','INDEX']) && $from !== null)))
 			throw new InvalidArgumentException("Invalid argument \"$type\" must be TABLES|COLUMNS|INDEX|VARIABLES");
 
 
@@ -156,7 +193,6 @@ class QueryBuilder
 			'show'      => $showType,
 			'from'      => $from
 		];
-//		$db->sql = "SHOW {$showType}";
 
 		return $db;
 	}
@@ -173,8 +209,6 @@ class QueryBuilder
 			throw new Exception("method \"from\" cannot be used with \"{$this->query['action']}\"");
 
 		$this->query['from'] = $table;
-//		$this->sql .= /** @lang text */
-//			" FROM $table";
 
 		return $this;
 	}
@@ -191,7 +225,6 @@ class QueryBuilder
 			throw new Exception("method \"into\" cannot be used with \"{$this->query['action']}\"");
 
 		$this->query['into'] = $table;
-//		$this->sql .= " INTO $table";
 
 		return $this;
 	}
@@ -202,7 +235,7 @@ class QueryBuilder
 	 * @return string|null
 	 * @throws Exception
 	 */
-	private function columns($columns=null)
+	protected function columns($columns=null)
 	{
 		if (empty($columns)) {
 			$result = "*";
@@ -236,22 +269,21 @@ class QueryBuilder
 			throw new Exception("method \"set\" cannot be used with \"{$this->query['action']}\"");
 
 		if (!empty($values)) {
-//			$this->sql .= " SET";
-
 			$bindValues = [];
 			foreach ($values as $key => $value)
 			{
-//				$bindValues[$key] = " {$key} = :{$key}";
-				$bindValues[] = "{$key} = :{$key}";
+//				$bindValues[] = "{$key} = :{$key}";
+				$bindValues[$key] = ":$key";
 				$this->bind[":{$key}"] = $value;
 			}
-//			$this->sql .= implode(",", $bindValues);
-			$this->query['set'] = implode(", ", $bindValues);
+			$this->query['set'] = $bindValues;
+//			$this->query['set'] = implode(", ", $bindValues);
 		}
 		else
 		{
 			throw new Exception('Request failed: no values to update');
 		}
+//		debug($this->query['set']);
 
 		return $this;
 	}
@@ -267,20 +299,16 @@ class QueryBuilder
 			throw new Exception("method \"values\" cannot be used with \"{$this->query['action']}\"");
 
 		if (!empty($values)) {
-//			$this->sql .= " (";
-//			$this->sql .= implode(", ", array_keys($values));
-//			$this->sql .= ") VALUES (";
-			$result = "(";
-			$result .= implode(", ", array_keys($values));
-			$result .= ") VALUES (";
 			$bindValues = [];
 			foreach ($values as $key => $value)
 			{
 				$bindValues[$key] = ":$key";
 				$this->bind[":$key"] = $value;
 			}
-			$result .= implode(", ", $bindValues);
-			$result .= ")";
+
+			$result = $bindValues;
+//			$result = "(".implode(", ", array_keys($bindValues)).") VALUES (".implode(", ", $bindValues).")";
+//			debug($result,$bindValues);
 
 			$this->query['values'] = $result;
 		}
@@ -293,9 +321,15 @@ class QueryBuilder
 	}
 
 	/**
-	 * @param $orderBy
+	 * @param array|string $orderBy
 	 * @return $this
 	 * @throws Exception
+	 *
+	 * @example ['date']
+	 * @result  date ASC
+	 *
+	 * @example ['date'=>true, name=>false]
+	 * @result  date ASC, date DESC
 	 */
 	public function orderBy($orderBy)
 	{
@@ -304,8 +338,6 @@ class QueryBuilder
 
 		if (!empty($orderBy))
 		{
-//			$this->sql .= " ORDER BY";
-
 			if ( is_array($orderBy) )
 			{
 				$result = [];
@@ -319,23 +351,23 @@ class QueryBuilder
 					else
 					{
 //						$this->sql .= " $key " . ((!$value || strtoupper($value) == "DESC") ? "DESC" : "ASC");
-						$result[] = "$key " . (!$value || strtoupper($value) == "DESC") ? "DESC" : "ASC";
+						$result[] = "$key " . ((!$value || strtoupper($value) == "DESC") ? "DESC" : "ASC");
 					}
 				}
 				$result = implode(', ', $result);
 			}
-			//TODO: Написать проверку с ASC и DESC
-			elseif(preg_match('/^[A-z0-9\-_, ]+$/', $orderBy))
+			/*//TODO: Написать проверку с ASC и DESC
+			elseif(is_string($orderBy) && preg_match('/^[A-z0-9\-_, ]+$/', $orderBy))
 			{
-//				$this->sql .= " $orderBy";
 				$result = $orderBy;
-			}
+			}*/
 			else
 			{
-				throw new Exception('Invalid argument type');
+				throw new Exception('Invalid argument orderBy');
 			}
 			$this->query['orderBy'] = $result;
 		}
+		// debug($this->query['orderBy']);
 
 		return $this;
 	}
@@ -385,49 +417,140 @@ class QueryBuilder
 
 
 	/**
-	 * @param bool $single
 	 * @return array
 	 * @throws Exception
 	 */
-	public function result(bool $single = false)
+	public function result($columnKey = false)
+	{
+		$this->sql = $this->getConvertQuery($this->query);
+//		debug($this->sql, $this->bind);
+		$statement = $this->prepare($this->sql, $this->bind);
+		$statement = $this->execute($statement);
+		$result = $this->getStatementResult($this->query['action'], $statement, $columnKey);
+
+		return $result;
+	}
+
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function debug()
+    {
+        $result = $this->result();
+		debug($this->sql, $this->bind);
+        return $result;
+    }
+
+	/**
+	 * @param $parts
+	 * @return string
+	 */
+	protected function getConvertQuery($parts)
 	{
 		$query = [];
-		foreach ($this->query as $key => $value)
+		foreach ($parts as $key => $value)
 		{
 			if (empty($value)) continue;
 			if ($key == 'into') $value = "INTO {$value}";
 			if ($key == 'from') $value = "FROM {$value}";
 			if ($key == 'where') $value = "WHERE {$value}";
-			if ($key == 'set') $value = "SET {$value}";
+			if ($key == 'set')
+			{
+//                $value = $this->intersectTableData($parts['table'],$value);
+				array_walk($value, function(&$item, $key) {
+					$item = "$key=$item";
+				});
+				$value = 'SET '.implode(',', $value);
+			}
+			if ($key == 'values')
+			{
+//                $value = $this->intersectTableData($parts['into'],$value);
+			    $value = "(".implode(", ", array_keys($value)).") VALUES (".implode(", ", $value).")";
+			}
 			if ($key == 'orderBy') $value = "ORDER BY {$value}";
-			if ($key == 'limit') $value = "LIMIT {$value}";
+            if ($key == 'limit') $value = "LIMIT {$value}";
+            if ($key == 'show') $value = "{$value}";
 
 			$query[] = $value;
 		}
-		$this->sql = implode(' ', $query);
+		$result = implode(' ', $query);
+//        debug($result);
+		return $result;
+	}
 
-//		debug($this->bind, $this->sql);
 
-		$this->statement = $this->prepare($this->sql, $this->bind);
-		$this->statement = $this->execute($this->statement);
+    public function intersectTableData(string $table, array $data)
+    {
+        $tmp = clone $this;
+        $columnsRequest = $tmp->show('COLUMNS', $table)->result();
+        $columns = [];
+        foreach ($columnsRequest as $item)
+        {
+            $columns[$item['Field']] = null;
+        }
+        $data = array_intersect_key($data, $columns);
+        foreach ($data as $key => $value)
+        {
+            if (empty($value)) $data[$key] = null;
+        }
+        return $data;
+    }
+    public function getUniqueName(string $table, string $name)
+    {
+        $tmp = clone $this;
 
-		if($this->statement)
+        $i = 0;
+        do
+        {
+            $resultName = $name . ($i > 0 ? '-'.$i : null);
+            $issetName = $tmp
+                ->select()
+                ->from($table)
+                ->where(['name'=>$resultName])
+                ->result();
+//                debug($resultName, $issetName);
+            $i++;
+        }
+        while (!empty($issetName));
+        return $resultName;
+    }
+
+	/**
+	 * @param string $queryAction
+	 * @param PDOStatement|false $statement
+	 * @return array|bool|string
+	 */
+	protected function getStatementResult(string $queryAction, $statement, $columnKey=false)
+	{
+		if($statement)
 		{
-//			debug('statement', $this->statement);
-			if ($this->query['action'] == 'INSERT')
+			if ($queryAction == 'INSERT')
 			{
 				$result = $this->_link->lastInsertId();
 			}
-			elseif (in_array($this->query['action'], ['SELECT','SHOW']))
+			elseif ($queryAction == 'SELECT')
 			{
-				if($single)
-				{
-					$result = $this->statement->fetch(PDO::FETCH_ASSOC);
-				}
-				else
-				{
-					$result = $this->statement->fetchAll(PDO::FETCH_ASSOC);
-				}
+			    if ($columnKey)
+                {
+                    while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+                    {
+                        $result[$row[$columnKey]] = $row;
+                    }
+                }
+                else
+                {
+				    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                }
+			}
+			elseif ($queryAction == 'UPDATE' || $queryAction == 'DELETE')
+			{
+				$result = $statement->rowCount();
+			}
+			elseif ($queryAction == 'SHOW')
+			{
+				$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 			}
 			else
 			{
@@ -439,103 +562,7 @@ class QueryBuilder
 			$result = false;
 		}
 
-//		return $result;
 		return $result;
-	}
-
-
-	/**
-	 * @param string|null $key
-	 * @return array|bool|string
-	 * @throws Exception
-	 */
-//	public function all(string $key=null)
-//	{
-//		$result = $this->do();
-//
-//		if ( $result )
-//		{
-//			$result = $this->statement->fetchAll(PDO::FETCH_ASSOC);
-//		}
-//		if(!empty($key) && isset($result[0][$key]))
-//		{
-//			$tmp = [];
-//			foreach ($result as $item)
-//			{
-//				$tmp[$item[$key]] = $item;
-//			}
-//			$result = $tmp;
-//		}
-//
-//		return $result;
-//	}
-
-
-	/**
-	 * @return array|false
-	 * @throws Exception
-	 */
-//	public function one()
-//	{
-//		$result = $this->do();
-//		if ($result)
-//			return $this->statement->fetch(PDO::FETCH_ASSOC);
-//
-//		return false;
-//	}
-
-
-	/**
-	 * @return bool|string
-	 * @throws Exception
-	 */
-//	public function do()
-//	{
-//		$this->statement = $this->prepare($this->sql, $this->bind);
-//
-//		$this->statement = $this->execute($this->statement);
-//
-//
-//		if($this->statement)
-//		{
-//			if (preg_match('#^insert#is', $this->sql))
-//			{
-//				$result = $this->_link->lastInsertId();
-//			}
-//			else
-//			{
-//				$result = true;
-//			}
-//		}
-//		else
-//		{
-//			$result = false;
-//		}
-//
-//		return $result;
-//	}
-
-
-	/**
-	 * @param null $where
-	 * @return $this
-	 */
-	public function where($where=null)
-	{
-		$whereString = $this->recursiveWhere($where);
-		//Common::print($whereString);
-		if ( !empty($whereString) )
-		{
-//			$this->sql .= " WHERE $whereString";
-			$this->query['where'] = $whereString;
-		}
-
-//		Common::print(
-//			$this->sql,
-//			$this->bind
-//		);
-
-		return $this;
 	}
 
 
@@ -553,15 +580,25 @@ class QueryBuilder
 	 * @param array $bind
 	 * @return bool|PDOStatement
 	 */
-	private function prepare($sql, array $bind)
+	protected function prepare($sql, array $bind)
 	{
 		try
 		{
 			$statement = $this->_link->prepare($sql);
 			if (!empty($bind))
 			{
+				// debug($bind);
 				foreach ($bind as $key => $value)
 				{
+					if (is_array($value) && is_object($value))
+					{
+						debug($key, $value);
+					}
+					/*if (is_json($value))
+                    {
+                        $v = str_replace('\"', '\\\\"', $value);
+                        debug($v);
+                    }*/
 					$statement->bindValue($key, $value);
 				}
 			}
@@ -581,11 +618,13 @@ class QueryBuilder
 	 * @return PDOStatement
 	 * @throws Exception
 	 */
-	private function execute(PDOStatement $statement)
+	protected function execute(PDOStatement $statement)
 	{
 		try
 		{
-			$statement->execute();
+			$result = $statement->execute();
+			if (!$result)
+				$statement = false;
 		}
 		catch (PDOException $e)
 		{
@@ -597,9 +636,27 @@ class QueryBuilder
 		return $statement;
 	}
 
+
+	/**
+	 * @param null $where
+	 * @return $this
+	 */
+	public function where($where=null)
+	{
+		$whereResult = $this->recursiveWhere($where);
+//		debug($whereResult);
+		if ( !empty($whereResult['where']) )
+		{
+			$this->query['where'] = $whereResult['where'];
+			$this->bind = array_merge($this->bind, $whereResult['bind']);
+		}
+
+		return $this;
+	}
+
 	/**
 	 * @param   $where
-	 * @return  string
+	 * @return  array
 	 *
 	 * @example ['id'=>5]
 	 * @result  WHERE id = 5
@@ -619,16 +676,24 @@ class QueryBuilder
 	 * @example ['date'=>['in', ['2019-03-04', '2019-03-11']]]
 	 * @result  WHERE date IN ('2019-03-04', '2019-03-11')
 	 */
-	private function recursiveWhere($where)
+	protected function recursiveWhere($where, $bind = [])
 	{
-		$result = '';
+//		$result = '';
+
+		$result = [
+			'where' => '',
+			'bind'  => $bind
+		];
+
+//		$result['where'] = '';
+//		$bind = [];
 
 		if (!empty($where))
 		{
 
 			if (is_array($where))
 			{
-				$result = '';
+				$result['where'] = '';
 				foreach ($where as $key => $item) {
 					if (is_numeric($key) && is_array($item))
 					{
@@ -639,29 +704,50 @@ class QueryBuilder
 							{
 								if ( is_numeric($ikey) )
 								{
-									$tmp = $this->recursiveWhere($value);
-									if (!empty($tmp))
-										$result .= " $glue ($tmp)";
+									$tmp = $this->recursiveWhere($value, $result['bind']);
+                                    if (!empty($tmp['where']))
+                                        $result['where'] .= " $glue (".$tmp['where'].")";
+                                    if (!empty($tmp['bind']))
+                                    {
+                                        foreach ($tmp['bind'] as $tmpKey => $tmpVal)
+                                        {
+                                            $result['bind'][$tmpKey] = $tmpVal;
+                                        }
+                                    }
 								}
 								else
 								{
 									if (!is_array($value))
 										$value = ['=',$value];
-									$tmp = $this->parseValueWhere($value);
-									if (!empty($tmp))
-										$result .= " $glue $ikey $tmp";
+									$tmp = $this->parseValueWhere($value, count($result['bind']));
+//									debug(count($result['bind']));
+									foreach ($tmp['bind'] as $tmpKey => $tmpVal)
+									{
+//									    debug($tmpKey,$tmpVal);
+										$result['bind'][$tmpKey] = $tmpVal;
+									}
+//                                    debug(count($result['bind']));
+									if (!empty($tmp['where']))
+										$result['where'] .= " $glue $ikey ".$tmp['where'];
 								}
 							}
 						}
 						else
 						{
-							$tmp = $this->recursiveWhere($item);
+							$tmp = $this->recursiveWhere($item, $result['bind']);
 
-							if (!empty($tmp))
+							if (!empty($tmp['where']))
 							{
-								if ( !empty($result) ) $result .= " && ";
-								$result .= '(' . $tmp . ')';
+								if ( !empty($result['where']) ) $result['where'] .= " && ";
+								$result['where'] .= '(' . $tmp['where'] . ')';
 							}
+                            if (!empty($tmp['bind']))
+                            {
+                                foreach ($tmp['bind'] as $tmpKey => $tmpVal)
+                                {
+                                    $result['bind'][$tmpKey] = $tmpVal;
+                                }
+                            }
 						}
 
 					}
@@ -669,30 +755,36 @@ class QueryBuilder
 					{
 						if(is_scalar($item))
 						{
-							if ( !empty($result) ) $result .= " && ";
-							$bindName = ":where" . count($this->bind);
-							$this->bind[$bindName] = $item;
-							$result .= "$key = $bindName";
+							if ( !empty($result['where']) ) $result['where'] .= " && ";
+							$bindName = ":where" . count($result['bind']);
+//                            debug($bindName,$item);
+							$result['bind'][$bindName] = $item;
+							$result['where'] .= "$key = $bindName";
 						}
 						elseif (is_null($item))
 						{
-							if ( !empty($result) ) $result .= " && ";
-							$result .= "$key IS NULL";
+							if ( !empty($result['where']) ) $result['where'] .= " && ";
+							$result['where'] .= "$key IS NULL";
 						}
 						elseif (count($item) == 2 && isset($item[0]) && is_string($item[0]))
 						{
-							$tmp = $this->parseValueWhere($item);
-							if (!empty($tmp))
+							$tmp = $this->parseValueWhere($item, count($result['bind']));
+							foreach ($tmp['bind'] as $tmpKey => $tmpVal)
 							{
-								if ( !empty($result) ) $result .= " && ";
-								$result .= "$key $tmp";
+//                                debug($tmpKey,$tmpVal);
+								$result['bind'][$tmpKey] = $tmpVal;
+							}
+							if (!empty($tmp['where']))
+							{
+								if ( !empty($result['where']) ) $result['where'] .= " && ";
+								$result['where'] .= "$key ".$tmp['where'];
 							}
 						}
 					}
 					elseif (is_numeric($key) && is_string($item) && !empty($item))
 					{
-						if ( !empty($result) ) $result .= " && ";
-						$result .= $item;
+						if ( !empty($result['where']) ) $result['where'] .= " && ";
+						$result['where'] .= $item;
 					}
 				}
 			}
@@ -702,7 +794,7 @@ class QueryBuilder
 				!in_array(strtoupper($where),['AND','OR','&&','||'])
 			)
 			{
-				$result = $where;
+				$result['where'] = $where;
 			}
 			else
 			{
@@ -717,7 +809,7 @@ class QueryBuilder
 	 * @param array $item
 	 * @return bool
 	 */
-	private function isset_glue(array $item)
+	protected function isset_glue(array $item)
 	{
 		return (count($item) == 2 && isset($item[0]) && is_string($item[0]) && in_array(strtoupper($item[0]), ['AND','OR','&&','||']));
 	}
@@ -726,40 +818,43 @@ class QueryBuilder
 	 * @param array $item
 	 * @return string
 	 */
-	private function get_glue(array $item)
+	protected function get_glue(array $item)
 	{
 		return (in_array(strtoupper(array_shift($item)), ['OR','||']) ? '||' : '&&');
 	}
 
 	/**
-	 * @param array $array
-	 * @return string
+	 * @param $array
+	 * @param $bindCount
+	 * @return array|string
 	 */
-	private function parseValueWhere($array)
+	protected function parseValueWhere($array, $bindCount = 0)
 	{
-		$result = '';
+		$where = '';
+		$bind  = [];
 		$operator = strtoupper(array_shift($array));
 		foreach ($array as $value)
 		{
-			if (in_array($operator, ['=','>','<','>=','<=','<>','LIKE']) && is_scalar($value))
+			if (in_array($operator, ['=','!=','>','<','>=','<=','<>','LIKE']) && is_scalar($value))
 			{
-				$bindName = ":where" . count($this->bind);
-				$this->bind[$bindName] = $value;
-				$result .= "$operator $bindName";
+			    if ($operator == '!=') $operator = '<>';
+				$bindName = ":where" . $bindCount; $bindCount++;
+				$bind[$bindName] = $value;
+				$where .= "$operator $bindName";
 			}
 			elseif ($operator == 'BETWEEN' && is_array($value) && count($value) == 2 && is_scalar($value[0]) && !empty($value[0]) && is_scalar($value[1]) && !empty($value[1]))
 			{
-				$result = "$operator ";
+				$where = "$operator ";
 
-				$bindName = ":where" . count($this->bind);
-				$this->bind[$bindName] = $value[0];
-				$result .= $bindName;
+				$bindName = ":where" . $bindCount; $bindCount++;
+				$bind[$bindName] = $value[0];
+				$where .= $bindName;
 
-				$result .= " AND ";
+				$where .= " AND ";
 
-				$bindName = ":where" . count($this->bind);
-				$this->bind[$bindName] = $value[1];
-				$result .= $bindName;
+				$bindName = ":where" . $bindCount; $bindCount++;
+				$bind[$bindName] = $value[1];
+				$where .= $bindName;
 			}
 			elseif ($operator == 'IN' && is_array($value) && !empty($value) )
 			{
@@ -776,20 +871,21 @@ class QueryBuilder
 						break;
 					}
 				}
+
 				if (!empty($in))
 				{
 					foreach ($in as $key => $item)
 					{
-						$bindName = ":where" . count($this->bind);
-						$this->bind[$bindName] = $item;
+						$bindName = ":where" . $bindCount; $bindCount++;
+						$bind[$bindName] = $item;
 						$in[$key] = $bindName;
 					}
-					$result = "$operator (" . implode(',', $in) . ")";
+					$where = "$operator (" . implode(',', $in) . ")";
 				}
 			}
 			break;
 		}
 
-		return $result;
+		return ['where'=>$where,'bind'=>$bind];
 	}
 }

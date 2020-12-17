@@ -1,118 +1,75 @@
 {
 	"template": "default",
 	"routes"    :   {
-		"(signup|login|logout|recovery)"    :	{
+		"response"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"response",
+			"arguments"     :	[]
+		},
+		"(login|logout|recovery)"    :	{
 			"controller"    :	"Auth_Controller",
 			"method"        :	"$1",
 			"arguments"     :	[]
 		},
-		""    :	{
+		"requisites"    :	{
+			"controller"    :	"Lk_Controller",
+			"method"        :	"directAction",
+			"arguments"     :	{
+				"name"		: 	"requisites"
+			}
+		},
+		"index"    :	{
 			"controller"    :	"Lk_Controller",
 			"method"        :	"indexAction",
 			"arguments"     :   []
 		},
-		"clients"    :	{
+		""    :	{
 			"controller"    :	"Lk_Controller",
-			"method"        :	"clientsAction",
-			"arguments"     :   []
-		},
-		"new-client"    :	{
-			"controller"    :	"Lk_Controller",
-			"method"        :	"clientNewAction",
-			"arguments"     :   []
-		},
-		"projects-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
-			"method"        :	"projectsAction",
+			"method"        :	"directAction",
 			"arguments"     :   {
-				"id"        : "$1"
+				"name"		: 	"tasks"
 			}
 		},
-		"new-project-([^/]+)"    :	{
+		"projects"    :	{
 			"controller"    :	"Lk_Controller",
-			"method"        :	"projectNewAction",
+			"method"        :	"directAction",
 			"arguments"     :   {
-				"id"        : "$1"
+				"name"		: 	"projects"
 			}
 		},
-		"project-([^/]+)"    :	{
+		"project-(\\d+)"    :	{
 			"controller"    :	"Lk_Controller",
 			"method"        :	"projectAction",
 			"arguments"     :   {
-				"id"        : "$1"
-			}
-		},
-		"services-([^/]+)"  :	{
-			"controller"    :	"Lk_Controller",
-			"method"        :	"servicesAction",
-			"arguments"     :   {
-				"id"        : "$1"
-			}
-		},
-		"new-service-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
-			"method"        :	"serviceNewAction",
-			"arguments"     :   {
-				"id"        : "$1"
-			}
-		},
-		"service-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
-			"method"        :	"serviceAction",
-			"arguments"     :   {
-				"id"        : "$1"
+				"id"        : 	"$1"
 			}
 		},
 		"accesses"    :	{
 			"controller"    :	"Lk_Controller",
-			"method"        :	"accessesAction",
-			"arguments"     :   []
-		},
-		"accesses-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
-			"method"        :	"accessesAction",
+			"method"        :	"directAction",
 			"arguments"     :   {
-				"id"        : "$1"
-			}
-		},
-		"access-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
-			"method"        :	"accessAction",
-			"arguments"     :   {
-				"id"        : "$1"
+				"name"		: 	"accesses"
 			}
 		},
 		"new-access"    :	{
 			"controller"    :	"Lk_Controller",
-			"method"        :	"accessNewAction",
-			"arguments"     :   []
-		},
-		"new-access-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
-			"method"        :	"accessNewAction",
+			"method"        :	"directAction",
 			"arguments"     :   {
-				"id"        : "$1"
+				"name"		: 	"access-new"
 			}
 		},
-		"tickets-([^/]+)"    :	{
+		"new-task"    :	{
 			"controller"    :	"Lk_Controller",
-			"method"        :	"ticketsAction",
+			"method"        :	"directAction",
 			"arguments"     :   {
-				"id"        : "$2"
+				"name"		: 	"task-new"
 			}
 		},
-		"ticket-([^/]+)"     :	{
+		"task-(\\d+)"    :	{
 			"controller"    :	"Lk_Controller",
-			"method"        :	"ticketAction",
+			"method"        :	"taskAction",
 			"arguments"     :   {
-				"id"        : "$1"
-			}
-		},
-		"new-ticket-([^/]+)"    :	{
-			"controller"    :	"Lk_Controller",
-			"method"        :	"ticketNewAction",
-			"arguments"     :   {
-				"id"   : "$1"
+				"id"        : 	"$1"
 			}
 		},
 		"(.+)"    :	{

@@ -1,6 +1,6 @@
 <?php
 /**
- * Treat: F4N70M
+ * User: F4N70M
  * Version: 0.1
  * Date: 13.01.2020
  */
@@ -9,14 +9,15 @@ namespace Apps\Main\Model;
 
 
 use Exception;
+use Fw\Components\Classes\Model;
 use Fw\Core;
 
-class Main_Model
+class Main_Model extends Model
 {
 	/**
 	 * @var Core
 	 */
-	private $Fw;
+	protected $Fw;
 
 
 	/**
@@ -25,7 +26,7 @@ class Main_Model
 	 */
 	public function __construct(Core $Fw)
 	{
-		$this->Fw = $Fw;
+	    parent::__construct($Fw);
 	}
 
 
@@ -62,16 +63,35 @@ class Main_Model
 
 	public function getIndex()
 	{
-
+        $index = $this->Fw->Db
+            ->select()
+            ->from('options')
+            ->where(['name'=>'index'])
+            ->limit(1)
+            ->result();
+        if ($index)
+        {
+            return $index[0]['value'];
+        }
+        return false;
 	}
 
 	public function getInfo($name)
 	{
-		$uniq = ($name == 'index' ? $this->Fw->Pages->getIndexID() : $name);
-		$result = $this->Fw->Pages->get($uniq);
+		$uniq = ($name == 'index' ? $this->getIndex() : $name);
 
-		if (!$result)
-			return $this->getInfo404();
+		$result = $this->Fw->Db
+            ->select()
+            ->from('objects')
+            ->where(['id'=>$uniq, ['or','name'=>$uniq]])
+            ->limit(1)
+            ->result();
+
+		if ($result)
+		    $result = $result[0];
+		else
+            $result =  $this->getInfo404();
+
 		return $result;
 	}
 
